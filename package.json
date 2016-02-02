@@ -19,9 +19,9 @@
   "homepage": "https://github.com/tworns/CS408Team07#readme",
   "dependencies": {
     "electron-prebuilt": "^0.36.7",
-    "angular": "1.4.9",
-    "angular-animate": "1.4.9",
-    "angular-ui-bootstrap": "^1.1.2",
-    "bootstrap": "^3.3.6"
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "react-bootstrap": "^0.28.2", 
+    "react-fontawesome": "^0.3.3"
   }
 }
