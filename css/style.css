@@ -1,7 +1,15 @@
-html {
-  background-color: #8a8673;
-}
-
 canvas {
   background-color: white;
+  border: 30px solid transparent;
+  padding: 15px;
+  border-image: url(../assets/img/frame.png) 30 round;
+}
+
+body {
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.42857143;
+  overflow: hidden;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
