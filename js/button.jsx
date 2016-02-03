@@ -18,6 +18,6 @@ const buttonsInstance = (
   </ButtonToolbar>
 );
 
-var mountNode = document.getElementById('button area');
+var mountNode = document.getElementById("button-area");
 
 ReactDOM.render(buttonsInstance, mountNode);

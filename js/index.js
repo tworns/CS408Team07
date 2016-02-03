@@ -5,8 +5,8 @@ var startY = 0;
 var drawing = false;
 
 canvas.onmousedown = function(event) {
-  startX = event.offsetX;
-  startY = event.offsetY;
+  startX = event.offsetX-45;
+  startY = event.offsetY-45;
   drawing = true;
 };
 
@@ -14,11 +14,11 @@ canvas.onmousemove = function(event) {
   if (drawing) {
     ctx.beginPath();
     ctx.moveTo(startX, startY);
-    ctx.lineTo(event.offsetX, event.offsetY);
+    ctx.lineTo(event.offsetX-45, event.offsetY-45);
     ctx.stroke();
 
-    startX = event.offsetX;
-    startY = event.offsetY;
+    startX = event.offsetX-45;
+    startY = event.offsetY-45;
   }
 };
 

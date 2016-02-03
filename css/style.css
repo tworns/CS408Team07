@@ -2,7 +2,7 @@ canvas {
   background-color: white;
   border: 30px solid transparent;
   padding: 15px;
-  border-image: url(../assets/img/frame.png) 30 round;
+  border-image: url(../assets/img/frame.jpg) 30 round;
 }
 
 body {
