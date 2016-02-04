@@ -8,7 +8,7 @@ angular.module('yoodle', ['ngRoute'])
     controller: 'AppCtrl'
   })
 
-  .when('/app.play', {
+  .when('/play', {
     templateUrl: 'templates/play.html',
     controller: 'PlayCtrl'
   })
