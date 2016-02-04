@@ -4,16 +4,3 @@ canvas {
   padding: 15px;
   border-image: url(../assets/img/frame.jpg) 30 round;
 }
-
-body {
-  font-size: 13px;
-  -webkit-font-smoothing: antialiased;
-  line-height: 1.42857143;
-  overflow: hidden;
-  -webkit-user-select: none;
-  -webkit-user-drag: none;
-}
-
-html {
-  overflow: auto;
-}
