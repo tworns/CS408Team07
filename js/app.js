@@ -1,4 +1,4 @@
-angular.module('yoodle', ['ngRoute'])
+angular.module('yoodle', ['ui.bootstrap','ngRoute'])
 
 .config(function($routeProvider) {
   $routeProvider
