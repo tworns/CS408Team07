@@ -1,6 +1,9 @@
-var app = angular.module('yoodle');
+angular.module('yoodle')
 
-app.controller('PlayCtrl', function($scope, $interval) {
+.controller('PlayCtrl', function($scope, $interval) {
+  $scope.canvas = document.getElementById('canvas');
+  $scope.ctx = $scope.canvas.getContext('2d');
+
   $scope.time = 60;
 
   $scope.timer = $interval(function () {
@@ -10,9 +13,13 @@ app.controller('PlayCtrl', function($scope, $interval) {
       $interval.cancel($scope.timer);
     }
   }, 1000);
-});
 
-app.directive("drawing", function(){
+  $scope.clearCanvas = function() {
+    $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
+  };
+})
+
+.directive("drawing", function(){
   return {
     restrict: "A",
     link: function(scope, element){
@@ -63,11 +70,6 @@ app.directive("drawing", function(){
         drawing = false;
       });
 
-      // canvas reset
-      function reset(){
-       element[0].width = element[0].width;
-      }
-
       function draw(lX, lY, cX, cY){
         // line from
         ctx.moveTo(lX,lY);
@@ -77,6 +79,11 @@ app.directive("drawing", function(){
         ctx.strokeStyle = "#4bf";
         // draw it
         ctx.stroke();
+      }
+
+      // canvas reset
+      function reset(){
+       element[0].width = element[0].width;
       }
     }
   };
