@@ -17,6 +17,17 @@ angular.module('yoodle')
   $scope.clearCanvas = function() {
     $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
   };
+
+  // Server connection
+  var socket = io('http://localhost:3001');
+  socket.on('connect', function () {
+    console.log('Connected to server');
+    socket.send('hi');
+
+    socket.on('message', function (msg) {
+      console.log(msg);
+    });
+  });
 })
 
 .directive("drawing", function(){
