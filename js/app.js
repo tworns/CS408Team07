@@ -1,4 +1,4 @@
-angular.module('yoodle', ['ui.bootstrap','ngRoute'])
+angular.module('yoodle', ['ui.bootstrap','ngRoute','picardy.fontawesome'])
 
 .config(function($routeProvider) {
   $routeProvider
