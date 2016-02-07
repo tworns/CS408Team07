@@ -94,7 +94,9 @@ angular.module('yoodle')
 
       // canvas reset
       function reset(){
-       element[0].width = element[0].width;
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        //using the width = width method is slower than the clearRect. 
+       //element[0].width = element[0].width;
       }
     }
   };
