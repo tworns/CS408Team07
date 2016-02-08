@@ -18,6 +18,11 @@ angular.module('yoodle')
     $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
   };
 
+  $scope.savaImage = function() {
+    $scope.image = $scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    window.location.href=$scope.image;
+  };
+
   // Server connection
   var socket = io('http://localhost:3001');
   socket.on('connect', function () {
@@ -95,7 +100,7 @@ angular.module('yoodle')
       // canvas reset
       function reset(){
         ctx.clearRect(0,0,canvas.width, canvas.height);
-        //using the width = width method is slower than the clearRect. 
+        //using the width = width method is slower than the clearRect.
        //element[0].width = element[0].width;
       }
     }
