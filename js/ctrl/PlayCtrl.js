@@ -28,19 +28,17 @@ angular.module('yoodle')
     window.location.href=$scope.image;
   };
 
-<<<<<<< HEAD
   $scope.sendGuess = function() {
     socket.send($scope.guess);
     $scope.guess = null;
   };
-=======
+
   $scope.skipWord = function() {
     var newWord = $scope.wordList[Math.floor((Math.random() * $scope.wordList.length))];
-    usedWords.push(newWord);
+    $scope.usedWords.push(newWord);
     $scope.currentWord = newWord;
   };
 
->>>>>>> origin/master
   // Server connection
   var socket = io('http://localhost:3001');
   socket.on('connect', function () {
