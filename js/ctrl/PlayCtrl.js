@@ -5,6 +5,7 @@ angular.module('yoodle')
   $scope.ctx = $scope.canvas.getContext('2d');
 
   $scope.time = 60;
+  $scope.currentWord = "";
 
   $scope.timer = $interval(function () {
     $scope.time -= 1;
@@ -23,10 +24,20 @@ angular.module('yoodle')
     window.location.href=$scope.image;
   };
 
+<<<<<<< HEAD
   $scope.sendGuess = function() {
     socket.send($scope.guess);
     $scope.guess = null;
   };
+=======
+  $scope.skipWord = function() {
+    var wordArray = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey", "island",
+      "justice", "king", "light", "music", "nature", "outside", "photograph", "queen", "roller blade",
+      "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
+    $scope.currentWord = wordArray[Math.floor((Math.random() * wordArray.length))];
+  };
+
+>>>>>>> origin/master
   // Server connection
   var socket = io('http://localhost:3001');
   socket.on('connect', function () {
