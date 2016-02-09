@@ -2,9 +2,12 @@
 <aside class="callout">
     <div class="text-vertical-center">
         <h1 style="color:white">Yoodle</h1>
-        <h4 ng-if="username">Welcome back, {{username}}</h4>
+        <h4 ng-if="username">Welcome back, {{username}}.</h4>
         <button type="button" class="btn btn-primary" ng-click="changeView('play')">Switch to game template</button>
     </div>
+
+    <!-- Settings -->
+    <i class="fa fa-cog" ng-click="openSettings()"></i>
 </aside>
 
 <!-- Footer -->
