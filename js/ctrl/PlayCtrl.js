@@ -5,6 +5,7 @@ angular.module('yoodle')
   $scope.ctx = $scope.canvas.getContext('2d');
 
   $scope.time = 60;
+  $scope.currentWord = "";
 
   $scope.timer = $interval(function () {
     $scope.time -= 1;
@@ -21,6 +22,13 @@ angular.module('yoodle')
   $scope.savaImage = function() {
     $scope.image = $scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     window.location.href=$scope.image;
+  };
+
+  $scope.skipWord = function() {
+    var wordArray = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey", "island",
+      "justice", "king", "light", "music", "nature", "outside", "photograph", "queen", "roller blade",
+      "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
+    $scope.currentWord = wordArray[Math.floor((Math.random() * wordArray.length))];
   };
 
   // Server connection
