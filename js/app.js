@@ -1,6 +1,6 @@
-angular.module('yoodle', ['ui.bootstrap','ngRoute','picardy.fontawesome'])
+angular.module('yoodle', ['ui.bootstrap','ngRoute','picardy.fontawesome', 'LocalStorageModule'])
 
-.config(function($routeProvider) {
+.config(function($routeProvider, localStorageServiceProvider) {
   $routeProvider
 
   .when('/app', {
@@ -16,6 +16,8 @@ angular.module('yoodle', ['ui.bootstrap','ngRoute','picardy.fontawesome'])
   .otherwise({
     redirectTo: '/app'
   });
+
+  localStorageServiceProvider.setPrefix('yoodle');
 })
 
 .run(function() {
