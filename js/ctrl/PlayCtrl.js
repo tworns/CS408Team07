@@ -5,6 +5,7 @@ angular.module('yoodle')
   $scope.ctx = $scope.canvas.getContext('2d');
 
   $scope.time = 60;
+  $scope.currentWord = "";
 
   $scope.timer = $interval(function () {
     $scope.time -= 1;
@@ -18,11 +19,23 @@ angular.module('yoodle')
     $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
   };
 
+  $scope.savaImage = function() {
+    $scope.image = $scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    window.location.href=$scope.image;
+  };
+
+  $scope.skipWord = function() {
+    var wordArray = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey", "island",
+      "justice", "king", "light", "music", "nature", "outside", "photograph", "queen", "roller blade",
+      "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
+    $scope.currentWord = wordArray[Math.floor((Math.random() * wordArray.length))];
+  };
+
   // Server connection
   var socket = io('http://localhost:3001');
   socket.on('connect', function () {
     console.log('Connected to server');
-    socket.send('hi');
+    socket.send($scope.userName); //need to send player name, address, and whether or not that player is the artist
 
     socket.on('message', function (msg) {
       console.log(msg);
@@ -95,7 +108,7 @@ angular.module('yoodle')
       // canvas reset
       function reset(){
         ctx.clearRect(0,0,canvas.width, canvas.height);
-        //using the width = width method is slower than the clearRect. 
+        //using the width = width method is slower than the clearRect.
        //element[0].width = element[0].width;
       }
     }
