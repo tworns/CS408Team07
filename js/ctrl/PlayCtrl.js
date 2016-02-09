@@ -6,6 +6,10 @@ angular.module('yoodle')
 
   $scope.time = 60;
   $scope.currentWord = "";
+  $scope.wordList = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey",
+    "island", "justice", "king", "light", "music", "nature", "outside", "photograph", "queen",
+    "roller blade", "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
+  $scope.usedWords = [];
 
   $scope.timer = $interval(function () {
     $scope.time -= 1;
@@ -31,10 +35,9 @@ angular.module('yoodle')
   };
 =======
   $scope.skipWord = function() {
-    var wordArray = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey", "island",
-      "justice", "king", "light", "music", "nature", "outside", "photograph", "queen", "roller blade",
-      "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
-    $scope.currentWord = wordArray[Math.floor((Math.random() * wordArray.length))];
+    var newWord = $scope.wordList[Math.floor((Math.random() * $scope.wordList.length))];
+    usedWords.push(newWord);
+    $scope.currentWord = newWord;
   };
 
 >>>>>>> origin/master
