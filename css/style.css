@@ -4,3 +4,8 @@ canvas {
   padding: 15px;
   border-image: url(../assets/img/frame.jpg) 30 round;
 }
+input {
+background-color: white;
+color: black;
+border: 30px solid transparent;
+}

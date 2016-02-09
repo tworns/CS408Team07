@@ -23,15 +23,20 @@ angular.module('yoodle')
     window.location.href=$scope.image;
   };
 
+  $scope.sendGuess = function() {
+    socket.send($scope.guess);
+    $scope.guess = null;
+  };
   // Server connection
   var socket = io('http://localhost:3001');
   socket.on('connect', function () {
     console.log('Connected to server');
-    socket.send($scope.userName); //need to send player name, address, and whether or not that player is the artist
-
     socket.on('message', function (msg) {
       console.log(msg);
     });
+    socket.on('emit', function(){ //will notify all users of something
+
+  });
   });
 })
 
