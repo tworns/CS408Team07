@@ -28,8 +28,8 @@ angular.module('yoodle')
     // Modal promise: called when this modal is closed
     $rootScope.modalInstance.closed.then(function() {
       $scope.username = localStorageService.get('username');
-    })
-  }
+    });
+  };
 })
 
 .controller('UsernameModalCtrl', function($scope, $rootScope, localStorageService) {
@@ -39,7 +39,7 @@ angular.module('yoodle')
 
     // Close the modal
     $rootScope.modalInstance.close();
-  }
+  };
 })
 
 .controller('SettingsModalCtrl', function($scope, $rootScope, localStorageService) {
@@ -55,5 +55,5 @@ angular.module('yoodle')
 
     // Close the modal
     $rootScope.modalInstance.close();
-  }
+  };
 });
