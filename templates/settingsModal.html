@@ -5,4 +5,6 @@
       ng-model="username" ng-keyup="$event.keyCode == 13 && saveSettings()" placeholder="Username">
 
   <button class="btn btn-primary" type="button" ng-click="saveSettings()">Save</button>
+
+  <i class="fa fa-times" ng-click="dismissModal()"></i>
 </div>
