@@ -53,7 +53,7 @@ angular.module('yoodle')
     });
     socket.on('emit', function(){ //will notify all users of something
 
-  });
+    });
   });
 })
 
@@ -122,8 +122,6 @@ angular.module('yoodle')
       // canvas reset
       function reset(){
         ctx.clearRect(0,0,canvas.width, canvas.height);
-        //using the width = width method is slower than the clearRect.
-       //element[0].width = element[0].width;
       }
     }
   };
