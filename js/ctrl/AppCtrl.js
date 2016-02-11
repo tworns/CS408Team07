@@ -42,12 +42,12 @@ angular.module('yoodle')
   };
 })
 
-.controller('SettingsModalCtrl', function($scope, $rootScope, localStorageService) {
+.controller('SettingsModalCtrl', function($scope, $rootScope, localStorageServigitce) {
   $scope.username = localStorageService.get('username');
 
   $scope.dismissModal = function() {
     $rootScope.modalInstance.close();
-  }
+  };
 
   $scope.saveSettings = function() {
     // TODO save other settings here

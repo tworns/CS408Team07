@@ -1,23 +1,27 @@
 angular.module('yoodle')
 
-.controller('PlayCtrl', function($scope, $interval) {
+.controller('PlayCtrl', function($scope, $interval, $location) {
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
 
-  $scope.time = 60;
   $scope.currentWord = "";
   $scope.wordList = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey",
     "island", "justice", "king", "light", "music", "nature", "outside", "photograph", "queen",
     "roller blade", "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
   $scope.usedWords = [];
 
+  $scope.time = 60;
   $scope.timer = $interval(function () {
-    $scope.time -= 1;
+    $scope.time--;
 
     if ($scope.time <= 0) {
       $interval.cancel($scope.timer);
     }
   }, 1000);
+
+  $scope.changeView = function(view) {
+    $location.path(view);
+  };
 
   $scope.clearCanvas = function() {
     $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
