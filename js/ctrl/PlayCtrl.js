@@ -33,8 +33,9 @@ angular.module('yoodle')
   };
 
   $scope.sendGuess = function() {
-    socket.send($scope.guess);
-    $scope.guess = null;
+    var guess = $scope.guess;
+    $scope.guess = "";
+    socket.send(guess);
   };
 
   $scope.skipWord = function() {
