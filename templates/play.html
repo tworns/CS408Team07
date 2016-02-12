@@ -1,8 +1,14 @@
+<!-- Back to menu button -->
 <button type="button" ng-click="changeView('app')" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</button>
 
-<p>{{time}}</p>
+<!-- Word and time -->
+<p>{{ time }}</p>
 <p>{{ currentWord }}</p>
+
+<!-- Canvas -->
 <canvas width="500" height="300" id="canvas" drawing></canvas> <br>
+
+<!-- Buttons -->
 <button type="button" ng-click="clearCanvas()" class="btn btn-primary"><i class="fa fa-trash"></i> Clear drawing</button>
 <button type="button" ng-click="savaImage()" class="btn btn-success"><i class="fa fa-camera-retro"></i> Save!</button>
 <input type = "text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>

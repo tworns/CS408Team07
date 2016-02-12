@@ -3,6 +3,10 @@ canvas {
   border: 30px solid transparent;
   padding: 15px;
   border-image: url(../assets/img/frame.jpg) 30 round;
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 input {
