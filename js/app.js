@@ -1,4 +1,4 @@
-angular.module('yoodle', ['ui.bootstrap','ngRoute','picardy.fontawesome', 'LocalStorageModule'])
+angular.module('yoodle', ['ui.bootstrap','ngRoute', 'ngAnimate', 'picardy.fontawesome', 'toastr', 'LocalStorageModule'])
 
 .config(function($routeProvider, localStorageServiceProvider) {
   $routeProvider

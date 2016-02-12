@@ -42,7 +42,7 @@ angular.module('yoodle')
   };
 })
 
-.controller('SettingsModalCtrl', function($scope, $rootScope, localStorageService) {
+.controller('SettingsModalCtrl', function($scope, $rootScope, localStorageService, toastr) {
   $scope.username = localStorageService.get('username');
 
   $scope.dismissModal = function() {
@@ -55,5 +55,8 @@ angular.module('yoodle')
 
     // Close the modal
     $rootScope.modalInstance.close();
+
+    // Display a success toast
+    toastr.success('Settings saved!', 'Success');
   };
 });

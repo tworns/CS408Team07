@@ -24,6 +24,7 @@
     "angular-fontawesome": "^0.4.0",
     "angular-local-storage": "^0.2.2",
     "angular-route": "^1.4.9",
+    "angular-toastr": "^1.7.0",
     "angular-ui-bootstrap": "^1.1.2",
     "angular-ui-router": "^0.2.17",
     "electron-prebuilt": "^0.36.7",
