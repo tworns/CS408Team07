@@ -1,6 +1,6 @@
 angular.module('yoodle')
 
-.controller('PlayCtrl', function($scope, $interval, $location, toastr) {
+.controller('PlayCtrl', function($scope, $interval, $location) {
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
 
@@ -43,25 +43,6 @@ angular.module('yoodle')
     $scope.usedWords.push(newWord);
     $scope.currentWord = newWord;
   };
-
-  // Server connection
-  var socket = io('http://localhost:3001', {
-    'connect timeout': 5000
-  });
-
-  socket.on('connect', function () {
-    console.log('Connected to server');
-    socket.on('message', function (msg) {
-      console.log(msg);
-    });
-    socket.on('emit', function(){ //will notify all users of something
-
-    });
-  });
-
-  socket.on('connect_error', function(err) {
-    toastr.error('Unable to connect to the server.', err.type);
-  });
 })
 
 .directive("drawing", function(){
