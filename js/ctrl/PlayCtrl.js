@@ -1,6 +1,6 @@
 angular.module('yoodle')
 
-.controller('PlayCtrl', function($scope, $rootScope, $interval, $location, localStorageService, roomIDService) {
+.controller('PlayCtrl', function($scope, $rootScope, $interval, $location, $window, localStorageService, roomIDService) {
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
 
@@ -48,6 +48,15 @@ angular.module('yoodle')
     var newWord = $scope.wordList[Math.floor((Math.random() * $scope.wordList.length))];
     $scope.usedWords.push(newWord);
     $scope.currentWord = newWord;
+  };
+
+  // Make sure to leave the game before closing the window!
+  window.onbeforeunload = function (e) {
+    if ($rootScope.socket.connected) {
+      $rootScope.socket.emit('leaveRoom', roomIDService.get(), $scope.username);
+    }
+
+    return true;
   };
 })
 

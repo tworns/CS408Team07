@@ -42,6 +42,8 @@ server.on('connection', function (socket) {
   });
 
   socket.on('leaveRoom', function (accessCode, name) {
+    console.log(name + ' disconnected from room ' + accessCode);
+
     var room = rooms[accessCode];
 
     if (room === undefined) return; // TODO: Send error message?
@@ -51,14 +53,10 @@ server.on('connection', function (socket) {
 
     var numPlayers = Object.keys(room.players).length;
 
-    console.log(numPlayers);
-
     if (numPlayers === 0) {
       console.log('Room ' + accessCode + ' has become empty, deleting it.');
       delete rooms[accessCode];
     }
-
-    console.log(name + ' disconnected from room ' + accessCode);
   });
 });
 
