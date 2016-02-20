@@ -3,6 +3,8 @@ var server = io.listen(3001);
 
 var rooms = {};
 
+var DEBUG = true;
+
 server.on('connection', function (socket) {
   console.log('User connected');
 
@@ -19,8 +21,7 @@ server.on('connection', function (socket) {
     } while (rooms[accessCode] !== undefined);
 
     rooms[accessCode] = {
-      players: [],
-      currentArtist: 0
+      players: {}
     };
 
     socket.emit('roomCreated', accessCode);
@@ -33,12 +34,37 @@ server.on('connection', function (socket) {
   socket.on('joinRoom', function (accessCode, name) {
     if (rooms[accessCode] === undefined) return; // TODO: Send error message?
 
-    rooms[accessCode].players.push(name);
+    // TODO make sure name isn't taken already
+
+    rooms[accessCode].players[name] = {};
 
     console.log('Added player ' + name);
   });
 
   socket.on('leaveRoom', function (accessCode, name) {
-    console.log(name + ' disconnected');
+    var room = rooms[accessCode];
+
+    if (room === undefined) return; // TODO: Send error message?
+    if (room.players[name] === undefined) return; // TODO: Send error message?
+
+    delete room.players[name];
+
+    var numPlayers = Object.keys(room.players).length;
+
+    console.log(numPlayers);
+
+    if (numPlayers === 0) {
+      console.log('Room ' + accessCode + ' has become empty, deleting it.');
+      delete rooms[accessCode];
+    }
+
+    console.log(name + ' disconnected from room ' + accessCode);
   });
 });
+
+var oldLog = console.log;
+console.log = function (str) {
+  if (DEBUG) {
+    oldLog(str);
+  }
+};
