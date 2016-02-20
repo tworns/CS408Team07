@@ -20,13 +20,16 @@ function initServerInterface ($scope, $rootScope, $timeout, roomIDService) {
     $rootScope.socket.on('roomCreated', function (roomID) {
       console.log('New room created. ID: ' + roomID);
       roomIDService.set(roomID);
+
+      $rootScope.socket.emit('joinRoom', roomID, $scope.username);
     });
   });
 
   $rootScope.socket.on('connect_error', function(err) {
+    console.log('error');
     $timeout(function () {
       $scope.connectionStatus = {
-        color: 'green'
+        color: 'red'
       };
     });
   });

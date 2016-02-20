@@ -48,7 +48,15 @@ angular.module('yoodle')
   };
 
   // Server connection
-  initServerInterface($scope, $rootScope, $timeout, roomIDService);
+  if ($rootScope.socket === undefined) {
+    initServerInterface($scope, $rootScope, $timeout, roomIDService);
+  }
+  else if ($rootScope.socket.connected) {
+    $scope.connectionStatus = { color: 'green' };
+  }
+  else {
+    $scope.connectionStatus = { color: 'red' };
+  }
 })
 
 .controller('UsernameModalCtrl', function($scope, $rootScope, localStorageService) {

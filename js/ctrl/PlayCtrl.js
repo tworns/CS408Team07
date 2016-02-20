@@ -1,8 +1,10 @@
 angular.module('yoodle')
 
-.controller('PlayCtrl', function($scope, $interval, $location, roomIDService) {
+.controller('PlayCtrl', function($scope, $rootScope, $interval, $location, localStorageService, roomIDService) {
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
+
+  $scope.username = localStorageService.get('username');
 
   $scope.roomID = roomIDService.get();
 
@@ -21,8 +23,10 @@ angular.module('yoodle')
     }
   }, 1000);
 
-  $scope.changeView = function(view) {
-    $location.path(view);
+  $scope.backToMenu = function() {
+    $rootScope.socket.emit('leaveRoom', roomIDService.get(), $scope.username);
+
+    $location.path('app');
   };
 
   $scope.clearCanvas = function() {
