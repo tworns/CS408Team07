@@ -21,7 +21,9 @@ server.on('connection', function (socket) {
     } while (rooms[accessCode] !== undefined);
 
     rooms[accessCode] = {
-      players: {}
+      players: {},
+      gameStarted: false,
+      artist: undefined
     };
 
     socket.emit('roomCreated', accessCode);
@@ -32,13 +34,26 @@ server.on('connection', function (socket) {
   });
 
   socket.on('joinRoom', function (accessCode, name) {
-    if (rooms[accessCode] === undefined) return; // TODO: Send error message?
+    var room = rooms[accessCode];
 
-    // TODO make sure name isn't taken already
+    if (room === undefined) return; // TODO: Send error message?
 
-    rooms[accessCode].players[name] = {};
+    // Make sure name isn't taken already (Names are used as indices, so duplicates aren't allowed)
+    if (room.players[name]) return;  // TODO: Send error message?
+
+    room.players[name] = {};
 
     console.log('Added player ' + name);
+
+    var numPlayers = Object.keys(room.players).length;
+
+    if (numPlayers === 2 && !room.gameStarted) {
+      room.gameStarted = true;
+
+      // Assign an artist by picking a random player
+      var keys = Object.keys(room.players);
+      room.artist = room.players[keys[keys.length * Math.random() << 0]];
+    }
   });
 
   socket.on('leaveRoom', function (accessCode, name) {
