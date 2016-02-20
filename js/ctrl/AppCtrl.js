@@ -8,8 +8,6 @@ angular.module('yoodle')
     }
 
     $rootScope.socket.emit('createRoom');
-
-    $location.path('play');
   };
 
   $scope.joinGame = function () {
@@ -53,7 +51,7 @@ angular.module('yoodle')
 
   // Server connection
   if ($rootScope.socket === undefined) {
-    serverInterfaceService.init($scope, $rootScope, $timeout, roomIDService);
+    serverInterfaceService.init($scope, $rootScope, $timeout, $location, toastr, roomIDService);
   }
   else if ($rootScope.socket.connected) {
     $scope.connectionStatus = { color: 'green' };

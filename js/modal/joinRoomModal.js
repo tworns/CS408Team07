@@ -8,8 +8,6 @@ angular.module('yoodle')
     $rootScope.socket.emit('joinRoom', roomIDService.get(), localStorageService.get('username'));
     console.log('Joining ' + roomIDService.get() + ', name ' + localStorageService.get('username'));
 
-    $location.path('play');
-
     $rootScope.modalInstance.close();
   };
 });

@@ -37,14 +37,16 @@ server.on('connection', function (socket) {
     var room = rooms[accessCode];
 
     if (room === undefined) {
-      console.log('Unkown room code "' + accessCode + '"');
-      return; // TODO: Send error message?
+      console.log('Unknown room code "' + accessCode + '"');
+      socket.emit('roomJoined', false, 'Unknown room code "' + accessCode + '"');
+      return;
     }
 
     // Make sure name isn't taken already (Names are used as indices, so duplicates aren't allowed)
     if (room.players[name]) {
-      console.log('Username "' + name + '" already taken');
-      return;  // TODO: Send error message?
+      console.log('Username "' + name + '" is already taken');
+      socket.emit('roomJoined', false, 'The username "' + name + '" is already taken');
+      return;
     }
 
     room.players[name] = {};
@@ -61,8 +63,11 @@ server.on('connection', function (socket) {
       var artistName = names.length * Math.random() << 0;
       room.artist = room.players[names[artistName]];
 
-      console.log(artistName + ' is now the arrtist.');
+      console.log(artistName + ' is now the artist.');
     }
+
+    // Let the player know that the join was successful
+    socket.emit('roomJoined', true, 'Success');
   });
 
   socket.on('leaveRoom', function (accessCode, name) {
@@ -72,13 +77,13 @@ server.on('connection', function (socket) {
     var room = rooms[accessCode];
 
     if (room === undefined) {
-      console.log('Unkown room code "' + accessCode + '"');
-      return; // TODO: Send error message?
+      console.log('Unknown room code "' + accessCode + '"');
+      return;
     }
 
     if (room.players[name] === undefined) {
-      console.log('Unkown username "' + name + '"');
-      return; // TODO: Send error message?
+      console.log('Unknown username "' + name + '"');
+      return;
     }
 
     delete room.players[name];
