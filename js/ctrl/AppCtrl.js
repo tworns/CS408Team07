@@ -1,8 +1,24 @@
 angular.module('yoodle')
 
-.controller('AppCtrl', function($scope, $rootScope, $location, $timeout, $uibModal, toastr, localStorageService) {
-  $scope.changeView = function(view) {
-    $location.path(view);
+.controller('AppCtrl', function($scope, $rootScope, $location, $timeout, $uibModal, toastr, localStorageService, roomIDService) {
+  $scope.createGame = function () {
+    if (!$rootScope.socket.connected) {
+      toastr.error('Unable to connect to the server.', 'Not connected');
+      return;
+    }
+
+    $rootScope.socket.emit('createRoom');
+
+    $location.path('play');
+  };
+
+  $scope.joinGame = function () {
+    if (!$rootScope.socket.connected) {
+      toastr.error('Unable to connect to the server.', 'Not connected');
+      return;
+    }
+
+    $location.path('play');
   };
 
   console.log(localStorageService.get('username'));
@@ -32,41 +48,7 @@ angular.module('yoodle')
   };
 
   // Server connection
-  $scope.connectionStatus = {
-    color: 'yellow'
-  };
-
-  var socket = io('http://localhost:3001', {
-    'connect timeout': 5000
-  });
-
-  socket.on('connect', function () {
-    console.log('Connected to server');
-
-    // Must be wrapped in a timeout to update in the next digest
-    $timeout(function () {
-      $scope.connectionStatus = {
-        color: 'green'
-      };
-    });
-
-    socket.on('message', function (msg) {
-      console.log(msg);
-    });
-
-    socket.on('emit', function() {
-
-    });
-  });
-
-  socket.on('connect_error', function(err) {
-    toastr.error('Unable to connect to the server.', err.type);
-    $timeout(function () {
-      $scope.connectionStatus = {
-        color: 'green'
-      };
-    });
-  });
+  initServerInterface($scope, $rootScope, $timeout, roomIDService);
 })
 
 .controller('UsernameModalCtrl', function($scope, $rootScope, localStorageService) {

@@ -22,4 +22,17 @@ angular.module('yoodle', ['ui.bootstrap','ngRoute', 'ngAnimate', 'picardy.fontaw
 
 .run(function() {
 
+})
+
+.factory('roomIDService', function () {
+  var roomID = '';
+
+  return {
+    set: function (id) {
+      roomID = id;
+    },
+    get: function () {
+      return roomID;
+    }
+  };
 });

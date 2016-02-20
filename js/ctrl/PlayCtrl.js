@@ -1,8 +1,10 @@
 angular.module('yoodle')
 
-.controller('PlayCtrl', function($scope, $interval, $location) {
+.controller('PlayCtrl', function($scope, $interval, $location, roomIDService) {
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
+
+  $scope.roomID = roomIDService.get();
 
   $scope.currentWord = "";
   $scope.wordList = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey",
