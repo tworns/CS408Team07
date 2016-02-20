@@ -18,7 +18,11 @@ angular.module('yoodle')
       return;
     }
 
-    $location.path('play');
+    $rootScope.modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: 'templates/joinRoomModal.html',
+      controller: 'JoinRoomModalCtrl'
+    });
   };
 
   console.log(localStorageService.get('username'));
@@ -85,5 +89,19 @@ angular.module('yoodle')
 
     // Display a success toast
     toastr.success('Settings saved!', 'Success');
+  };
+})
+
+.controller('JoinRoomModalCtrl', function($scope, $rootScope, $location, localStorageService, roomIDService) {
+  // TODO display error when unable to connect (becuase wrong room code or invalid username)
+  $scope.submitRoomCode = function() {
+    roomIDService.set($scope.roomCode);
+    
+    $rootScope.socket.emit('joinRoom', roomIDService.get(), localStorageService.get('username'));
+    console.log('Joining ' + roomIDService.get() + ', name ' + localStorageService.get('username'));
+
+    $location.path('play');
+
+    $rootScope.modalInstance.close();
   };
 });

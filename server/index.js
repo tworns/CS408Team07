@@ -29,17 +29,23 @@ server.on('connection', function (socket) {
     socket.emit('roomCreated', accessCode);
 
     console.log('Created room with ID ' + accessCode);
-
-    // TODO destroy room once all players leave
   });
 
   socket.on('joinRoom', function (accessCode, name) {
+    accessCode = accessCode.toUpperCase();
+
     var room = rooms[accessCode];
 
-    if (room === undefined) return; // TODO: Send error message?
+    if (room === undefined) {
+      console.log('Unkown room code "' + accessCode + '"');
+      return; // TODO: Send error message?
+    }
 
     // Make sure name isn't taken already (Names are used as indices, so duplicates aren't allowed)
-    if (room.players[name]) return;  // TODO: Send error message?
+    if (room.players[name]) {
+      console.log('Username "' + name + '" already taken');
+      return;  // TODO: Send error message?
+    }
 
     room.players[name] = {};
 
@@ -47,22 +53,33 @@ server.on('connection', function (socket) {
 
     var numPlayers = Object.keys(room.players).length;
 
-    if (numPlayers === 2 && !room.gameStarted) {
+    if (numPlayers >= 3 && !room.gameStarted) {
       room.gameStarted = true;
 
       // Assign an artist by picking a random player
-      var keys = Object.keys(room.players);
-      room.artist = room.players[keys[keys.length * Math.random() << 0]];
+      var names = Object.keys(room.players);
+      var artistName = names.length * Math.random() << 0;
+      room.artist = room.players[names[artistName]];
+
+      console.log(artistName + ' is now the arrtist.');
     }
   });
 
   socket.on('leaveRoom', function (accessCode, name) {
+    accessCode = accessCode.toUpperCase();
     console.log(name + ' disconnected from room ' + accessCode);
 
     var room = rooms[accessCode];
 
-    if (room === undefined) return; // TODO: Send error message?
-    if (room.players[name] === undefined) return; // TODO: Send error message?
+    if (room === undefined) {
+      console.log('Unkown room code "' + accessCode + '"');
+      return; // TODO: Send error message?
+    }
+
+    if (room.players[name] === undefined) {
+      console.log('Unkown username "' + name + '"');
+      return; // TODO: Send error message?
+    }
 
     delete room.players[name];
 
