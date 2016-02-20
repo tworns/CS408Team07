@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron main.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node server/index.js"
+    "server": "node server/index.js",
+    "3-player-demo": "electron main.js & electron main.js & electron main.js & node server/index.js"
   },
   "repository": {
     "type": "git",

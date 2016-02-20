@@ -9,6 +9,7 @@ angular.module('yoodle', ['ui.bootstrap','ngRoute', 'ngAnimate', 'picardy.fontaw
   })
 
   .when('/play', {
+    cache: false, // Means controller will fire each time app enters /play
     templateUrl: 'templates/play.html',
     controller: 'PlayCtrl'
   })
@@ -26,11 +27,21 @@ angular.module('yoodle', ['ui.bootstrap','ngRoute', 'ngAnimate', 'picardy.fontaw
 
 .factory('roomIDService', function () {
   var roomID = '';
+  var callback;
 
   return {
+    setCallback: function(func) {
+      callback = func;
+    },
+
     set: function (id) {
       roomID = id;
+
+      if (callback) {
+        callback(roomID);
+      }
     },
+
     get: function () {
       return roomID;
     }

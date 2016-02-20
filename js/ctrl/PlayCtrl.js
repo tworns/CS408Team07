@@ -8,6 +8,10 @@ angular.module('yoodle')
 
   $scope.roomID = roomIDService.get();
 
+  roomIDService.setCallback(function(id) {
+    $scope.roomID = id;
+  });
+
   $scope.currentWord = "";
   $scope.wordList = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey",
     "island", "justice", "king", "light", "music", "nature", "outside", "photograph", "queen",
@@ -25,6 +29,7 @@ angular.module('yoodle')
 
   $scope.backToMenu = function() {
     $rootScope.socket.emit('leaveRoom', roomIDService.get(), $scope.username);
+    roomIDService.set('');
 
     $location.path('app');
   };
