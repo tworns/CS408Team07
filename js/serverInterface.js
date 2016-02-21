@@ -41,7 +41,7 @@ angular.module('yoodle')
         });
 
         $rootScope.socket.on('updatePlayerList', function (list) {
-
+          roomService.setPlayerList(list);
         });
       });
 

@@ -8,6 +8,13 @@
 <!-- Room ID -->
 <h3>Your room code: {{roomID}}</h3>
 
+<!-- List of players in the game -->
+<ul>
+  <li ng-repeat="player in playerList">
+    <p>{{player.name}}</p>
+  </li>
+</ul>
+
 <!-- Canvas -->
 <canvas width="500" height="300" id="canvas" drawing></canvas> <br>
 

@@ -32,8 +32,6 @@ server.on('connection', function (socket) {
   });
 
   socket.on('joinRoom', function (accessCode, name) {
-    accessCode = accessCode.toUpperCase();
-
     var room = rooms[accessCode];
 
     if (room === undefined) {
@@ -49,8 +47,11 @@ server.on('connection', function (socket) {
       return;
     }
 
+    // Join the room with given access code. emits will send to just this room now
+    socket.join(accessCode);
+
     room.players[name] = {
-      socket: socket
+      name: name
     };
 
     console.log('Added player ' + name);
@@ -70,6 +71,9 @@ server.on('connection', function (socket) {
 
     // Let the player know that the join was successful
     socket.emit('roomJoined', true, 'Success');
+
+    // Inform all other players of the new player list
+    server.to(accessCode).emit('updatePlayerList', room.players);
   });
 
   socket.on('leaveRoom', function (accessCode, name) {
@@ -97,10 +101,7 @@ server.on('connection', function (socket) {
       delete rooms[accessCode];
     }
     else {
-      // Update the other players
-      for (var i in room.players) {
-        room.players[i].socket.emit('updatePlayerList', room.players);
-      }
+      server.to(accessCode).emit('updatePlayerList', room.players);
     }
   });
 });
@@ -108,6 +109,19 @@ server.on('connection', function (socket) {
 var oldLog = console.log;
 console.log = function (str) {
   if (DEBUG) {
-    oldLog(str);
+    var now = new Date();
+    oldLog(format(now.getHours()) + ':' +
+      format(now.getMinutes()) + ':' +
+      format(now.getSeconds()) +
+      ' ~ ' + str);
   }
 };
+
+function format (time) {
+  if (time < 10) {
+    return '0' + time;
+  }
+  else {
+    return time;
+  }
+}

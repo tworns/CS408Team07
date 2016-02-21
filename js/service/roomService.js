@@ -2,23 +2,42 @@ angular.module('yoodle')
 
 .factory('roomService', function () {
   var roomID = '';
-  var callback;
+  var IDCallback;
+
+  var playerList;
+  var playerListCallback;
 
   return {
     setRoomIDCallback: function(func) {
-      callback = func;
+      IDCcallback = func;
     },
 
     setRoomID: function (id) {
       roomID = id;
 
-      if (callback) {
-        callback(roomID);
+      if (IDCallback) {
+        IDCallback(roomID);
       }
     },
 
     getRoomID: function () {
       return roomID;
+    },
+
+    setPlayerListCallback: function (func) {
+      playerListCallback = func;
+    },
+
+    setPlayerList: function (players) {
+      playerList = players;
+
+      if (playerListCallback) {
+        playerListCallback(players);
+      }
+    },
+
+    getPlayerList: function () {
+      return playerList;
     }
   };
 });

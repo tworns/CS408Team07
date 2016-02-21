@@ -7,8 +7,13 @@ angular.module('yoodle')
   $scope.username = localStorageService.get('username');
 
   $scope.roomID = roomService.getRoomID();
-  roomService.setRoomIDCallback(function(id) {
+  roomService.setRoomIDCallback(function (id) {
     $scope.roomID = id;
+  });
+
+  $scope.playerList = roomService.getPlayerList();
+  roomService.setPlayerListCallback(function (list) {
+    $scope.playerList = list;
   });
 
   $scope.currentWord = "";
