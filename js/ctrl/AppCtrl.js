@@ -1,6 +1,6 @@
 angular.module('yoodle')
 
-.controller('AppCtrl', function($scope, $rootScope, $location, $timeout, $uibModal, toastr, localStorageService, roomIDService, serverInterfaceService) {
+.controller('AppCtrl', function($scope, $rootScope, $location, $timeout, $uibModal, toastr, localStorageService, roomService, serverInterfaceService) {
   $scope.createGame = function () {
     if (!$rootScope.socket.connected) {
       toastr.error('Unable to connect to the server.', 'Not connected');
@@ -51,7 +51,7 @@ angular.module('yoodle')
 
   // Server connection
   if ($rootScope.socket === undefined) {
-    serverInterfaceService.init($scope, $rootScope, $timeout, $location, toastr, roomIDService);
+    serverInterfaceService.init($scope, $rootScope, $timeout, $location, toastr, roomService);
   }
   else if ($rootScope.socket.connected) {
     $scope.connectionStatus = { color: 'green' };

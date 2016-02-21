@@ -2,7 +2,7 @@ angular.module('yoodle')
 
 .factory('serverInterfaceService', function () {
   return {
-    init: function ($scope, $rootScope, $timeout, $location, toastr, roomIDService) {
+    init: function ($scope, $rootScope, $timeout, $location, toastr, roomService) {
       $scope.connectionStatus = {
         color: 'yellow'
       };
@@ -23,7 +23,7 @@ angular.module('yoodle')
 
         $rootScope.socket.on('roomCreated', function (roomID) {
           console.log('New room created. ID: ' + roomID);
-          roomIDService.set(roomID);
+          roomService.setRoomID(roomID);
 
           $rootScope.socket.emit('joinRoom', roomID, $scope.username);
         });
@@ -38,6 +38,10 @@ angular.module('yoodle')
             console.log('Failed to join. ' + msg);
             toastr.error(msg, 'Hmm... That didn\'t work');
           }
+        });
+
+        $rootScope.socket.on('updatePlayerList', function (list) {
+
         });
       });
 

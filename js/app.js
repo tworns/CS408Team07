@@ -23,27 +23,4 @@ angular.module('yoodle', ['ui.bootstrap','ngRoute', 'ngAnimate', 'picardy.fontaw
 
 .run(function() {
 
-})
-
-.factory('roomIDService', function () {
-  var roomID = '';
-  var callback;
-
-  return {
-    setCallback: function(func) {
-      callback = func;
-    },
-
-    set: function (id) {
-      roomID = id;
-
-      if (callback) {
-        callback(roomID);
-      }
-    },
-
-    get: function () {
-      return roomID;
-    }
-  };
 });

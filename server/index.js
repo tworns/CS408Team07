@@ -49,7 +49,9 @@ server.on('connection', function (socket) {
       return;
     }
 
-    room.players[name] = {};
+    room.players[name] = {
+      socket: socket
+    };
 
     console.log('Added player ' + name);
 
@@ -88,11 +90,17 @@ server.on('connection', function (socket) {
 
     delete room.players[name];
 
-    var numPlayers = Object.keys(room.players).length;
+    var players = Object.keys(room.players);
 
-    if (numPlayers === 0) {
+    if (players.length === 0) {
       console.log('Room ' + accessCode + ' has become empty, deleting it.');
       delete rooms[accessCode];
+    }
+    else {
+      // Update the other players
+      for (var i in room.players) {
+        room.players[i].socket.emit('updatePlayerList', room.players);
+      }
     }
   });
 });

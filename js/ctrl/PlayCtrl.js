@@ -1,14 +1,13 @@
 angular.module('yoodle')
 
-.controller('PlayCtrl', function($scope, $rootScope, $interval, $location, $window, localStorageService, roomIDService) {
+.controller('PlayCtrl', function($scope, $rootScope, $interval, $location, $window, localStorageService, roomService) {
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
 
   $scope.username = localStorageService.get('username');
 
-  $scope.roomID = roomIDService.get();
-
-  roomIDService.setCallback(function(id) {
+  $scope.roomID = roomService.getRoomID();
+  roomService.setRoomIDCallback(function(id) {
     $scope.roomID = id;
   });
 
@@ -28,8 +27,8 @@ angular.module('yoodle')
   }, 1000);
 
   $scope.backToMenu = function() {
-    $rootScope.socket.emit('leaveRoom', roomIDService.get(), $scope.username);
-    roomIDService.set('');
+    $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
+    roomService.setRoomID('');
 
     $location.path('app');
   };
@@ -58,7 +57,7 @@ angular.module('yoodle')
   // Make sure to leave the game before closing the window!
   window.onbeforeunload = function (e) {
     if ($rootScope.socket.connected) {
-      $rootScope.socket.emit('leaveRoom', roomIDService.get(), $scope.username);
+      $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
     }
 
     return true;
