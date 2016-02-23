@@ -2,7 +2,7 @@ angular.module('yoodle')
 
 .factory('serverInterfaceService', function () {
   return {
-    init: function ($scope, $rootScope, $timeout, $interval, $location, toastr, roomService) {
+    init: function ($scope, $rootScope, $timeout, $interval, $location, toastr, localStorageService, roomService) {
       $scope.connectionStatus = {
         color: 'yellow'
       };
@@ -51,7 +51,10 @@ angular.module('yoodle')
         });
 
         $rootScope.socket.on('artistSelected', function (name) {
-
+          console.log('New artist: ' + name);
+          if (name == localStorageService.get('username')) {
+            console.log('I\'m the artist!');
+          }
         });
       });
 

@@ -101,14 +101,14 @@ server.on('connection', function (socket) {
 
       // Assign an artist by picking a random player
       var names = Object.keys(room.players);
-      var artistName = names.length * Math.random() << 0;
-      room.artist = room.players[names[artistName]];
+      var artistIndex = names.length * Math.random() << 0;
+      room.artist = room.players[names[artistIndex]];
 
-      console.log(artistName + ' is now the artist for room ' + accessCode);
+      console.log(room.artist.name + ' is now the artist for room ' + accessCode);
 
       server.to(accessCode).emit('gameStarted');
 
-      server.to(accessCode).emit('artistSelected', artistName);
+      server.to(accessCode).emit('artistSelected', room.artist.name);
     }
   });
 });

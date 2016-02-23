@@ -51,7 +51,7 @@ angular.module('yoodle')
 
   // Server connection
   if ($rootScope.socket === undefined) {
-    serverInterfaceService.init($scope, $rootScope, $timeout, $interval, $location, toastr, roomService);
+    serverInterfaceService.init($scope, $rootScope, $timeout, $interval, $location, toastr, localStorageService, roomService);
   }
   else if ($rootScope.socket.connected) {
     $scope.connectionStatus = { color: 'green' };
