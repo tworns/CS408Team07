@@ -3,7 +3,15 @@ angular.module('yoodle')
 .controller('PlayCtrl', function($scope, $rootScope, $location, $window, $interval, localStorageService, roomService) {
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
-
+  var interval;
+  $scope.canvas.onmousedown = function(e){
+      interval = $interval(function () {
+    $rootScope.socket.emit('artistDraw',e.pageX,e.pageY, roomService.getRoomID());}, 67);
+  };
+  $scope.canvas.onmouseup = function(e) {
+          console.log("Hit mouseup");
+          $interval.cancel(interval);
+      };
   $scope.username = localStorageService.get('username');
 
   $scope.roomID = roomService.getRoomID();
