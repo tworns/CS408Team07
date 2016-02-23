@@ -1,6 +1,11 @@
 var io = require('socket.io');
 var server = io.listen(3001);
 
+// TODO Add more words and move to a separate file
+var wordList = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey",
+  "island", "justice", "king", "light", "music", "nature", "outside", "photograph", "queen",
+  "roller blade", "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
+
 var rooms = {};
 
 var DEBUG = true;
@@ -109,6 +114,9 @@ server.on('connection', function (socket) {
       server.to(accessCode).emit('gameStarted');
 
       server.to(accessCode).emit('artistSelected', room.artist.name);
+
+      var newWord = wordList[Math.floor((Math.random() * wordList.length))];
+      server.to(accessCode).emit('newWord', newWord);
     }
   });
 });

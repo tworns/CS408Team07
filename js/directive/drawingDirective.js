@@ -1,6 +1,6 @@
 angular.module('yoodle')
 
-.directive("drawing", function(){
+.directive("drawing", function() {
   return {
     restrict: "A",
     link: function(scope, element){

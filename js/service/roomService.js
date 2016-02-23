@@ -7,7 +7,10 @@ angular.module('yoodle')
   var playerList;
   var playerListCallback;
 
-  var timerCallback = function () {};
+  var timerCallback;
+
+  var currentWord = '';
+  var wordCallback;
 
   return {
     setRoomIDCallback: function(func) {
@@ -38,18 +41,36 @@ angular.module('yoodle')
       }
     },
 
+    setTimerCallback: function (func) {
+      timerCallback = func;
+    },
+
     getPlayerList: function () {
       return playerList;
     },
 
     newTimer: function () {
       var timer = $interval(function () {
-        timerCallback(timer);
+        if (timerCallback) {
+          timerCallback(timer);
+        }
       }, 1000);
     },
 
-    setTimerCallback: function (func) {
-      timerCallback = func;
-    }
+    setWordCallback: function (func) {
+      wordCallback = func;
+    },
+
+    setWord: function (word) {
+      currentWord = word;
+
+      if (wordCallback) {
+        wordCallback(word);
+      }
+    },
+
+    getWord: function () {
+      return currentWord;
+    },
   };
 });

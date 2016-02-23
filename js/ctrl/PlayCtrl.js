@@ -26,9 +26,10 @@ angular.module('yoodle')
   });
 
   $scope.currentWord = "";
-  $scope.wordList = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey",
-    "island", "justice", "king", "light", "music", "nature", "outside", "photograph", "queen",
-    "roller blade", "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
+  roomService.setWordCallback(function (word) {
+    $scope.currentWord = word;
+  });
+
   $scope.usedWords = [];
 
   $scope.backToMenu = function () {
