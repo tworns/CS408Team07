@@ -1,6 +1,6 @@
 angular.module('yoodle')
 
-.controller('PlayCtrl', function($scope, $rootScope, $interval, $location, $window, localStorageService, roomService) {
+.controller('PlayCtrl', function($scope, $rootScope, $location, $window, $interval, localStorageService, roomService) {
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
 
@@ -16,26 +16,30 @@ angular.module('yoodle')
     $scope.playerList = list;
   });
 
+  $scope.time = 60;
+  roomService.setTimerCallback(function (timer) {
+    $scope.time--;
+
+    if ($scope.time <= 0) {
+      $interval.cancel(timer);
+    }
+  });
+
   $scope.currentWord = "";
   $scope.wordList = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey",
     "island", "justice", "king", "light", "music", "nature", "outside", "photograph", "queen",
     "roller blade", "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
   $scope.usedWords = [];
 
-  $scope.time = 60;
-  $scope.timer = $interval(function () {
-    $scope.time--;
-
-    if ($scope.time <= 0) {
-      $interval.cancel($scope.timer);
-    }
-  }, 1000);
-
-  $scope.backToMenu = function() {
+  $scope.backToMenu = function () {
     $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
     roomService.setRoomID('');
 
     $location.path('app');
+  };
+
+  $scope.startGame = function () {
+    $rootScope.socket.emit('startGame', roomService.getRoomID());
   };
 
   $scope.clearCanvas = function() {

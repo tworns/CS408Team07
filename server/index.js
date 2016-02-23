@@ -42,7 +42,7 @@ server.on('connection', function (socket) {
 
     // Make sure name isn't taken already (Names are used as indices, so duplicates aren't allowed)
     if (room.players[name]) {
-      console.log('Username "' + name + '" is already taken');
+      console.log('Username "' + name + '" is already taken in room ' + accessCode);
       socket.emit('roomJoined', false, 'The username "' + name + '" is already taken');
       return;
     }
@@ -54,20 +54,7 @@ server.on('connection', function (socket) {
       name: name
     };
 
-    console.log('Added player ' + name);
-
-    var numPlayers = Object.keys(room.players).length;
-
-    if (numPlayers >= 3 && !room.gameStarted) {
-      room.gameStarted = true;
-
-      // Assign an artist by picking a random player
-      var names = Object.keys(room.players);
-      var artistName = names.length * Math.random() << 0;
-      room.artist = room.players[names[artistName]];
-
-      console.log(artistName + ' is now the artist.');
-    }
+    console.log('Added player ' + name + ' to room ' + accessCode);
 
     // Let the player know that the join was successful
     socket.emit('roomJoined', true, 'Success');
@@ -77,7 +64,6 @@ server.on('connection', function (socket) {
   });
 
   socket.on('leaveRoom', function (accessCode, name) {
-    accessCode = accessCode.toUpperCase();
     console.log(name + ' disconnected from room ' + accessCode);
 
     var room = rooms[accessCode];
@@ -102,6 +88,27 @@ server.on('connection', function (socket) {
     }
     else {
       server.to(accessCode).emit('updatePlayerList', room.players);
+    }
+  });
+
+  socket.on('startGame', function (accessCode) {
+    var room = rooms[accessCode];
+
+    var numPlayers = Object.keys(room.players).length;
+
+    if (room && (numPlayers >= 3 || DEBUG) && !room.gameStarted) {
+      room.gameStarted = true;
+
+      // Assign an artist by picking a random player
+      var names = Object.keys(room.players);
+      var artistName = names.length * Math.random() << 0;
+      room.artist = room.players[names[artistName]];
+
+      console.log(artistName + ' is now the artist for room ' + accessCode);
+
+      server.to(accessCode).emit('gameStarted');
+
+      server.to(accessCode).emit('artistSelected', artistName);
     }
   });
 });

@@ -2,7 +2,7 @@ angular.module('yoodle')
 
 .factory('serverInterfaceService', function () {
   return {
-    init: function ($scope, $rootScope, $timeout, $location, toastr, roomService) {
+    init: function ($scope, $rootScope, $timeout, $interval, $location, toastr, roomService) {
       $scope.connectionStatus = {
         color: 'yellow'
       };
@@ -42,6 +42,16 @@ angular.module('yoodle')
 
         $rootScope.socket.on('updatePlayerList', function (list) {
           roomService.setPlayerList(list);
+        });
+
+        $rootScope.socket.on('gameStarted', function (time) {
+          console.log('Game started!');
+
+          roomService.newTimer(time);
+        });
+
+        $rootScope.socket.on('artistSelected', function (name) {
+
         });
       });
 

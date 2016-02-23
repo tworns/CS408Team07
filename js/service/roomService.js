@@ -1,11 +1,13 @@
 angular.module('yoodle')
 
-.factory('roomService', function () {
+.factory('roomService', function ($interval) {
   var roomID = '';
   var IDCallback;
 
   var playerList;
   var playerListCallback;
+
+  var timerCallback = function () {};
 
   return {
     setRoomIDCallback: function(func) {
@@ -38,6 +40,16 @@ angular.module('yoodle')
 
     getPlayerList: function () {
       return playerList;
+    },
+
+    newTimer: function () {
+      var timer = $interval(function () {
+        timerCallback(timer);
+      }, 1000);
+    },
+
+    setTimerCallback: function (func) {
+      timerCallback = func;
     }
   };
 });
