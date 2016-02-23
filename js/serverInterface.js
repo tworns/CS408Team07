@@ -61,7 +61,9 @@ angular.module('yoodle')
           roomService.setWord(word);
         });
       });
-
+      $rootScope.socket.on('artistDraw',function(){
+        
+      });
       $rootScope.socket.on('connect_error', function(err) {
         console.log('error');
         $timeout(function () {
