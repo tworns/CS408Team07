@@ -69,9 +69,10 @@ angular.module('yoodle')
   };
 
   $scope.skipWord = function() {
-    var newWord = $scope.wordList[Math.floor((Math.random() * $scope.wordList.length))];
-    $scope.usedWords.push(newWord);
-    $scope.currentWord = newWord;
+    // Only let the artist skip words
+    if ($rootScope.isArtist) {
+      $rootScope.socket.emit('newWord', roomService.getRoomID());
+    }
   };
 
   // Make sure to leave the game before closing the window!

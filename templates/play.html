@@ -23,8 +23,14 @@
 <canvas width="500" height="300" id="canvas" artistDrawing></canvas> <br>
 
 <!-- Buttons -->
-<button type="button" ng-click="clearCanvas()" class="btn btn-primary"><i class="fa fa-trash"></i> Clear drawing</button>
 <button type="button" ng-click="savaImage()" class="btn btn-success"><i class="fa fa-camera-retro"></i> Save!</button>
-<input type = "text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
-<button type = "button" ng-click = "sendGuess()" class = "btn btn-success"> <i class = "fa fa-camera-retro"></i> Send Guess!</button>
-<button type="button" ng-click="skipWord()" class="btn btn-danger"><i class="fa fa-random"></i> Skip!</button>
+
+<div ng-hide="$root.isArtist">
+  <input type ="text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
+  <button type ="button" ng-click ="sendGuess()" class ="btn btn-success"> <i class ="fa fa-camera-retro"></i> Send Guess!</button>
+</div>
+
+<div ng-show="$root.isArtist">
+  <button type="button" ng-click="skipWord()" class="btn btn-danger"><i class="fa fa-random"></i> Skip!</button>
+  <button type="button" ng-click="clearCanvas()" class="btn btn-primary"><i class="fa fa-trash"></i> Clear drawing</button>
+</div>

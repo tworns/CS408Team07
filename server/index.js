@@ -125,6 +125,11 @@ server.on('connection', function (socket) {
       server.to(accessCode).emit('newWord', newWord);
     }
   });
+
+  socket.on('newWord', function (accessCode) {
+    var newWord = wordList[Math.floor((Math.random() * wordList.length))];
+    server.to(accessCode).emit('newWord', newWord);
+  });
 });
 
 var oldLog = console.log;
