@@ -68,12 +68,11 @@ server.on('connection', function (socket) {
     server.to(accessCode).emit('updatePlayerList', room.players);
   });
 
-socket.on('artistDraw', function(x,y, accessCode){
-  accessCode = accessCode.toUpperCase();
-  //informs outher players of artist's mouse position
-  socket.emit('artistDraw',x,y);
-// console.log('x = ' + x + 'y = '+y);
-});
+  socket.on('artistDraw', function(x, y, accessCode){
+    accessCode = accessCode.toUpperCase();
+    //informs outher players of artist's mouse position
+    socket.emit('artistDraw', x, y);
+  });
 
   socket.on('leaveRoom', function (accessCode, name) {
     console.log(name + ' disconnected from room ' + accessCode);

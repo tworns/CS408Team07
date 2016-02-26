@@ -56,13 +56,9 @@ angular.module('yoodle')
             console.log('I\'m the artist!');
           }
         });
-
-        $rootScope.socket.on('newWord', function (word) {
-          roomService.setWord(word);
-        });
       });
       $rootScope.socket.on('artistDraw',function(){
-        
+
       });
       $rootScope.socket.on('connect_error', function(err) {
         console.log('error');

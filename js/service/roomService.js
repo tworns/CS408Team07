@@ -9,9 +9,6 @@ angular.module('yoodle')
 
   var timerCallback;
 
-  var currentWord = '';
-  var wordCallback;
-
   return {
     setRoomIDCallback: function(func) {
       IDCcallback = func;
@@ -55,22 +52,6 @@ angular.module('yoodle')
           timerCallback(timer);
         }
       }, 1000);
-    },
-
-    setWordCallback: function (func) {
-      wordCallback = func;
-    },
-
-    setWord: function (word) {
-      currentWord = word;
-
-      if (wordCallback) {
-        wordCallback(word);
-      }
-    },
-
-    getWord: function () {
-      return currentWord;
-    },
+    }
   };
 });
