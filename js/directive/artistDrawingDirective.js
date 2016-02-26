@@ -7,8 +7,8 @@ angular.module('yoodle')
   var oldY;
   var drawingCallback= function(){};
   return{
-  
-    draw(oldX,oldY,newX,newY);
+
+  //  draw(oldX,oldY,newX,newY);
   };
 
 });

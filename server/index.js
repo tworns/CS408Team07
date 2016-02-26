@@ -68,11 +68,15 @@ server.on('connection', function (socket) {
     server.to(accessCode).emit('updatePlayerList', room.players);
   });
 
-socket.on('artistDraw', function(x,y, accessCode){
+  socket.on('artistDrawDown', function(x,y, accessCode){
   accessCode = accessCode.toUpperCase();
   //informs outher players of artist's mouse position
-  socket.emit('artistDraw',x,y);
-// console.log('x = ' + x + 'y = '+y);
+  server.to(accessCode).emit('artistDrawDown',x,y);
+ //console.log('x = ' + x + 'y = '+y);
+});
+socket.on('artistDrawMove', function(x,y,accessCode){
+  accessCode = accessCode.toUpperCase();
+  server.to(accessCode).emit('artistDrawMove',x,y);
 });
 
   socket.on('leaveRoom', function (accessCode, name) {
