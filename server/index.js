@@ -79,6 +79,7 @@ socket.on('artistDrawMove', function(x,y,accessCode){
   server.to(accessCode).emit('artistDrawMove',x,y);
 });
 
+
   socket.on('leaveRoom', function (accessCode, name) {
     console.log(name + ' disconnected from room ' + accessCode);
 
@@ -126,10 +127,26 @@ socket.on('artistDrawMove', function(x,y,accessCode){
 
       server.to(accessCode).emit('artistSelected', room.artist.name);
 
-      var newWord = wordList[Math.floor((Math.random() * wordList.length))];
-      server.to(accessCode).emit('newWord', newWord);
+      createNewWord(accessCode);
     }
   });
+
+  socket.on('newWord', function (accessCode) {
+    createNewWord(accessCode);
+  });
+
+  socket.on('guess', function (guess, accessCode, name) {
+    if (guess.toLowerCase() === rooms[accessCode].word.toLowerCase()) {
+      server.to(accessCode).emit('correctGuess', name);
+      createNewWord(accessCode);
+    }
+  });
+
+  function createNewWord (accessCode) {
+    var newWord = wordList[Math.floor((Math.random() * wordList.length))];
+    rooms[accessCode].word = newWord;
+    server.to(accessCode).emit('newWord', newWord);
+  }
 });
 
 var oldLog = console.log;

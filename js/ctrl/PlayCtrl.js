@@ -3,6 +3,7 @@ angular.module('yoodle')
 .controller('PlayCtrl', function($scope, $rootScope, $location, $window, $interval, localStorageService, roomService) {
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
+
   var interval;
   $scope.canvas.onmousedown = function(e){
         $rootScope.socket.emit('artistDrawDown',e.pageX,e.pageY, roomService.getRoomID());
@@ -14,9 +15,10 @@ $scope.canvas.onmousemove = function(e) {
 });
 };
   $scope.canvas.onmouseup = function(e) {
-          console.log("Hit mouseup");
-          $interval.cancel(interval);
-      };
+    console.log("Hit mouseup");
+    $interval.cancel(interval);
+  };
+
   $scope.username = localStorageService.get('username');
   $scope.roomID = roomService.getRoomID();
   roomService.setRoomIDCallback(function (id) {
@@ -26,6 +28,7 @@ $scope.canvas.onmousemove = function(e) {
   $scope.playerList = roomService.getPlayerList();
   roomService.setPlayerListCallback(function (list) {
     $scope.playerList = list;
+    $scope.$apply();
   });
 
   $scope.time = 60;
@@ -37,8 +40,7 @@ $scope.canvas.onmousemove = function(e) {
     }
   });
 
-  $scope.currentWord = "";
-  roomService.setWordCallback(function (word) {
+  $rootScope.socket.on('newWord', function (word) {
     $scope.currentWord = word;
   });
 
@@ -55,25 +57,26 @@ $scope.canvas.onmousemove = function(e) {
     $rootScope.socket.emit('startGame', roomService.getRoomID());
   };
 
-  $scope.clearCanvas = function() {
+  $scope.clearCanvas = function () {
     $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
   };
 
-  $scope.savaImage = function() {
+  $scope.savaImage = function () {
     $scope.image = $scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     window.location.href=$scope.image;
   };
 
-  $scope.sendGuess = function() {
-    var guess = $scope.guess;
-    $scope.guess = "";
-    socket.send(guess);
+  $scope.sendGuess = function () {
+    $rootScope.socket.emit('guess', $scope.guess, roomService.getRoomID(), $scope.username);
+
+    $scope.guess = '';
   };
 
-  $scope.skipWord = function() {
-    var newWord = $scope.wordList[Math.floor((Math.random() * $scope.wordList.length))];
-    $scope.usedWords.push(newWord);
-    $scope.currentWord = newWord;
+  $scope.skipWord = function () {
+    // Only let the artist skip words
+    if ($rootScope.isArtist) {
+      $rootScope.socket.emit('newWord', roomService.getRoomID());
+    }
   };
 
   // Make sure to leave the game before closing the window!
