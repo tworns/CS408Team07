@@ -25,6 +25,7 @@ angular.module('yoodle')
   $scope.playerList = roomService.getPlayerList();
   roomService.setPlayerListCallback(function (list) {
     $scope.playerList = list;
+    $scope.$apply();
   });
 
   $scope.time = 60;
