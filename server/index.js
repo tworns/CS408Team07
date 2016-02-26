@@ -121,15 +121,26 @@ server.on('connection', function (socket) {
 
       server.to(accessCode).emit('artistSelected', room.artist.name);
 
-      var newWord = wordList[Math.floor((Math.random() * wordList.length))];
-      server.to(accessCode).emit('newWord', newWord);
+      createNewWord(accessCode);
     }
   });
 
   socket.on('newWord', function (accessCode) {
-    var newWord = wordList[Math.floor((Math.random() * wordList.length))];
-    server.to(accessCode).emit('newWord', newWord);
+    createNewWord(accessCode);
   });
+
+  socket.on('guess', function (guess, accessCode, name) {
+    if (guess.toLowerCase() === rooms[accessCode].word.toLowerCase()) {
+      server.to(accessCode).emit('correctGuess', name);
+      createNewWord(accessCode);
+    }
+  });
+
+  function createNewWord (accessCode) {
+    var newWord = wordList[Math.floor((Math.random() * wordList.length))];
+    rooms[accessCode].word = newWord;
+    server.to(accessCode).emit('newWord', newWord);
+  }
 });
 
 var oldLog = console.log;

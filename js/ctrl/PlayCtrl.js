@@ -54,22 +54,22 @@ angular.module('yoodle')
     $rootScope.socket.emit('startGame', roomService.getRoomID());
   };
 
-  $scope.clearCanvas = function() {
+  $scope.clearCanvas = function () {
     $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
   };
 
-  $scope.savaImage = function() {
+  $scope.savaImage = function () {
     $scope.image = $scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     window.location.href=$scope.image;
   };
 
-  $scope.sendGuess = function() {
-    var guess = $scope.guess;
-    $scope.guess = "";
-    socket.send(guess);
+  $scope.sendGuess = function () {
+    $rootScope.socket.emit('guess', $scope.guess, roomService.getRoomID(), $scope.username);
+
+    $scope.guess = '';
   };
 
-  $scope.skipWord = function() {
+  $scope.skipWord = function () {
     // Only let the artist skip words
     if ($rootScope.isArtist) {
       $rootScope.socket.emit('newWord', roomService.getRoomID());
