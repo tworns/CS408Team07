@@ -47,23 +47,28 @@ angular.module('yoodle')
         $rootScope.socket.on('gameStarted', function (time) {
           console.log('Game started!');
 
+          $rootScope.gameStarted = true;
           roomService.newTimer(time);
         });
 
         $rootScope.socket.on('artistSelected', function (name) {
           console.log('New artist: ' + name);
+          $rootScope.isArtist = false;
           if (name == localStorageService.get('username')) {
             console.log('I\'m the artist!');
+            $rootScope.isArtist = true;
           }
         });
 
-        $rootScope.socket.on('newWord', function (word) {
-          roomService.setWord(word);
+        $rootScope.socket.on('correctGuess', function (name) {
+          console.log(name + ' guessed the word correctly!');
         });
       });
+
       $rootScope.socket.on('artistDraw',function(){
-        
+
       });
+
       $rootScope.socket.on('connect_error', function(err) {
         console.log('error');
         $timeout(function () {
