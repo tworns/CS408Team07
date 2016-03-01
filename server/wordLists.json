@@ -105,7 +105,11 @@
     "fan",
     "fire",
     "world",
-    "recycle"
+    "recycle",
+    "car",
+    "zebra",
+    "unicycle",
+    "roller blade"
   ],
 
   "mediumWordList": [
@@ -257,7 +261,10 @@
     "curtain",
     "vest",
     "tub",
-    "ping pong"
+    "ping pong",
+    "x-ray",
+    "vase",
+    "island"
   ],
 
   "hardWordList": [
@@ -420,6 +427,7 @@
     "applause",
     "s'mores",
     "plow",
-    "lyre"
+    "lyre",
+    "justice"
   ]
 }

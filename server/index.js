@@ -2,10 +2,7 @@ var io = require('socket.io');
 var server = io.listen(3001);
 var fs = require('fs');
 
-// TODO Add more words and move to a separate file
-var wordList = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey",
-  "island", "justice", "king", "light", "music", "nature", "outside", "photograph", "queen",
-  "roller blade", "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
+var gameDifficulty = "hard"; // Need to determine based on current game settings
 
 var wordLists = JSON.parse(fs.readFileSync('server/wordLists.json'));
 
@@ -137,7 +134,14 @@ socket.on('artistDrawStop', function(accessCode){
 
       server.to(socket.accessCode).emit('artistSelected', room.artist.name);
 
-      var newWord = wordList[Math.floor((Math.random() * wordList.length))];
+      var newWord;
+      if (gameDifficulty === "easy") {
+        newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
+      } else if (gameDifficulty === "medium") {
+        newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
+      } else if (gameDifficulty === "hard") {
+        newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
+      }
       server.to(socket.accessCode).emit('newWord', newWord);
     }
   });
@@ -154,7 +158,14 @@ socket.on('artistDrawStop', function(accessCode){
   });
 
   function createNewWord () {
-    var newWord = wordList[Math.floor((Math.random() * wordList.length))];
+    var newWord;
+    if (gameDifficulty === "easy") {
+      newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
+    } else if (gameDifficulty === "medium") {
+      newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
+    } else if (gameDifficulty === "hard") {
+      newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
+    }
     rooms[socket.accessCode].word = newWord;
     server.to(socket.accessCode).emit('newWord', newWord);
   }
