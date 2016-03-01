@@ -54,7 +54,7 @@ $scope.canvas.onmousemove = function(e) {
   };
 
   $scope.startGame = function () {
-    $rootScope.socket.emit('startGame', roomService.getRoomID());
+    $rootScope.socket.emit('startGame');
   };
 
   $scope.clearCanvas = function () {

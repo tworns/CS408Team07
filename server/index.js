@@ -121,8 +121,8 @@ socket.on('artistDraw', function(x,y, accessCode){
     }
   });
 
-  socket.on('startGame', function (accessCode) {
-    var room = rooms[accessCode];
+  socket.on('startGame', function () {
+    var room = rooms[socket.accessCode];
 
     var numPlayers = Object.keys(room.players).length;
 
@@ -134,14 +134,14 @@ socket.on('artistDraw', function(x,y, accessCode){
       var artistIndex = names.length * Math.random() << 0;
       room.artist = room.players[names[artistIndex]];
 
-      console.log(room.artist.name + ' is now the artist for room ' + accessCode);
+      console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
 
-      server.to(accessCode).emit('gameStarted');
+      server.to(socket.accessCode).emit('gameStarted');
 
-      server.to(accessCode).emit('artistSelected', room.artist.name);
+      server.to(socket.accessCode).emit('artistSelected', room.artist.name);
 
       var newWord = wordList[Math.floor((Math.random() * wordList.length))];
-      server.to(accessCode).emit('newWord', newWord);
+      server.to(socket.accessCode).emit('newWord', newWord);
     }
   });
 });
