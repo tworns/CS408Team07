@@ -64,11 +64,6 @@ angular.module('yoodle')
           console.log(name + ' guessed the word correctly!');
         });
       });
-
-      $rootScope.socket.on('artistDraw',function(){
-
-      });
-
       $rootScope.socket.on('connect_error', function(err) {
         console.log('error');
         $timeout(function () {

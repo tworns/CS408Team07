@@ -7,19 +7,51 @@ angular.module('yoodle')
   $rootScope.isArtist = false;
 
   var interval;
+  var lastX;
+  var lastY;
+  var currX;
+  var currY;
+  var drawing = false;
   $scope.canvas.onmousedown = function(e){
+    console.log('artistDown!\n');
         $rootScope.socket.emit('artistDrawDown',e.pageX,e.pageY, roomService.getRoomID());
+        //$scope.onArtistDrawDown(e.pageX,e.pageY);
+  $scope.canvas.onmousemove = function(e) {
+        //  interval = $interval(function () {
+            $rootScope.socket.emit('artistDrawMove',e.pageX,e.pageY,roomService.getRoomID(),67);
+          //  $scope.onArtistDrawMove(e.pageX,e.pageY);
+        //});
+        };
+};
 
-};
-$scope.canvas.onmousemove = function(e) {
-  interval = $interval(function () {
-    $rootScope.socket.emit('artistDrawMove',e.pageX,e.pageY,roomService.getRoomID());
-});
-};
   $scope.canvas.onmouseup = function(e) {
     console.log("Hit mouseup");
-    $interval.cancel(interval);
+    drawing = false;
+    //$interval.cancel(interval);
   };
+
+$rootScope.socket.on('artistDrawDown',function(x,y){
+
+$scope.lastX = x;
+$scope.lastY = y;
+$scope.ctx.beginPath();
+$scope.drawing = true;
+
+});
+$rootScope.socket.on('artistDrawMove',function(x,y){
+
+if($scope.drawing) {
+$scope.currX = x;
+$scope.currY = y;
+$scope.ctx.moveTo($scope.lastX,$scope.lastY);
+$scope.ctx.lineTo($scope.currX,$scope.currY);
+  $scope.ctx.strokeStyle = "#4bf";
+  $scope.ctx.stroke();
+  $scope.lastX = $scope.currX;
+  $scope.lastY = $scope.currY;
+}
+
+});
 
   $scope.username = localStorageService.get('username');
   $scope.roomID = roomService.getRoomID();
