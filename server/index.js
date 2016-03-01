@@ -144,6 +144,24 @@ socket.on('artistDraw', function(x,y, accessCode){
       server.to(socket.accessCode).emit('newWord', newWord);
     }
   });
+
+  socket.on('newWord', function (accessCode) {
+    console.log('Request for a new word');
+    createNewWord(accessCode);
+  });
+
+  socket.on('guess', function (guess, accessCode, name) {
+    if (guess.toLowerCase() === rooms[accessCode].word.toLowerCase()) {
+      server.to(accessCode).emit('correctGuess', name);
+      createNewWord(accessCode);
+    }
+  });
+
+  function createNewWord (accessCode) {
+    var newWord = wordList[Math.floor((Math.random() * wordList.length))];
+    rooms[accessCode].word = newWord;
+    server.to(accessCode).emit('newWord', newWord);
+  }
 });
 
 var oldLog = console.log;
