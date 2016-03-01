@@ -1,8 +1,8 @@
 <!-- Back to menu button -->
-<button type="button" ng-click="backToMenu()" class="btn btn-primary" ng-hide="$root.gameStarted"><i class="fa fa-arrow-left"></i>Back</button>
+<button type="button" ng-click="backToMenu()" class="btn btn-primary"><i class="fa fa-arrow-left"></i>Back</button>
 
 <!-- Start game button -->
-<button type="button" ng-click="startGame()" class="btn btn-primary">Start Game</button>
+<button type="button" ng-click="startGame()" class="btn btn-primary" ng-hide="$root.gameStarted">Start Game</button>
 
 <!-- Word and time -->
 <p>{{ time }}</p>
@@ -22,15 +22,17 @@
 <!-- Canvas -->
 <canvas width="500" height="300" id="canvas" artistDrawing></canvas> <br>
 
-<!-- Buttons -->
-<button type="button" ng-click="savaImage()" class="btn btn-success"><i class="fa fa-camera-retro"></i> Save!</button>
+<div ng-show="$root.gameStarted">
+  <!-- Buttons -->
+  <button type="button" ng-click="savaImage()" class="btn btn-success"><i class="fa fa-camera-retro"></i> Save!</button>
 
-<div ng-hide="$root.isArtist">
-  <input type ="text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
-  <button type ="button" ng-click ="sendGuess()" class ="btn btn-success"> <i class ="fa fa-camera-retro"></i> Send Guess!</button>
-</div>
+  <div ng-hide="$root.isArtist">
+    <input type ="text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
+    <button type ="button" ng-click ="sendGuess()" class ="btn btn-success"> <i class ="fa fa-camera-retro"></i> Send Guess!</button>
+  </div>
 
-<div ng-show="$root.isArtist">
-  <button type="button" ng-click="skipWord()" class="btn btn-danger"><i class="fa fa-random"></i> Skip!</button>
-  <button type="button" ng-click="clearCanvas()" class="btn btn-primary"><i class="fa fa-trash"></i> Clear drawing</button>
+  <div ng-show="$root.isArtist">
+    <button type="button" ng-click="skipWord()" class="btn btn-danger"><i class="fa fa-random"></i> Skip!</button>
+    <button type="button" ng-click="clearCanvas()" class="btn btn-primary"><i class="fa fa-trash"></i> Clear drawing</button>
+  </div>
 </div>

@@ -4,6 +4,8 @@ angular.module('yoodle')
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
 
+  $rootScope.isArtist = false;
+
   var interval;
   $scope.canvas.onmousedown = function(e){
         $rootScope.socket.emit('artistDrawDown',e.pageX,e.pageY, roomService.getRoomID());
@@ -41,6 +43,7 @@ $scope.canvas.onmousemove = function(e) {
   });
 
   $rootScope.socket.on('newWord', function (word) {
+    console.log('New word arrived!');
     $scope.currentWord = word;
   });
 
@@ -75,6 +78,7 @@ $scope.canvas.onmousemove = function(e) {
   $scope.skipWord = function () {
     // Only let the artist skip words
     if ($rootScope.isArtist) {
+      console.log('requesting a new word');
       $rootScope.socket.emit('newWord', roomService.getRoomID());
     }
   };
