@@ -1,25 +1,13 @@
 var io = require('socket.io');
 var server = io.listen(3001);
+var fs = require('fs');
 
 // TODO Add more words and move to a separate file
 var wordList = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "hockey",
   "island", "justice", "king", "light", "music", "nature", "outside", "photograph", "queen",
   "roller blade", "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
 
-// wtf?
-var wordLists = (function(){
-  var json = null;
-  $.ajax({
-    'async': false,
-    'global': false,
-    'url': "wordLists.json",
-    'dataType': "json",
-    'success': function (data) {
-      json = data;
-    }
-  });
-  return json;
-});
+var wordLists = JSON.parse(fs.readFileSync('server/wordLists.json'));
 
 var rooms = {};
 
