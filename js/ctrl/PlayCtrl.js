@@ -44,7 +44,7 @@ angular.module('yoodle')
   $scope.usedWords = [];
 
   $scope.backToMenu = function () {
-    $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
+    $rootScope.socket.emit('leaveRoom');
     roomService.setRoomID('');
 
     $location.path('app');
@@ -79,7 +79,7 @@ angular.module('yoodle')
   // Make sure to leave the game before closing the window!
   window.onbeforeunload = function (e) {
     if ($rootScope.socket.connected) {
-      $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
+      $rootScope.socket.emit('leaveRoom');
     }
 
     return true;

@@ -59,6 +59,9 @@ server.on('connection', function (socket) {
       name: name
     };
 
+    socket.name = name;
+    socket.accessCode = accessCode;
+
     console.log('Added player ' + name + ' to room ' + accessCode);
 
     // Let the player know that the join was successful
@@ -74,31 +77,31 @@ server.on('connection', function (socket) {
     socket.emit('artistDraw', x, y);
   });
 
-  socket.on('leaveRoom', function (accessCode, name) {
-    console.log(name + ' disconnected from room ' + accessCode);
+  socket.on('leaveRoom', function () {
+    console.log(socket.name + ' disconnected from room ' + socket.accessCode);
 
-    var room = rooms[accessCode];
+    var room = rooms[socket.accessCode];
 
     if (room === undefined) {
-      console.log('Unknown room code "' + accessCode + '"');
+      console.log('Unknown room code "' + socket.accessCode + '"');
       return;
     }
 
-    if (room.players[name] === undefined) {
-      console.log('Unknown username "' + name + '"');
+    if (room.players[socket.name] === undefined) {
+      console.log('Unknown username "' + socket.name + '"');
       return;
     }
 
-    delete room.players[name];
+    delete room.players[socket.name];
 
     var players = Object.keys(room.players);
 
     if (players.length === 0) {
-      console.log('Room ' + accessCode + ' has become empty, deleting it.');
-      delete rooms[accessCode];
+      console.log('Room ' + socket.accessCode + ' has become empty, deleting it.');
+      delete rooms[socket.accessCode];
     }
     else {
-      server.to(accessCode).emit('updatePlayerList', room.players);
+      server.to(socket.accessCode).emit('updatePlayerList', room.players);
     }
   });
 
