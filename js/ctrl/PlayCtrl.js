@@ -103,7 +103,7 @@ $rootScope.socket.on('artistDrawStop', function(){
   };
 
   $scope.sendGuess = function () {
-    $rootScope.socket.emit('guess', $scope.guess, roomService.getRoomID(), $scope.username);
+    $rootScope.socket.emit('guess');
 
     $scope.guess = '';
   };
@@ -111,7 +111,7 @@ $rootScope.socket.on('artistDrawStop', function(){
   $scope.skipWord = function () {
     // Only let the artist skip words
     if ($rootScope.isArtist) {
-      $rootScope.socket.emit('newWord', roomService.getRoomID());
+      $rootScope.socket.emit('newWord');
     }
   };
 

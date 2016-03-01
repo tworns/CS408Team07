@@ -154,22 +154,21 @@ socket.on('artistDrawStop', function(accessCode){
     }
   });
 
-  socket.on('newWord', function (accessCode) {
-    console.log('Request for a new word');
-    createNewWord(accessCode);
+  socket.on('newWord', function () {
+    createNewWord(socket.accessCode);
   });
 
-  socket.on('guess', function (guess, accessCode, name) {
-    if (guess.toLowerCase() === rooms[accessCode].word.toLowerCase()) {
-      server.to(accessCode).emit('correctGuess', name);
-      createNewWord(accessCode);
+  socket.on('guess', function (guess) {
+    if (guess.toLowerCase() === rooms[socket.accessCode].word.toLowerCase()) {
+      server.to(socket.accessCode).emit('correctGuess', socket.name);
+      createNewWord(socket.accessCode);
     }
   });
 
-  function createNewWord (accessCode) {
+  function createNewWord () {
     var newWord = wordList[Math.floor((Math.random() * wordList.length))];
-    rooms[accessCode].word = newWord;
-    server.to(accessCode).emit('newWord', newWord);
+    rooms[socket.accessCode].word = newWord;
+    server.to(socket.accessCode).emit('newWord', newWord);
   }
 });
 
