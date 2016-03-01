@@ -6,17 +6,20 @@ angular.module('yoodle')
 
   var interval;
   $scope.canvas.onmousedown = function(e){
-    interval = $interval(function () {
-      $rootScope.socket.emit('artistDraw', e.pageX, e.pageY, roomService.getRoomID());
-    }, 67);
-  };
+        $rootScope.socket.emit('artistDrawDown',e.pageX,e.pageY, roomService.getRoomID());
+
+};
+$scope.canvas.onmousemove = function(e) {
+  interval = $interval(function () {
+    $rootScope.socket.emit('artistDrawMove',e.pageX,e.pageY,roomService.getRoomID());
+});
+};
   $scope.canvas.onmouseup = function(e) {
     console.log("Hit mouseup");
     $interval.cancel(interval);
   };
 
   $scope.username = localStorageService.get('username');
-
   $scope.roomID = roomService.getRoomID();
   roomService.setRoomIDCallback(function (id) {
     $scope.roomID = id;

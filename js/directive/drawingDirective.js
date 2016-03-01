@@ -8,10 +8,28 @@ angular.module('yoodle')
 
       // variable that decides if something should be drawn on mousemove
       var drawing = false;
-
+      var artistDrawing = false;
       // the last coordinates before the current move
       var lastX;
       var lastY;
+      element.bind('onArtistDrawDown',function(x,y){
+          currentX = x; //get inital X & Y
+          currentY = y;
+          console.log( "currentX = "+currentX+ " currentY = "+ currentY + "\n");
+          //begin new path
+          ctx.beginPath();
+
+          drawing = true;
+      });
+
+      element.bin('onArtistDrawMove', function(x,y){
+
+        currentX = x;
+        currentY = y;
+        draw(lastX,lastY, currentX, currentY);
+        LastX = currentX;
+        lastY = currentY;
+      });
 
       element.bind('mousedown', function(event){
         if(event.offsetX!==undefined){

@@ -6,6 +6,21 @@ var wordList = ["apple", "bomb", "car", "dog", "electricity", "frog", "ghost", "
   "island", "justice", "king", "light", "music", "nature", "outside", "photograph", "queen",
   "roller blade", "spring", "thief", "unicycle", "vase", "water", "x-ray", "yo-yo", "zebra"];
 
+// wtf?
+var wordLists = (function(){
+  var json = null;
+  $.ajax({
+    'async': false,
+    'global': false,
+    'url': "wordLists.json",
+    'dataType': "json",
+    'success': function (data) {
+      json = data;
+    }
+  });
+  return json;
+});
+
 var rooms = {};
 
 var DEBUG = true;
@@ -71,11 +86,12 @@ server.on('connection', function (socket) {
     server.to(accessCode).emit('updatePlayerList', room.players);
   });
 
-  socket.on('artistDraw', function(x, y, accessCode){
-    accessCode = accessCode.toUpperCase();
-    //informs outher players of artist's mouse position
-    socket.emit('artistDraw', x, y);
-  });
+socket.on('artistDraw', function(x,y, accessCode){
+  accessCode = accessCode.toUpperCase();
+  //informs outher players of artist's mouse position
+  socket.emit('artistDraw',x,y);
+// console.log('x = ' + x + 'y = '+y);
+});
 
   socket.on('leaveRoom', function () {
     console.log(socket.name + ' disconnected from room ' + socket.accessCode);
@@ -124,26 +140,10 @@ server.on('connection', function (socket) {
 
       server.to(accessCode).emit('artistSelected', room.artist.name);
 
-      createNewWord(accessCode);
+      var newWord = wordList[Math.floor((Math.random() * wordList.length))];
+      server.to(accessCode).emit('newWord', newWord);
     }
   });
-
-  socket.on('newWord', function (accessCode) {
-    createNewWord(accessCode);
-  });
-
-  socket.on('guess', function (guess, accessCode, name) {
-    if (guess.toLowerCase() === rooms[accessCode].word.toLowerCase()) {
-      server.to(accessCode).emit('correctGuess', name);
-      createNewWord(accessCode);
-    }
-  });
-
-  function createNewWord (accessCode) {
-    var newWord = wordList[Math.floor((Math.random() * wordList.length))];
-    rooms[accessCode].word = newWord;
-    server.to(accessCode).emit('newWord', newWord);
-  }
 });
 
 var oldLog = console.log;
