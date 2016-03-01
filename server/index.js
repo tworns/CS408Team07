@@ -95,7 +95,11 @@ socket.on('artistDrawMove', function(x,y, accessCode){
   accessCode = accessCode.toUpperCase();
   //informs outher players of artist's mouse position
   server.to(accessCode).emit('artistDraw',x,y);
-console.log('artistMoving! x:' +x+ ' y: ' +y +' \n');//'x = ' + x + 'y = '+y);
+//console.log('artistMoving! x:' +x+ ' y: ' +y +' \n');//'x = ' + x + 'y = '+y);
+});
+socket.on('artistDrawStop', function(accessCode){
+  accessCode = accessCode.toUpperCase();
+  server.to(accessCode).emit('artistDrawStop');
 });
 
   socket.on('leaveRoom', function () {

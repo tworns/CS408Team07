@@ -4,8 +4,6 @@ angular.module('yoodle')
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
 
-  $rootScope.isArtist = false;
-
   var interval;
   var lastX;
   var lastY;
@@ -18,7 +16,7 @@ angular.module('yoodle')
         //$scope.onArtistDrawDown(e.pageX,e.pageY);
   $scope.canvas.onmousemove = function(e) {
         //  interval = $interval(function () {
-            $rootScope.socket.emit('artistDrawMove',e.pageX,e.pageY,roomService.getRoomID(),67);
+            $rootScope.socket.emit('artistDrawMove',e.pageX,e.pageY,roomService.getRoomID());
           //  $scope.onArtistDrawMove(e.pageX,e.pageY);
         //});
         };
@@ -26,21 +24,22 @@ angular.module('yoodle')
 
   $scope.canvas.onmouseup = function(e) {
     console.log("Hit mouseup");
-    drawing = false;
+    $rootScope.socket.emit('artistDrawStop',roomService.getRoomID());
     //$interval.cancel(interval);
   };
 
 $rootScope.socket.on('artistDrawDown',function(x,y){
-
+console.log("I'm going to draw!\n");
 $scope.lastX = x;
 $scope.lastY = y;
 $scope.ctx.beginPath();
 $scope.drawing = true;
 
 });
-$rootScope.socket.on('artistDrawMove',function(x,y){
+$rootScope.socket.on('artistDraw',function(x,y){
 
 if($scope.drawing) {
+  console.log("I'm drawing!\n");
 $scope.currX = x;
 $scope.currY = y;
 $scope.ctx.moveTo($scope.lastX,$scope.lastY);
@@ -51,6 +50,9 @@ $scope.ctx.lineTo($scope.currX,$scope.currY);
   $scope.lastY = $scope.currY;
 }
 
+});
+$rootScope.socket.on('artistDrawStop', function(){
+  $scope.drawing = false;
 });
 
   $scope.username = localStorageService.get('username');
@@ -75,21 +77,20 @@ $scope.ctx.lineTo($scope.currX,$scope.currY);
   });
 
   $rootScope.socket.on('newWord', function (word) {
-    console.log('New word arrived!');
     $scope.currentWord = word;
   });
 
   $scope.usedWords = [];
 
   $scope.backToMenu = function () {
-    $rootScope.socket.emit('leaveRoom');
+    $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
     roomService.setRoomID('');
 
     $location.path('app');
   };
 
   $scope.startGame = function () {
-    $rootScope.socket.emit('startGame');
+    $rootScope.socket.emit('startGame', roomService.getRoomID());
   };
 
   $scope.clearCanvas = function () {
@@ -110,7 +111,6 @@ $scope.ctx.lineTo($scope.currX,$scope.currY);
   $scope.skipWord = function () {
     // Only let the artist skip words
     if ($rootScope.isArtist) {
-      console.log('requesting a new word');
       $rootScope.socket.emit('newWord', roomService.getRoomID());
     }
   };
@@ -118,7 +118,7 @@ $scope.ctx.lineTo($scope.currX,$scope.currY);
   // Make sure to leave the game before closing the window!
   window.onbeforeunload = function (e) {
     if ($rootScope.socket.connected) {
-      $rootScope.socket.emit('leaveRoom');
+      $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
     }
 
     return true;
