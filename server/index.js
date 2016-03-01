@@ -5,6 +5,7 @@ var fs = require('fs');
 var gameDifficulty = "hard"; // Need to determine based on current game settings
 
 var wordLists = JSON.parse(fs.readFileSync('server/wordLists.json'));
+var usedWords = [];
 
 var rooms = {};
 
@@ -71,21 +72,22 @@ server.on('connection', function (socket) {
     server.to(accessCode).emit('updatePlayerList', room.players);
   });
 
+  socket.on('artistDrawDown', function(x,y,accessCode){
+    accessCode = accessCode.toUpperCase();
+    server.to(accessCode).emit('artistDrawDown',x,y);
+  });
 
-socket.on('artistDrawDown', function(x,y,accessCode){
-  accessCode = accessCode.toUpperCase();
-  server.to(accessCode).emit('artistDrawDown',x,y);
-});
-socket.on('artistDrawMove', function(x,y, accessCode){
-  accessCode = accessCode.toUpperCase();
-  //informs outher players of artist's mouse position
-  server.to(accessCode).emit('artistDraw',x,y);
-//console.log('artistMoving! x:' +x+ ' y: ' +y +' \n');//'x = ' + x + 'y = '+y);
-});
-socket.on('artistDrawStop', function(accessCode){
-  accessCode = accessCode.toUpperCase();
-  server.to(accessCode).emit('artistDrawStop');
-});
+  socket.on('artistDrawMove', function(x,y, accessCode){
+    accessCode = accessCode.toUpperCase();
+    //informs outher players of artist's mouse position
+    server.to(accessCode).emit('artistDraw',x,y);
+    //console.log('artistMoving! x:' +x+ ' y: ' +y +' \n');//'x = ' + x + 'y = '+y);
+  });
+
+  socket.on('artistDrawStop', function(accessCode){
+    accessCode = accessCode.toUpperCase();
+    server.to(accessCode).emit('artistDrawStop');
+  });
 
   socket.on('leaveRoom', function () {
     console.log(socket.name + ' disconnected from room ' + socket.accessCode);

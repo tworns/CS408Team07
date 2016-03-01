@@ -80,8 +80,6 @@ $rootScope.socket.on('artistDrawStop', function(){
     $scope.currentWord = word;
   });
 
-  $scope.usedWords = [];
-
   $scope.backToMenu = function () {
     $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
     roomService.setRoomID('');
