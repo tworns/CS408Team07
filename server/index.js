@@ -5,7 +5,7 @@ var fs = require('fs');
 var gameDifficulty = "hard"; // Need to determine based on current game settings
 
 var wordLists = JSON.parse(fs.readFileSync('server/wordLists.json'));
-var usedWords = [];
+var usedWords = []; // Array for tracking used words; needs to be cleared each round/game
 
 var rooms = {};
 
@@ -136,14 +136,15 @@ server.on('connection', function (socket) {
 
       server.to(socket.accessCode).emit('artistSelected', room.artist.name);
 
-      var newWord;
-      if (gameDifficulty === "easy") {
-        newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
-      } else if (gameDifficulty === "medium") {
-        newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
-      } else if (gameDifficulty === "hard") {
-        newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
-      }
+      // var newWord;
+      // if (gameDifficulty === "easy") {
+      //   newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
+      // } else if (gameDifficulty === "medium") {
+      //   newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
+      // } else if (gameDifficulty === "hard") {
+      //   newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
+      // }
+      var newWord = getNewWordFromList();
       server.to(socket.accessCode).emit('newWord', newWord);
     }
   });
@@ -160,14 +161,15 @@ server.on('connection', function (socket) {
   });
 
   function createNewWord () {
-    var newWord;
-    if (gameDifficulty === "easy") {
-      newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
-    } else if (gameDifficulty === "medium") {
-      newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
-    } else if (gameDifficulty === "hard") {
-      newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
-    }
+    // var newWord;
+    // if (gameDifficulty === "easy") {
+    //   newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
+    // } else if (gameDifficulty === "medium") {
+    //   newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
+    // } else if (gameDifficulty === "hard") {
+    //   newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
+    // }
+    var newWord = getNewWordFromList();
     rooms[socket.accessCode].word = newWord;
     server.to(socket.accessCode).emit('newWord', newWord);
   }
@@ -191,4 +193,27 @@ function format (time) {
   else {
     return time;
   }
+}
+
+function getNewWordFromList() {
+  var newWord;
+
+  if (gameDifficulty === "easy") {
+    do { // Ensure that new word is not a repeat
+      newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
+    } while (usedWords.indexOf(newWord) !== -1);
+    usedWords.push(newWord);
+  } else if (gameDifficulty === "medium") {
+    do {
+      newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
+    } while (usedWords.indexOf(newWord) !== -1);
+    usedWords.push(newWord);
+  } else if (gameDifficulty === "hard") {
+    do {
+      newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
+    } while (usedWords.indexOf(newWord) !== -1);
+    usedWords.push(newWord);
+  }
+
+  return newWord;
 }
