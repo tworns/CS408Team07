@@ -10,6 +10,7 @@ angular.module('yoodle')
   var currX;
   var currY;
   var drawing = false;
+  var offset = 45;
   $scope.canvas.onmousedown = function(e){
     console.log('artistDown!\n');
         $rootScope.socket.emit('artistDrawDown',e.pageX,e.pageY, roomService.getRoomID());
@@ -30,8 +31,8 @@ angular.module('yoodle')
 
 $rootScope.socket.on('artistDrawDown',function(x,y){
 console.log("I'm going to draw!\n");
-$scope.lastX = x;
-$scope.lastY = y;
+$scope.lastX = x-offset;
+$scope.lastY = y-offset;
 $scope.ctx.beginPath();
 $scope.drawing = true;
 
@@ -40,8 +41,9 @@ $rootScope.socket.on('artistDraw',function(x,y){
 
 if($scope.drawing) {
   console.log("I'm drawing!\n");
-$scope.currX = x;
-$scope.currY = y;
+  $scope.ctx.beginPath();
+$scope.currX = x-offset;
+$scope.currY = y-offset;
 $scope.ctx.moveTo($scope.lastX,$scope.lastY);
 $scope.ctx.lineTo($scope.currX,$scope.currY);
   $scope.ctx.strokeStyle = "#4bf";
