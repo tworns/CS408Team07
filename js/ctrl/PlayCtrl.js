@@ -10,8 +10,6 @@ angular.module('yoodle')
   var currX;
   var currY;
   var drawing = false;
-  var offsetY = $scope.canvas.offsetTop;
-  var offsetX = $scope.canvas.offsetLeft;
   $scope.canvas.onmousedown = function(e){
     console.log('artistDown!\n');
     var x;// = e.layerX - $scope.currentTarget.offsetLeft;
@@ -78,7 +76,10 @@ $scope.ctx.lineTo($scope.currX,$scope.currY);
 $rootScope.socket.on('artistDrawStop', function(){
   $scope.drawing = false;
 });
-
+$rootScope.socket.on('artistClear',function(){
+  console.log('trying to clear (client)');
+  $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
+});
   $scope.username = localStorageService.get('username');
   $scope.roomID = roomService.getRoomID();
   roomService.setRoomIDCallback(function (id) {
@@ -117,6 +118,8 @@ $rootScope.socket.on('artistDrawStop', function(){
 
   $scope.clearCanvas = function () {
     $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
+    //trying to clear all canvases when artist clears his.
+    $rootScope.socket.emit('artistClear',roomService.getRoomID);
   };
 
   $scope.savaImage = function () {

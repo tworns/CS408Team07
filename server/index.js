@@ -86,7 +86,14 @@ server.on('connection', function (socket) {
 
   socket.on('artistDrawStop', function(accessCode){
     accessCode = accessCode.toUpperCase();
-    server.to(accessCode).emit('artistDrawStop');
+    server.to(socket.accessCode).emit('artistDrawStop');
+  });
+
+  //clear all player's screens when the artist clears his.
+  socket.on('artistClear',function(accessCode){
+    console.log("trying to clear (Server)");
+    accessCode = accessCode.toUpperCase();
+    server.to(socket.accessCode).emit('clear');
   });
 
   socket.on('leaveRoom', function () {
