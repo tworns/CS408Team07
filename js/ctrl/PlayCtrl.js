@@ -10,14 +10,36 @@ angular.module('yoodle')
   var currX;
   var currY;
   var drawing = false;
-  var offset = 45;
+  var offsetY = $scope.canvas.offsetTop;
+  var offsetX = $scope.canvas.offsetLeft;
   $scope.canvas.onmousedown = function(e){
     console.log('artistDown!\n');
-        $rootScope.socket.emit('artistDrawDown',e.pageX,e.pageY, roomService.getRoomID());
+    var x;// = e.layerX - $scope.currentTarget.offsetLeft;
+    var y;// = e.layerY-  $scope.currentTarget.offsetTop;
+     if(e.offsetX!==undefined){
+       x = e.offsetX-45;
+        y = e.offsetY-45;
+      } else {
+        x = e.layerX - e.currentTarget.offsetLeft;
+        y = e.layerY - event.currentTarget.offsetTop;
+      }
+
+        $rootScope.socket.emit('artistDrawDown',x,y, roomService.getRoomID());
         //$scope.onArtistDrawDown(e.pageX,e.pageY);
   $scope.canvas.onmousemove = function(e) {
         //  interval = $interval(function () {
-            $rootScope.socket.emit('artistDrawMove',e.pageX,e.pageY,roomService.getRoomID());
+
+        var x;// = e.layerX - $scope.offsetX;// - $scope.currentTarget.offsetLeft;
+        var y;// = e.layerY- $scope.offsetY;// - $scope.currentTarget.offsetTop;
+        if(e.offsetX!==undefined){
+          x = e.offsetX-45;
+           y = e.offsetY-45;
+         } else {
+           x = e.layerX - e.currentTarget.offsetLeft;
+           y = e.layerY - event.currentTarget.offsetTop;
+         }
+
+            $rootScope.socket.emit('artistDrawMove',x,y,roomService.getRoomID());
           //  $scope.onArtistDrawMove(e.pageX,e.pageY);
         //});
         };
@@ -29,10 +51,10 @@ angular.module('yoodle')
     //$interval.cancel(interval);
   };
 
-$rootScope.socket.on('artistDrawDown',function(x,y){
+$rootScope.socket.on('artistDrawDown',function(x,y,e){
 console.log("I'm going to draw!\n");
-$scope.lastX = x-offset;
-$scope.lastY = y-offset;
+$scope.lastX = x;
+$scope.lastY = y;
 $scope.ctx.beginPath();
 $scope.drawing = true;
 
@@ -42,8 +64,8 @@ $rootScope.socket.on('artistDraw',function(x,y){
 if($scope.drawing) {
   console.log("I'm drawing!\n");
   $scope.ctx.beginPath();
-$scope.currX = x-offset;
-$scope.currY = y-offset;
+$scope.currX = x;
+$scope.currY = y;
 $scope.ctx.moveTo($scope.lastX,$scope.lastY);
 $scope.ctx.lineTo($scope.currX,$scope.currY);
   $scope.ctx.strokeStyle = "#4bf";
