@@ -52,7 +52,6 @@
     "monkey",
     "spider",
     "bread",
-    "ears",
     "bowl",
     "alligator",
     "bat",
@@ -109,7 +108,20 @@
     "car",
     "zebra",
     "unicycle",
-    "roller blade"
+    "roller blade",
+    "atom",
+    "sunglasses",
+    "elephant",
+    "scissors",
+    "guitar",
+    "stairs",
+    "mailbox",
+    "shovel",
+    "table",
+    "bee",
+    "butterfly",
+    "boat",
+    "Pac Man"
   ],
 
   "mediumWordList": [
@@ -264,7 +276,12 @@
     "ping pong",
     "x-ray",
     "vase",
-    "island"
+    "island",
+    "dance",
+    "kick",
+    "mouth",
+    "alarm",
+    "Frankenstein"
   ],
 
   "hardWordList": [
@@ -378,7 +395,6 @@
     "welder",
     "sheet",
     "sunburn",
-    "houseboat",
     "sleep",
     "kneel",
     "crust",
@@ -427,6 +443,14 @@
     "s'mores",
     "plow",
     "lyre",
-    "justice"
+    "justice",
+    "president",
+    "landfill",
+    "virus",
+    "hang ten",
+    "brainstorm",
+    "blacksmith",
+    "neutron",
+    "bubble"
   ]
 }
