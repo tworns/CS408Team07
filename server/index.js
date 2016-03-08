@@ -57,7 +57,8 @@ server.on('connection', function (socket) {
     socket.join(accessCode);
 
     room.players[name] = {
-      name: name
+      name: name,
+      score: 0
     };
 
     socket.name = name;
