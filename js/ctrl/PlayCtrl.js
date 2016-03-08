@@ -114,11 +114,13 @@ $rootScope.socket.on('artistClear',function(){
 
   $scope.startGame = function () {
     $rootScope.socket.emit('startGame', roomService.getRoomID());
+    $rootScope.socket.emit('artistClear',roomService.getRoomID);
   };
 
   $scope.clearCanvas = function () {
     $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
     //trying to clear all canvases when artist clears his.
+    console.log('Clear button pressed.');
     $rootScope.socket.emit('artistClear',roomService.getRoomID);
   };
 
