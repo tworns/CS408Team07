@@ -37,7 +37,7 @@
           <button type="button" ng-click="savaImage()" class="btn btn-success"><i class="fa fa-camera-retro"></i> Save!</button>
 
           <div ng-hide="$root.isArtist">
-            <input type ="text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
+            <input type ="text" ng-value="guess" ng-model="guess" id=guessBox ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
             <button type ="button" ng-click ="sendGuess()" class ="btn btn-success"> <i class ="fa fa-camera-retro"></i> Send Guess!</button>
           </div>
 
