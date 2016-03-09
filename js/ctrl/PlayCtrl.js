@@ -106,7 +106,8 @@ $rootScope.socket.on('artistClear',function(){
   });
   $rootScope.socket.on('correctGuess', function() {
     console.log("Increment Score");
-    document.playerList[username].score += 1;
+  var myTable = document.getElementById('scoreboard');
+  myTable.row[1].cell[username].innerHTML += 1;
 
   });
   $scope.backToMenu = function () {
