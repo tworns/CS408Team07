@@ -15,14 +15,14 @@
     <!-- List of players in the game -->
     <div>
       <div id="PlayerList" style="border: none">
-        <h4>Players</h4>
-        <table id = scoreboard>
+        <h4>Current Players</h4>
+        <table id="scoreboard">
           <tr>
             <th>Player</th>
             <th>Score</th>
           </tr>
           <tr ng-repeat="player in playerList">
-            <td class="ellipsis" style="max-width: 10">{{player.name}}</td>
+            <td style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{player.name}}</td>
             <td>{{player.score}}</td>
           </tr>
         </table>
