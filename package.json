@@ -4,9 +4,10 @@
   "description": "An app for CS408",
   "main": "index.js",
   "scripts": {
-    "start": "electron main.js",
+    "start": "electron index.js",
     "test": "echo No tests set up yet && exit 1",
-    "build-linux": "electron-packager . Yoodle --out=bin/ --platform=linux --arch=ia32 --overwrite",
+    "build-linux": "electron-packager . Yoodle --out=bin/ --platform=linux --arch=x64 --overwrite",
+    "clean": "rm -rf bin/*",
     "server": "node server/index.js",
     "3-player-demo": "electron main.js & electron main.js & electron main.js & node server/index.js"
   },
