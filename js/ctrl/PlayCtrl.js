@@ -60,6 +60,7 @@ $scope.drawing = true;
 $rootScope.socket.on('artistDraw',function(x,y){
 
 if($scope.drawing) {
+
   console.log("I'm drawing!\n");
   $scope.ctx.beginPath();
 $scope.currX = x;
@@ -71,7 +72,6 @@ $scope.ctx.lineTo($scope.currX,$scope.currY);
   $scope.lastX = $scope.currX;
   $scope.lastY = $scope.currY;
 }
-
 });
 $rootScope.socket.on('artistDrawStop', function(){
   $scope.drawing = false;
