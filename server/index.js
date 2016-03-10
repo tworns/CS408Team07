@@ -151,8 +151,7 @@ server.on('connection', function (socket) {
       // } else if (gameDifficulty === "hard") {
       //   newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
       // }
-      var newWord = getNewWordFromList();
-      server.to(socket.accessCode).emit('newWord', newWord);
+      createNewWord();
     }
   });
 

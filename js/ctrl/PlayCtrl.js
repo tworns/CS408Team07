@@ -104,12 +104,7 @@ $rootScope.socket.on('artistClear',function(){
   $rootScope.socket.on('newWord', function (word) {
     $scope.currentWord = word;
   });
-  $rootScope.socket.on('correctGuess', function() {
-    console.log("Increment Score");
-  var myTable = document.getElementById('scoreboard');
-  myTable.row[1].cell[username].innerHTML += 1;
 
-  });
   $scope.backToMenu = function () {
     $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
     roomService.setRoomID('');
@@ -135,8 +130,9 @@ $rootScope.socket.on('artistClear',function(){
   };
 
   $scope.sendGuess = function () {
-    $rootScope.socket.emit('guess',$scope.guess);
-    console.log("Made guess:" +$scope.guess);
+
+      $rootScope.socket.emit('guess', $scope.guess, $scope.username);
+
     //guess = guess. get value
  document.getElementById('guessBox').value = "";
   };
