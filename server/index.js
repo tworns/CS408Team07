@@ -159,12 +159,13 @@ server.on('connection', function (socket) {
     createNewWord(socket.accessCode);
   });
 
-  socket.on('guess', function (guess, username) {
-	  if (guess.toLowerCase() === rooms[socket.accessCode].word.toLowerCase()) {
-	  console.log('Correctguess');
-	  rooms[socket.accessCode].players[username].score++;
-	  server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
-	  createNewWord(socket.accessCode);
+  socket.on('guess', function (guess) {
+    console.log("Guessing: " +guess);
+    console.log("Expecting: "+rooms[socket.accessCode].word);
+    if (guess/*.toLowerCase()*/ === rooms[socket.accessCode].word/*.toLowerCase()*/) {
+      console.log("CORRECT GUESS");
+      server.to(socket.accessCode).emit('correctGuess', socket.name);
+      createNewWord(socket.accessCode);
     }
   });
 
