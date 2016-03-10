@@ -135,10 +135,10 @@ $rootScope.socket.on('artistClear',function(){
   };
 
   $scope.sendGuess = function () {
-    $rootScope.socket.emit('guess');
-
+    $rootScope.socket.emit('guess',$scope.guess);
+    console.log("Made guess:" +$scope.guess);
     //guess = guess. get value
-    $scope.guess = document.getElementById('guessBox').value;
+ document.getElementById('guessBox').value = "";
   };
 
   $scope.skipWord = function () {
