@@ -7,6 +7,7 @@ angular.module('yoodle')
   var playerList;
   var playerListCallback;
 
+  var timer;
   var timerCallback;
 
   return {
@@ -47,11 +48,16 @@ angular.module('yoodle')
     },
 
     newTimer: function () {
-      var timer = $interval(function () {
+      timer = $interval(function () {
         if (timerCallback) {
           timerCallback(timer);
         }
       }, 1000);
+    },
+
+    cleanup: function () {
+      roomID = '';
+      $interval.cancel(timer);
     }
   };
 });
