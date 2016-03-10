@@ -57,7 +57,8 @@ server.on('connection', function (socket) {
     socket.join(accessCode);
 
     room.players[name] = {
-      name: name
+      name: name,
+      score: 0
     };
 
     socket.name = name;
@@ -159,7 +160,7 @@ server.on('connection', function (socket) {
   });
 
   socket.on('guess', function (guess) {
-    if (guess.toLowerCase() === rooms[socket.accessCode].word.toLowerCase()) {
+    if (guess/*.toLowerCase()*/ === rooms[socket.accessCode].word/*.toLowerCase()*/) {
       server.to(socket.accessCode).emit('correctGuess', socket.name);
       createNewWord(socket.accessCode);
     }

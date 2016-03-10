@@ -9,6 +9,7 @@
   <p>{{ time }}</p>
   <p>{{ currentWord }}</p>
 
+<<<<<<< HEAD
   <!-- Room ID -->
   <h3>Your room code: {{roomID}}</h3>
 
@@ -40,4 +41,44 @@
       <h4>I am the artist!</h4>
     </div>
   </div>
+=======
+    <!-- Room ID -->
+    <h3>Your room code: {{roomID}}</h3>
+
+    <!-- List of players in the game -->
+    <div>
+      <div id="PlayerList" style="border: none">
+        <h4>Current Players</h4>
+        <table id="scoreboard">
+          <tr>
+            <th>Player</th>
+            <th>Score</th>
+          </tr>
+          <tr ng-repeat="player in playerList">
+            <td style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{player.name}}</td>
+            <td>{{player.score}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Canvas -->
+      <div id="drawCanvas">
+        <canvas width="500" height="300" id="canvas" artistDrawing></canvas> <br>
+
+        <div ng-show="$root.gameStarted">
+          <!-- Buttons -->
+          <button type="button" ng-click="savaImage()" class="btn btn-success"><i class="fa fa-camera-retro"></i> Save!</button>
+
+          <div ng-hide="$root.isArtist">
+            <input type ="text" ng-value="guess" ng-model="guess" id=guessBox ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
+            <button type ="button" ng-click ="sendGuess()" class ="btn btn-success"> <i class ="fa fa-camera-retro"></i> Send Guess!</button>
+          </div>
+
+          <div ng-show="$root.isArtist">
+            <button type="button" ng-click="skipWord()" class="btn btn-danger"><i class="fa fa-random"></i> Skip!</button>
+            <button type="button" ng-click="clearCanvas()" class="btn btn-primary"><i class="fa fa-trash"></i> Clear drawing</button>
+          </div>
+        </div>
+      </div>
+>>>>>>> fce605fe31b239502eac486c7088cdc0b1fe421f
 </div>

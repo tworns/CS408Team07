@@ -33,3 +33,25 @@ input {
   top: 10px;
   left: 10px;
 }
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+
+#PlayerList {
+    width: 200px;
+    height: 400px;
+    border: 1px solid #87ceeb;
+    float: left;
+    margin-left: 10px;;
+    padding: 5px 0;
+}
+
+#drawCanvas {
+    float: left;
+    width: 500px
+}
