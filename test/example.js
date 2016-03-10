@@ -5,7 +5,7 @@ var driver = new webdriver.Builder()
   .usingServer('http://localhost:9515')
   .withCapabilities({chromeOptions: {
     // Here is the path to your Electron binary.
-    binary: 'bin/Yoodle-linux-ia32/Yoodle'}})
+    binary: '/usr/bin/yoodle/Yoodle'}})
   .forBrowser('electron')
   .build();
 
