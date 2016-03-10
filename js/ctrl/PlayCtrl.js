@@ -133,11 +133,8 @@ $rootScope.socket.on('artistClear',function(){
   };
 
   $scope.sendGuess = function () {
-
-      $rootScope.socket.emit('guess', $scope.guess, $scope.username);
-
-    //guess = guess. get value
- document.getElementById('guessBox').value = "";
+    $rootScope.socket.emit('guess', $scope.guess, $scope.username);
+    $scope.guess = '';
   };
 
   $scope.skipWord = function () {
