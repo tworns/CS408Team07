@@ -29,7 +29,8 @@ server.on('connection', function (socket) {
     rooms[accessCode] = {
       players: {},
       gameStarted: false,
-      artist: undefined
+      artist: undefined,
+      word: ''
     };
 
     socket.emit('roomCreated', accessCode);
@@ -150,8 +151,7 @@ server.on('connection', function (socket) {
       // } else if (gameDifficulty === "hard") {
       //   newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
       // }
-      var newWord = getNewWordFromList();
-      server.to(socket.accessCode).emit('newWord', newWord);
+      createNewWord();
     }
   });
 
@@ -159,10 +159,12 @@ server.on('connection', function (socket) {
     createNewWord(socket.accessCode);
   });
 
-  socket.on('guess', function (guess) {
-    if (guess/*.toLowerCase()*/ === rooms[socket.accessCode].word/*.toLowerCase()*/) {
-      server.to(socket.accessCode).emit('correctGuess', socket.name);
-      createNewWord(socket.accessCode);
+  socket.on('guess', function (guess, username) {
+	  if (guess.toLowerCase() === rooms[socket.accessCode].word.toLowerCase()) {
+	  console.log('Correctguess');
+	  rooms[socket.accessCode].players[username].score++;
+	  server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
+	  createNewWord(socket.accessCode);
     }
   });
 
