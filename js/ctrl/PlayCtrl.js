@@ -96,6 +96,9 @@ $rootScope.socket.on('artistClear',function(){
   roomService.setTimerCallback(function (timer) {
     $scope.time--;
 
+    document.getElementById("bar").style.width = ($scope.time)/60*100+"%";
+    document.getElementById("bar").innerHTML = ($scope.time)/60*100+"%";
+
     if ($scope.time <= 0) {
       $interval.cancel(timer);
     }
