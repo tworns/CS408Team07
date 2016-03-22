@@ -49,6 +49,8 @@ angular.module('yoodle')
 
           $rootScope.gameStarted = true;
           roomService.newTimer(time);
+
+          $rootScope.clearCtx();
         });
 
         $rootScope.socket.on('artistSelected', function (name) {
@@ -62,6 +64,7 @@ angular.module('yoodle')
 
         $rootScope.socket.on('correctGuess', function (name) {
           console.log(name + ' guessed the word correctly!');
+          $rootScope.clearCtx();
         });
       });
       $rootScope.socket.on('connect_error', function(err) {

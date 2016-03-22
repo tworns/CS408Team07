@@ -4,6 +4,10 @@ angular.module('yoodle')
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
 
+  $rootScope.clearCtx = function() {
+    $scope.ctx.clearRect(0,0,canvas.width, canvas.height);
+  };
+
   var interval;
   var lastX;
   var lastY;

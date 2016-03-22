@@ -133,9 +133,13 @@ server.on('connection', function (socket) {
       room.gameStarted = true;
 
       // Assign an artist by picking a random player
-      var names = Object.keys(room.players);
-      var artistIndex = names.length * Math.random() << 0;
-      room.artist = room.players[names[artistIndex]];
+      var pickArtist = function() {
+        var names = Object.keys(room.players);
+        var artistIndex = names.length * Math.random() << 0;
+        room.artist = room.players[names[artistIndex]];
+      };
+      pickArtist();
+
 
       console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
 
@@ -152,6 +156,11 @@ server.on('connection', function (socket) {
       //   newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
       // }
       createNewWord();
+
+      // After 60 seconds, select a new artist
+      setTimeout(function() {
+        pickArtist();
+      }, 60 * 1000);
     }
   });
 
