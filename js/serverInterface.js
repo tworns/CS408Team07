@@ -44,13 +44,11 @@ angular.module('yoodle')
           roomService.setPlayerList(list);
         });
 
-        $rootScope.socket.on('gameStarted', function (t) {
+        $rootScope.socket.on('gameStarted', function (time) {
           console.log('Game started!');
 
           $rootScope.gameStarted = true;
-          roomService.newTimer(t);
-
-          $rootScope.clearCtx();
+          roomService.newTimer(time);
         });
 
         $rootScope.socket.on('artistSelected', function (name) {
@@ -62,10 +60,9 @@ angular.module('yoodle')
           }
         });
 
-        $rootScope.socket.on('correctGuess', function (name) {
+        /*$rootScope.socket.on('correctGuess', function (name) {
           console.log(name + ' guessed the word correctly!');
-          $rootScope.clearCtx();
-        });
+        });*/
       });
       
       $rootScope.socket.on('connect_error', function(err) {
