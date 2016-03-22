@@ -67,6 +67,7 @@ angular.module('yoodle')
           $rootScope.clearCtx();
         });
       });
+      
       $rootScope.socket.on('connect_error', function(err) {
         console.log('error');
         $timeout(function () {
