@@ -14,6 +14,11 @@ angular.module('yoodle', ['ui.bootstrap','ngRoute', 'ngAnimate', 'picardy.fontaw
     controller: 'PlayCtrl'
   })
 
+  .when('/end', {
+    templateUrl: 'templates/gallery.html',
+    controller: 'PlayCtrl'
+  })
+
   .otherwise({
     redirectTo: '/app'
   });
