@@ -166,6 +166,9 @@ server.on('connection', function (socket) {
       console.log("CORRECT GUESS");
       server.to(socket.accessCode).emit('correctGuess', socket.name);
       createNewWord(socket.accessCode);
+
+      rooms[socket.accessCode].players[socket.name].score++;
+      server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
     }
   });
 

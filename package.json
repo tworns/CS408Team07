@@ -10,7 +10,7 @@
     "install-linux": "sudo mkdir /usr/bin/yoodle && sudo cp -r bin/Yoodle-linux-x64/* /usr/bin/yoodle",
     "clean": "rm -rf bin/*",
     "server": "node server/index.js",
-    "3-player-demo": "electron main.js & electron main.js & electron main.js & node server/index.js"
+    "3-player-demo": "electron index.js & electron index.js & electron index.js & node server/index.js"
   },
   "repository": {
     "type": "git",
