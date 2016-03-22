@@ -60,9 +60,9 @@ angular.module('yoodle')
           }
         });
 
-        $rootScope.socket.on('correctGuess', function (name) {
+        /*$rootScope.socket.on('correctGuess', function (name) {
           console.log(name + ' guessed the word correctly!');
-        });
+        });*/
       });
       $rootScope.socket.on('connect_error', function(err) {
         console.log('error');
