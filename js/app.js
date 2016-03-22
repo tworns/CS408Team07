@@ -16,7 +16,7 @@ angular.module('yoodle', ['ui.bootstrap','ngRoute', 'ngAnimate', 'picardy.fontaw
 
   .when('/end', {
     templateUrl: 'templates/gallery.html',
-    controller: 'PlayCtrl'
+    controller: 'Gallery'
   })
 
   .otherwise({

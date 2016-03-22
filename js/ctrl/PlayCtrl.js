@@ -100,8 +100,10 @@ $rootScope.socket.on('artistClear',function(){
   roomService.setTimerCallback(function (t) {
     $scope.time = t;
 
-    document.getElementById("bar").style.width = ($scope.time)/60*100+"%";
-    document.getElementById("bar").innerHTML = ($scope.time)/60*100+"%";
+    if(document.getElementById("bar") !== null) {
+      document.getElementById("bar").style.width = ($scope.time)/60*100+"%";
+      document.getElementById("bar").innerHTML = ($scope.time)/60*100+"%";
+    }
   });
 
   $rootScope.socket.on('newWord', function (word) {
@@ -160,25 +162,22 @@ $rootScope.socket.on('artistClear',function(){
     return true;
   };
 
-  //gallery things
-  $scope.myInterval = 5000;
-  $scope.noWrapSlides = false;
-  $scope.active = 0;
-  var slides = $scope.slides = [];
-  var currIndex = 0;
+  //gallery
+  var piclist = [];
+  var picnamelist = [];
+  localStorage.setItem("piclist", JSON.stringify(piclist));
+  localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
 
   $rootScope.socket.on('correctGuess', function (name) {
-    $scope.addSlide();
+    piclist = JSON.parse(localStorage.getItem("piclist"));
+    piclist.push($scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+    localStorage.setItem("piclist", JSON.stringify(piclist));
+
+    picnamelist = JSON.parse(localStorage.getItem("picnamelist"));
+    picnamelist.push($scope.currentWord);
+    localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
+
     console.log(name + ' guessed the word correctly!');
   });
-
-  $scope.addSlide = function() {
-    var newWidth = 600 + slides.length + 1;
-    slides.push({
-      image:  $scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"),
-      text: $scope.currentWord,
-      id: currIndex++
-    });
-  };
 
 });
