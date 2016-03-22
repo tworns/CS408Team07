@@ -44,11 +44,11 @@ angular.module('yoodle')
           roomService.setPlayerList(list);
         });
 
-        $rootScope.socket.on('gameStarted', function (time) {
+        $rootScope.socket.on('gameStarted', function (t) {
           console.log('Game started!');
 
           $rootScope.gameStarted = true;
-          roomService.newTimer(time);
+          roomService.newTimer(t);
 
           $rootScope.clearCtx();
         });

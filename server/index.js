@@ -130,23 +130,6 @@ server.on('connection', function (socket) {
     var numPlayers = Object.keys(room.players).length;
 
     if (room && (numPlayers >= 3 || DEBUG) && !room.gameStarted) {
-      room.gameStarted = true;
-
-      // Assign an artist by picking a random player
-      var pickArtist = function() {
-        var names = Object.keys(room.players);
-        var artistIndex = names.length * Math.random() << 0;
-        room.artist = room.players[names[artistIndex]];
-      };
-      pickArtist();
-
-
-      console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
-
-      server.to(socket.accessCode).emit('gameStarted');
-
-      server.to(socket.accessCode).emit('artistSelected', room.artist.name);
-
       // var newWord;
       // if (gameDifficulty === "easy") {
       //   newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
@@ -157,10 +140,29 @@ server.on('connection', function (socket) {
       // }
       createNewWord();
 
+      var roundTime = 60;
+
+      var assignArtist = function() {
+        room.gameStarted = true;
+
+        // Assign an artist by picking a random player
+        var names = Object.keys(room.players);
+        var artistIndex = names.length * Math.random() << 0;
+        room.artist = room.players[names[artistIndex]];
+
+        console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
+
+        server.to(socket.accessCode).emit('gameStarted', roundTime);
+
+        server.to(socket.accessCode).emit('artistSelected', room.artist.name);
+      };
+      assignArtist();
+
       // After 60 seconds, select a new artist
-      setTimeout(function() {
-        pickArtist();
-      }, 60 * 1000);
+      setInterval(function() {
+        console.log('Assigning a new artist');
+        assignArtist();
+      }, roundTime * 1000);
     }
   });
 
