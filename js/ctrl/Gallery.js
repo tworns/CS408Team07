@@ -24,4 +24,9 @@ angular.module('yoodle')
     }
   }
   else{console.log('list is empty');}
+
+  //back to menu
+  $scope.backToMenu = function () {
+    $location.path('app');
+  };
 });

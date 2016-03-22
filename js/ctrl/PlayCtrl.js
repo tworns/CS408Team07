@@ -111,6 +111,10 @@ $rootScope.socket.on('artistClear',function(){
   });
 
   $scope.goGallery = function () {
+    // Let the server know we left the game
+    $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
+    // Perform some cleanup on global vars. Local scope will be recreated next time we join/create a game
+    roomService.cleanup();
     $location.path('end');
   };
 
