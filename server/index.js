@@ -111,6 +111,13 @@ server.on('connection', function (socket) {
       return;
     }
 
+    if (room.artist && room.artist.name === room.players[socket.name]) {
+      console.log('Artist has left the game, picking a new one');
+
+      // TODO make sure new artist isn't the one that is leaving
+      assignArtist();
+    }
+
     delete room.players[socket.name];
 
     var players = Object.keys(room.players);
@@ -123,7 +130,6 @@ server.on('connection', function (socket) {
       server.to(socket.accessCode).emit('updatePlayerList', room.players);
     }
   });
-
 
   socket.on('startGame', function () {
     var room = rooms[socket.accessCode];
