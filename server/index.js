@@ -124,11 +124,6 @@ server.on('connection', function (socket) {
     }
   });
 
-  socket.on('newArtist',function(){
-
-          $rootScope.socket.emit('newArtist');
-
-  });
 
   socket.on('startGame', function () {
     var room = rooms[socket.accessCode];
