@@ -124,6 +124,7 @@ server.on('connection', function (socket) {
     }
   });
 
+
   socket.on('startGame', function () {
     var room = rooms[socket.accessCode];
 
