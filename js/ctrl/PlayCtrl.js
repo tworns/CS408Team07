@@ -4,6 +4,10 @@ angular.module('yoodle')
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
 
+  $rootScope.clearCtx = function() {
+    $scope.ctx.clearRect(0,0,canvas.width, canvas.height);
+  };
+
   var interval;
   var lastX;
   var lastY;
@@ -93,15 +97,11 @@ $rootScope.socket.on('artistClear',function(){
   });
 
   $scope.time = 60;
-  roomService.setTimerCallback(function (timer) {
-    $scope.time--;
+  roomService.setTimerCallback(function (t) {
+    $scope.time = t;
 
     document.getElementById("bar").style.width = ($scope.time)/60*100+"%";
     document.getElementById("bar").innerHTML = ($scope.time)/60*100+"%";
-
-    if ($scope.time <= 0) {
-      $interval.cancel(timer);
-    }
   });
 
   $rootScope.socket.on('newWord', function (word) {
