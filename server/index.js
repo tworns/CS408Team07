@@ -29,7 +29,7 @@ server.on('connection', function (socket) {
     rooms[accessCode] = {
       players: {},
       gameStarted: false,
-      artist: undefined,
+      artist: {},
       word: ''
     };
 
