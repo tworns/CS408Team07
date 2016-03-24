@@ -174,7 +174,7 @@ $rootScope.socket.on('artistClear',function(){
 
   $rootScope.socket.on('correctGuess', function (name) {
     piclist = JSON.parse(localStorage.getItem("piclist"));
-    piclist.push($scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+    piclist.push($scope.canvas.toDataURL());
     localStorage.setItem("piclist", JSON.stringify(piclist));
 
     picnamelist = JSON.parse(localStorage.getItem("picnamelist"));

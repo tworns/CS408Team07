@@ -2,6 +2,7 @@ angular.module('yoodle')
 
 .controller('Gallery', function($scope, $rootScope, $location, $window, $interval, localStorageService, roomService) {
   $scope.myInterval = 5000;
+  $scope.slideno = 0;
   $scope.noWrapSlides = false;
   $scope.active = 0;
   var slides = $scope.slides = [];
@@ -29,4 +30,35 @@ angular.module('yoodle')
   $scope.backToMenu = function () {
     $location.path('app');
   };
+
+  $scope.download = function () {
+
+    /// create an "off-screen" anchor tag
+    var lnk = document.createElement('a'),
+        e;
+
+    /// the key here is to set the download attribute of the a tag
+    lnk.download = "untitled.png";
+
+    /// convert canvas content to data-uri for link. When download
+    /// attribute is set the content pointed to by link will be
+    /// pushed as "download" in HTML5 capable browsers
+    lnk.href = piclist[$scope.slideno];
+
+    /// create a "fake" click-event to trigger the download
+    if (document.createEvent) {
+
+        e = document.createEvent("MouseEvents");
+        e.initMouseEvent("click", true, true, window,
+                         0, 0, 0, 0, 0, false, false, false,
+                         false, 0, null);
+
+        lnk.dispatchEvent(e);
+
+    } else if (lnk.fireEvent) {
+
+        lnk.fireEvent("onclick");
+    }
+  }
+
 });
