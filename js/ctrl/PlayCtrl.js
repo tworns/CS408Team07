@@ -14,6 +14,7 @@ angular.module('yoodle')
   var currX;
   var currY;
   var drawing = false;
+  //if($rootScope.isArtist === true){
   $scope.canvas.onmousedown = function(e){
     console.log('artistDown!\n');
     var x;// = e.layerX - $scope.currentTarget.offsetLeft;
@@ -52,6 +53,7 @@ angular.module('yoodle')
     $rootScope.socket.emit('artistDrawStop',roomService.getRoomID());
     //$interval.cancel(interval);
   };
+//}
 
 $rootScope.socket.on('artistDrawDown',function(x,y,e){
 console.log("I'm going to draw!\n");
