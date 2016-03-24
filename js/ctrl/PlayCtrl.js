@@ -14,7 +14,7 @@ angular.module('yoodle')
   var currX;
   var currY;
   var drawing = false;
-  //if($rootScope.isArtist === true){
+  //if($rootScope.isArtist){
   $scope.canvas.onmousedown = function(e){
     console.log('artistDown!\n');
     var x;// = e.layerX - $scope.currentTarget.offsetLeft;
