@@ -36,6 +36,11 @@ angular.module('yoodle')
       backdrop: 'static',
       keyboard: false
     });
+
+    $rootScope.modalInstance.closed
+    .then(function () {
+      $scope.username = localStorageService.get('username');
+    });
   }
 
   $scope.openSettings = function() {
