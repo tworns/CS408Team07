@@ -89,3 +89,8 @@ th, td {
 #endGameButton {
   right: 5px;
 }
+
+#scoreboard {
+  position: absolute;
+  top: 15vh;
+}
