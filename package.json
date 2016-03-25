@@ -6,6 +6,7 @@
   "scripts": {
     "start": "electron index.js",
     "test": "echo No tests set up yet && exit 1",
+    "uglify": "cat js/*.js js/*/*.js | uglifyjs --compress --screw-ie8 --output bin/yoodle.min.js",
     "build-linux": "electron-packager . Yoodle --out=bin/ --platform=linux --arch=x64 --overwrite",
     "install-linux": "sudo mkdir /usr/bin/yoodle && sudo cp -r bin/Yoodle-linux-x64/* /usr/bin/yoodle",
     "clean": "rm -rf bin/*",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "electron-packager": "^5.2.1",
-    "selenium-webdriver": "^2.52.0"
+    "selenium-webdriver": "^2.52.0",
+    "uglify-js": "^2.6.2"
   }
 }
