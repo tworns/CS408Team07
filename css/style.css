@@ -110,3 +110,7 @@ th, td {
   position: absolute;
   bottom: 10px;
 }
+
+#saveButton {
+  right: 5px;
+}
