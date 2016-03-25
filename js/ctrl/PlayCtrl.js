@@ -1,6 +1,6 @@
 angular.module('yoodle')
 
-.controller('PlayCtrl', function($scope, $rootScope, $location, $window, $interval, localStorageService, roomService) {
+.controller('PlayCtrl', function($scope, $rootScope, $location, $window, $interval, localStorageService, roomService, toastr) {
   $scope.canvas = document.getElementById('canvas');
   $scope.ctx = $scope.canvas.getContext('2d');
 
@@ -164,7 +164,11 @@ angular.module('yoodle')
   localStorage.setItem("piclist", JSON.stringify(piclist));
   localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
 
+  var snd = new Audio("./assets/correct.wav");
+  var snd2 = new Audio("./assets/wrong.wav");
   $rootScope.socket.on('correctGuess', function (name) {
+    snd.play();
+    toastr.success('You guessed it right!', 'Congrats!');
     piclist = JSON.parse(localStorage.getItem("piclist"));
     piclist.push($scope.canvas.toDataURL());
     localStorage.setItem("piclist", JSON.stringify(piclist));
@@ -174,6 +178,11 @@ angular.module('yoodle')
     localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
 
     console.log(name + ' guessed the word correctly!');
+  });
+
+  $rootScope.socket.on('wrongGuess', function (name) {
+    toastr.error('You guessed it wrong!', 'Oops!');
+    snd2.play();
   });
 
 });

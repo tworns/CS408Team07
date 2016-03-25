@@ -1,6 +1,6 @@
 <div id="unselectable" unselectable="on">
   <!-- Back to menu button -->
-  <button id="backToMenuButton" type="button" ng-click="backToMenu()" class="btn btn-primary"><i class="fa fa-arrow-left"></i>Back</button>
+  <button id="backToMenuButton" type="button" ng-click="backToMenu()" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</button>
 
   <!-- Go to gallery(testing purpose) -->
   <button id="endGameButton" type="button" ng-click="goGallery()" class="btn btn-primary"></i>End game</button>
@@ -14,15 +14,12 @@
       <th>Score</th>
     </tr>
     <tr ng-repeat="player in playerList">
-      <td style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{player.name}}</td>
-      <td>{{player.score}}</td>
+      <td style="max-width: 132px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{player.name}}</td>
+      <td style="text-align: center">{{player.score}}</td>
     </tr>
   </table>
 
   <div ng-show="$root.gameStarted" id="playerButtons">
-    <!-- Buttons -->
-    <button type="button" ng-click="savaImage()" class="btn btn-success"><i class="fa fa-camera-retro"></i> Save!</button>
-
     <!-- Non-artist buttons -->
     <div ng-hide="$root.isArtist" class="buttons">
       <input type ="text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
@@ -33,7 +30,11 @@
     <div ng-show="$root.isArtist" class="buttons">
       <button type="button" ng-click="skipWord()" class="btn btn-danger"><i class="fa fa-random"></i> Skip!</button>
       <button type="button" ng-click="clearCanvas()" class="btn btn-primary"><i class="fa fa-trash"></i> Clear</button>
-      <h4>Draw "{{currentWord}}"</h3>
+    </div>
+
+    <!-- All-player Buttons -->
+    <div class="buttons">
+      <button id="saveButton" type="button" ng-click="savaImage()" class="btn btn-success"><i class="fa fa-camera-retro"></i> Save!</button>
     </div>
   </div>
 
@@ -50,6 +51,8 @@
     </div>
   </div>
 
+  <h3 align="middle">{{currentWord}}</h3>
+
   <!-- Canvas -->
-  <canvas width="500" height="300" id="canvas" artistDrawing></canvas> <br>
+  <canvas id="canvas" width="500" height="300" artistDrawing></canvas> <br>
 </div>

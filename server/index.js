@@ -147,7 +147,7 @@ server.on('connection', function (socket) {
       // }
       createNewWord();
 
-      var roundTime = 60;
+      var roundTime = 120;
 
       var assignArtist = function() {
         room.gameStarted = true;
@@ -157,7 +157,7 @@ server.on('connection', function (socket) {
         var artistIndex = names.length * Math.random() << 0;
         room.artist = room.players[names[artistIndex]];
 
-        console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
+        //console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
 
         server.to(socket.accessCode).emit('gameStarted', roundTime);
 
@@ -187,6 +187,10 @@ server.on('connection', function (socket) {
 
       rooms[socket.accessCode].players[socket.name].score++;
       server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
+    }
+    else {
+      console.log("WRONG GUESS");
+      server.to(socket.accessCode).emit('wrongGuess', socket.name);
     }
   });
 
