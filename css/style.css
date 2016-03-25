@@ -1,3 +1,7 @@
+html {
+  overflow: hidden;
+}
+
 canvas {
   background-color: white;
   border: 30px solid transparent;
@@ -93,4 +97,13 @@ th, td {
 #scoreboard {
   position: absolute;
   top: 15vh;
+}
+
+.buttons {
+  display: inline;
+}
+
+#playerButtons {
+  position: absolute;
+  bottom: 10px;
 }
