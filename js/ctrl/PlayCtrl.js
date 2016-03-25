@@ -14,78 +14,68 @@ angular.module('yoodle')
   var currX;
   var currY;
   var drawing = false;
-  //if($rootScope.isArtist){
   $scope.canvas.onmousedown = function(e){
     console.log('artistDown!\n');
-    var x;// = e.layerX - $scope.currentTarget.offsetLeft;
-    var y;// = e.layerY-  $scope.currentTarget.offsetTop;
-     if(e.offsetX!==undefined){
-       x = e.offsetX-45;
+    var x, y;
+    if(e.offsetX!==undefined){
+      x = e.offsetX-45;
+      y = e.offsetY-45;
+    } else {
+      x = e.layerX - e.currentTarget.offsetLeft;
+      y = e.layerY - event.currentTarget.offsetTop;
+    }
+
+    $rootScope.socket.emit('artistDrawDown', x, y, roomService.getRoomID());
+
+    $scope.canvas.onmousemove = function(e) {
+      if (e.offsetX !== undefined){
+        x = e.offsetX-45;
         y = e.offsetY-45;
       } else {
         x = e.layerX - e.currentTarget.offsetLeft;
         y = e.layerY - event.currentTarget.offsetTop;
       }
 
-        $rootScope.socket.emit('artistDrawDown',x,y, roomService.getRoomID());
-        //$scope.onArtistDrawDown(e.pageX,e.pageY);
-  $scope.canvas.onmousemove = function(e) {
-        //  interval = $interval(function () {
-
-        var x;// = e.layerX - $scope.offsetX;// - $scope.currentTarget.offsetLeft;
-        var y;// = e.layerY- $scope.offsetY;// - $scope.currentTarget.offsetTop;
-        if(e.offsetX!==undefined){
-          x = e.offsetX-45;
-           y = e.offsetY-45;
-         } else {
-           x = e.layerX - e.currentTarget.offsetLeft;
-           y = e.layerY - event.currentTarget.offsetTop;
-         }
-
-            $rootScope.socket.emit('artistDrawMove',x,y,roomService.getRoomID());
-          //  $scope.onArtistDrawMove(e.pageX,e.pageY);
-        //});
-        };
-};
+      $rootScope.socket.emit('artistDrawMove',x,y,roomService.getRoomID());
+    };
+  };
 
   $scope.canvas.onmouseup = function(e) {
     console.log("Hit mouseup");
     $rootScope.socket.emit('artistDrawStop',roomService.getRoomID());
-    //$interval.cancel(interval);
   };
-//}
 
-$rootScope.socket.on('artistDrawDown',function(x,y,e){
-console.log("I'm going to draw!\n");
-$scope.lastX = x;
-$scope.lastY = y;
-$scope.ctx.beginPath();
-$scope.drawing = true;
+  $rootScope.socket.on('artistDrawDown',function(x,y,e){
+    $scope.lastX = x;
+    $scope.lastY = y;
+    $scope.ctx.beginPath();
+    $scope.drawing = true;
+  });
 
-});
-$rootScope.socket.on('artistDraw',function(x,y){
+  $rootScope.socket.on('artistDraw',function(x,y){
 
-if($scope.drawing) {
+  if($scope.drawing) {
+    $scope.ctx.beginPath();
+    $scope.currX = x;
+    $scope.currY = y;
+    $scope.ctx.moveTo($scope.lastX,$scope.lastY);
+    $scope.ctx.lineTo($scope.currX,$scope.currY);
+    $scope.ctx.strokeStyle = "#4bf";
+    $scope.ctx.stroke();
+    $scope.lastX = $scope.currX;
+    $scope.lastY = $scope.currY;
+  }
+  });
 
-  console.log("I'm drawing!\n");
-  $scope.ctx.beginPath();
-$scope.currX = x;
-$scope.currY = y;
-$scope.ctx.moveTo($scope.lastX,$scope.lastY);
-$scope.ctx.lineTo($scope.currX,$scope.currY);
-  $scope.ctx.strokeStyle = "#4bf";
-  $scope.ctx.stroke();
-  $scope.lastX = $scope.currX;
-  $scope.lastY = $scope.currY;
-}
-});
-$rootScope.socket.on('artistDrawStop', function(){
-  $scope.drawing = false;
-});
-$rootScope.socket.on('artistClear',function(){
-  console.log('trying to clear (client)');
-  $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
-});
+  $rootScope.socket.on('artistDrawStop', function(){
+    $scope.drawing = false;
+  });
+
+  $rootScope.socket.on('artistClear',function(){
+    console.log('trying to clear (client)');
+    $scope.ctx.clearRect(0, 0, $scope.canvas.width, $scope.canvas.height);
+  });
+
   $scope.username = localStorageService.get('username');
   $scope.roomID = roomService.getRoomID();
   roomService.setRoomIDCallback(function (id) {
