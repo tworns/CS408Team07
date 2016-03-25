@@ -147,7 +147,7 @@ server.on('connection', function (socket) {
       // }
       createNewWord();
 
-      var roundTime = 60;
+      var roundTime = 120;
 
       var assignArtist = function() {
         room.gameStarted = true;
