@@ -1,8 +1,11 @@
 <div class="modal-body">
   <h3 class="modal-title">Settings</h3>
 
-    <input type="text" class="form-control" ng-value="username" autofocus
-      ng-model="username" ng-keyup="$event.keyCode == 13 && saveSettings()" placeholder="Username">
+  <input type="text" class="form-control" ng-value="serverIP" autofocus
+    ng-model="serverIP" ng-keyup="$event.keyCode == 13 && saveSettings()" placeholder="127.0.0.1">
+
+  <input type="text" class="form-control" ng-value="username" autofocus
+    ng-model="username" ng-keyup="$event.keyCode == 13 && saveSettings()" placeholder="Username">
 
   <button class="btn btn-primary" type="button" ng-click="saveSettings()">Save</button>
 

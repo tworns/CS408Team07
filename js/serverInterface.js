@@ -7,7 +7,8 @@ angular.module('yoodle')
         color: 'yellow'
       };
 
-      $rootScope.socket= io('http://localhost:3001', {
+      var ip = localStorageService.get('serverIP') || '127.0.0.1';
+      $rootScope.socket= io('http://' + ip + ':3001', {
         'connect timeout': 5000
       });
 
@@ -64,7 +65,7 @@ angular.module('yoodle')
           console.log(name + ' guessed the word correctly!');
         });*/
       });
-      
+
       $rootScope.socket.on('connect_error', function(err) {
         console.log('error');
         $timeout(function () {
