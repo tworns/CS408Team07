@@ -3,10 +3,10 @@
   <button id="backToMenuButton" type="button" ng-click="backToMenu()" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Back</button>
 
   <!-- Go to gallery(testing purpose) -->
-  <button id="endGameButton" type="button" ng-click="goGallery()" class="btn btn-primary"></i>End game</button>
+  <button id="endGameButton" type="button" ng-click="goGallery()" class="btn btn-danger"></i>End game</button>
 
   <!-- Start game button -->
-  <button id="startGameButton" type="button" ng-click="startGame()" class="btn btn-primary" ng-hide="$root.gameStarted">Start Game</button>
+  <button id="startGameButton" type="button" ng-click="startGame()" class="btn btn-success" ng-hide="$root.gameStarted">Start Game</button>
 
   <table id="scoreboard">
     <tr>
@@ -28,8 +28,8 @@
 
     <!-- Artist buttons -->
     <div ng-show="$root.isArtist" class="buttons">
-      <button type="button" ng-click="skipWord()" class="btn btn-danger"><i class="fa fa-random"></i> Skip!</button>
-      <button type="button" ng-click="clearCanvas()" class="btn btn-primary"><i class="fa fa-trash"></i> Clear</button>
+      <button type="button" ng-click="skipWord()" class="btn btn-warning"><i class="fa fa-random"></i> Skip!</button>
+      <button type="button" ng-click="clearCanvas()" class="btn btn-default"><i class="fa fa-trash"></i> Clear</button>
     </div>
 
     <!-- All-player Buttons -->
