@@ -15,9 +15,11 @@ angular.module('yoodle')
       localStorageService.set('serverIP', $scope.serverIP);
 
       // Retry connection to server now that IP has been changed
-      $rootScope.socket= io('http://' + $scope.serverIP + ':3001', {
-        'connect timeout': 5000
-      });
+      if (!$rootScope.socket.connected) {
+        $rootScope.socket= io('http://' + $scope.serverIP + ':3001', {
+          'connect timeout': 5000
+        });
+      }
 
       // Close the modal
       $rootScope.modalInstance.close();
