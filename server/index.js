@@ -138,14 +138,6 @@ server.on('connection', function (socket) {
     var numPlayers = Object.keys(room.players).length;
 
     if (room && (numPlayers >= 3 || DEBUG) && !room.gameStarted) {
-      // var newWord;
-      // if (gameDifficulty === "easy") {
-      //   newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
-      // } else if (gameDifficulty === "medium") {
-      //   newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
-      // } else if (gameDifficulty === "hard") {
-      //   newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
-      // }
       createNewWord();
 
       var roundTime = 120;
@@ -196,14 +188,6 @@ server.on('connection', function (socket) {
   });
 
   function createNewWord () {
-    // var newWord;
-    // if (gameDifficulty === "easy") {
-    //   newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
-    // } else if (gameDifficulty === "medium") {
-    //   newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
-    // } else if (gameDifficulty === "hard") {
-    //   newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
-    // }
     var newWord = getNewWordFromList();
     rooms[socket.accessCode].word = newWord;
     server.to(socket.accessCode).emit('newWord', newWord);
