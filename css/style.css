@@ -8,9 +8,12 @@ canvas {
   padding: 15px;
   border-image: url(../assets/img/frame.jpg) 30 round;
 
+  /* position: absolute; */
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  /*margin-left: auto;
+  margin-right: auto;*/
+  margin: 0 auto;
+  vertical-align: middle;
 }
 
 input {
