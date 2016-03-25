@@ -188,6 +188,10 @@ server.on('connection', function (socket) {
       rooms[socket.accessCode].players[socket.name].score++;
       server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
     }
+    else {
+      console.log("WRONG GUESS");
+      server.to(socket.accessCode).emit('wrongGuess', socket.name);
+    }
   });
 
   function createNewWord () {

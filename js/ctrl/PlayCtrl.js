@@ -165,7 +165,7 @@ angular.module('yoodle')
   localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
 
   var snd = new Audio("./assets/correct.wav");
-
+  var snd2 = new Audio("./assets/wrong.wav");
   $rootScope.socket.on('correctGuess', function (name) {
     snd.play();
     piclist = JSON.parse(localStorage.getItem("piclist"));
@@ -177,6 +177,10 @@ angular.module('yoodle')
     localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
 
     console.log(name + ' guessed the word correctly!');
+  });
+
+  $rootScope.socket.on('wrongGuess', function (name) {
+    snd2.play();
   });
 
 });
