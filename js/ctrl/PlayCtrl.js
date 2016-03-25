@@ -15,20 +15,9 @@ angular.module('yoodle')
   var currY;
   var drawing = false;
   $scope.canvas.onmousedown = function(e){
-    console.log('artistDown!\n');
-    var x, y;
-    if(e.offsetX!==undefined){
-      x = e.offsetX-45;
-      y = e.offsetY-45;
-    } else {
-      x = e.layerX - e.currentTarget.offsetLeft;
-      y = e.layerY - event.currentTarget.offsetTop;
-    }
-
-    $rootScope.socket.emit('artistDrawDown', x, y, roomService.getRoomID());
-
-    $scope.canvas.onmousemove = function(e) {
-      if (e.offsetX !== undefined){
+    if ($rootScope.isArtist && $rootScope.gameStarted) {
+      var x, y;
+      if(e.offsetX!==undefined){
         x = e.offsetX-45;
         y = e.offsetY-45;
       } else {
@@ -36,12 +25,23 @@ angular.module('yoodle')
         y = e.layerY - event.currentTarget.offsetTop;
       }
 
-      $rootScope.socket.emit('artistDrawMove',x,y,roomService.getRoomID());
-    };
+      $rootScope.socket.emit('artistDrawDown', x, y, roomService.getRoomID());
+
+      $scope.canvas.onmousemove = function(e) {
+        if (e.offsetX !== undefined){
+          x = e.offsetX-45;
+          y = e.offsetY-45;
+        } else {
+          x = e.layerX - e.currentTarget.offsetLeft;
+          y = e.layerY - event.currentTarget.offsetTop;
+        }
+
+        $rootScope.socket.emit('artistDrawMove',x,y,roomService.getRoomID());
+      };
+    }
   };
 
   $scope.canvas.onmouseup = function(e) {
-    console.log("Hit mouseup");
     $rootScope.socket.emit('artistDrawStop',roomService.getRoomID());
   };
 
