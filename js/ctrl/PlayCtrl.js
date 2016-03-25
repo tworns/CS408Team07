@@ -26,14 +26,14 @@ angular.module('yoodle')
       }
 
       $rootScope.socket.emit('artistDrawDown', x, y, roomService.getRoomID());
-
+        $rootScope.socket.emit('artistDrawDown', x, y, roomService.getRoomID());
       $scope.canvas.onmousemove = function(e) {
         if (e.offsetX !== undefined){
           x = e.offsetX-45;
           y = e.offsetY-45;
         } else {
-          x = e.layerX - e.currentTarget.offsetLeft;
-          y = e.layerY - event.currentTarget.offsetTop;
+          x = e.layerX - e.currentTarget.offsetLeft + 5;
+          y = e.layerY - event.currentTarget.offsetTop + 5;
         }
 
         $rootScope.socket.emit('artistDrawMove',x,y,roomService.getRoomID());

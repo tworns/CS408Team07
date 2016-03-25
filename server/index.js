@@ -86,7 +86,7 @@ server.on('connection', function (socket) {
   });
 
   socket.on('artistDrawStop', function(accessCode){
-
+    server.to(socket.accessCode).emit('artistDrawStop');
     server.to(socket.accessCode).emit('artistDrawStop');
   });
 
