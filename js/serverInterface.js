@@ -26,7 +26,7 @@ angular.module('yoodle')
           console.log('New room created. ID: ' + roomID);
           roomService.setRoomID(roomID);
 
-          $rootScope.socket.emit('joinRoom', roomID, $scope.username);
+          $rootScope.socket.emit('joinRoom', roomID, localStorageService.get('username'));
         });
 
         $rootScope.socket.on('roomJoined', function (success, msg) {
