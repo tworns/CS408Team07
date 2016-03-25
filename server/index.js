@@ -124,6 +124,7 @@ server.on('connection', function (socket) {
 
     if (players.length === 0) {
       console.log('Room ' + socket.accessCode + ' has become empty, deleting it.');
+      clearInterval(room.interval);
       delete rooms[socket.accessCode];
     }
     else {
@@ -166,7 +167,7 @@ server.on('connection', function (socket) {
       assignArtist();
 
       // After 60 seconds, select a new artist
-      setInterval(function() {
+      room.interval = setInterval(function() {
         console.log('Assigning a new artist');
         assignArtist();
       }, roundTime * 1000);
