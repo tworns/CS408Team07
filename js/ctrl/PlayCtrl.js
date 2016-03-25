@@ -88,13 +88,15 @@ angular.module('yoodle')
     $scope.$apply();
   });
 
-  $scope.time = 60;
+
+  $scope.time = 120;
+  var maxTime = $scope.time;
   roomService.setTimerCallback(function (t) {
     $scope.time = t;
 
     if(document.getElementById("bar") !== null) {
-      document.getElementById("bar").style.width = ($scope.time)/60*100+"%";
-      document.getElementById("bar").innerHTML = ($scope.time)/60*100+"%";
+      document.getElementById("bar").style.width = ($scope.time)/maxTime*100+"%";
+      document.getElementById("bar").innerHTML = ($scope.time)/maxTime*100+"%";
     }
   });
 
