@@ -164,7 +164,10 @@ angular.module('yoodle')
   localStorage.setItem("piclist", JSON.stringify(piclist));
   localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
 
+  var snd = new Audio("./assets/correct.wav");
+
   $rootScope.socket.on('correctGuess', function (name) {
+    snd.play();
     piclist = JSON.parse(localStorage.getItem("piclist"));
     piclist.push($scope.canvas.toDataURL());
     localStorage.setItem("piclist", JSON.stringify(piclist));
