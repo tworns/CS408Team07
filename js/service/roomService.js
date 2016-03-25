@@ -1,6 +1,6 @@
 angular.module('yoodle')
 
-.factory('roomService', function ($interval) {
+.factory('roomService', function ($interval, $rootScope) {
   var roomID = '';
   var IDCallback;
 
@@ -67,6 +67,9 @@ angular.module('yoodle')
     cleanup: function () {
       roomID = '';
       $interval.cancel(timer);
+
+      $rootScope.gameStarted = false;
+      $rootScope.isArtist = false;
     }
   };
 });
