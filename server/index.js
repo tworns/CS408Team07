@@ -150,7 +150,7 @@ server.on('connection', function (socket) {
         var artistIndex = names.length * Math.random() << 0;
         room.artist = room.players[names[artistIndex]];
 
-        //console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
+        console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
 
         server.to(socket.accessCode).emit('gameStarted', roundTime);
 
@@ -219,16 +219,25 @@ function getNewWordFromList() {
 
   if (gameDifficulty === "easy") {
     do { // Ensure that new word is not a repeat
+      if (usedWords.length === wordLists.easyWordList.length) { // Check if usedWords list needs to be cleared
+        usedWords = [];
+      }
       newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
     } while (usedWords.indexOf(newWord) !== -1);
     usedWords.push(newWord);
   } else if (gameDifficulty === "medium") {
     do {
+      if (usedWords.length === wordLists.mediumWordList.length) { // Check if usedWords list needs to be cleared
+        usedWords = [];
+      }
       newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
     } while (usedWords.indexOf(newWord) !== -1);
     usedWords.push(newWord);
   } else if (gameDifficulty === "hard") {
     do {
+      if (usedWords.length === wordLists.hardWordList.length) { // Check if usedWords list needs to be cleared
+        usedWords = [];
+      }
       newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
     } while (usedWords.indexOf(newWord) !== -1);
     usedWords.push(newWord);
