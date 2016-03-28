@@ -140,7 +140,7 @@ server.on('connection', function (socket) {
     if (room && (numPlayers >= 3 || DEBUG) && !room.gameStarted) {
       createNewWord();
 
-      var roundTime = 120;
+      var roundTime = 60;
 
       var assignArtist = function() {
         room.gameStarted = true;
@@ -158,11 +158,17 @@ server.on('connection', function (socket) {
       };
       assignArtist();
 
-      // After 60 seconds, select a new artist
+      // After roundTime seconds, select a new artist
+      room.time = roundTime;
       room.interval = setInterval(function() {
-        console.log('Assigning a new artist');
-        assignArtist();
-      }, roundTime * 1000);
+        room.time--;
+        if (room.time <= 0) {
+          console.log('Assigning a new artist');
+          assignArtist();
+          
+          room.time = roundTime;
+        }
+      }, 1000);
     }
   });
 
