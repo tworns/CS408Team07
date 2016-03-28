@@ -173,7 +173,7 @@ server.on('connection', function (socket) {
   socket.on('guess', function (guess) {
     console.log("Guessing: " +guess);
     console.log("Expecting: "+rooms[socket.accessCode].word);
-    if (guess/*.toLowerCase()*/ === rooms[socket.accessCode].word/*.toLowerCase()*/) {
+    if (guess.toLowerCase() === rooms[socket.accessCode].word.toLowerCase()) {
       console.log("CORRECT GUESS");
       server.to(socket.accessCode).emit('correctGuess', socket.name);
       createNewWord(socket.accessCode);
