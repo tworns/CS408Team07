@@ -169,7 +169,10 @@ server.on('connection', function (socket) {
   socket.on('newWord', function () {
     createNewWord(socket.accessCode);
   });
-
+  socket.on('skippedWord', function(){
+      
+      server.to(socket.accessCode).emit('minusTimer');
+  });
   socket.on('guess', function (guess) {
     console.log("Guessing: " +guess);
     console.log("Expecting: "+rooms[socket.accessCode].word);
