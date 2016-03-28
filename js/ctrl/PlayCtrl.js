@@ -168,9 +168,15 @@ angular.module('yoodle')
 
   var snd = new Audio("./assets/correct.wav");
   var snd2 = new Audio("./assets/wrong.wav");
-  $rootScope.socket.on('correctGuess', function (name) {
+  $rootScope.socket.on('correctGuess', function (name, word) {
     snd.play();
-    toastr.success('You guessed it right!', 'Congrats!');
+    if (localStorageService.get('username') === name) {
+      toastr.success('You guessed it right!', 'Congrats!');
+    }
+    else {
+      toastr.success(name + ' guessed the word correctly!  It was "' + word + '"', 'Correct!');
+    }
+
     piclist = JSON.parse(localStorage.getItem("piclist"));
     piclist.push($scope.canvas.toDataURL());
     localStorage.setItem("piclist", JSON.stringify(piclist));
@@ -183,8 +189,11 @@ angular.module('yoodle')
   });
 
   $rootScope.socket.on('wrongGuess', function (name) {
-    toastr.error('You guessed it wrong!', 'Oops!');
-    snd2.play();
+    if (localStorageService.get('username') === name) {
+      toastr.error('You guessed it wrong!', 'Oops!');
+      snd2.play();
+    }
+    // TODO should we tell other users what each player guesses if they guess wrong?
   });
 
 });
