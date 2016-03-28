@@ -23,7 +23,7 @@
     <!-- Non-artist buttons -->
     <div ng-hide="$root.isArtist" class="buttons">
       <input type ="text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
-      <button type ="button" ng-click ="sendGuess()" class ="btn btn-success"> <i class ="fa fa-camera-retro"></i> Send Guess!</button>
+      <button type ="button" ng-click ="sendGuess()" class ="btn btn-success"> Guess!</button>
     </div>
 
     <!-- Artist buttons -->
@@ -34,7 +34,7 @@
 
     <!-- All-player Buttons -->
     <div class="buttons">
-      <button id="saveButton" type="button" ng-click="savaImage()" class="btn btn-warning"><i class="fa fa-camera-retro"></i> Save!</button>
+      <button id="saveButton" type="button" ng-click="savaImage()" class="btn btn-success"><i class="fa fa-camera-retro"></i> Save!</button>
     </div>
   </div>
 

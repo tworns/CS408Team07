@@ -108,9 +108,11 @@ th, td {
 
 #playerButtons {
   position: absolute;
+  width: 100vw;
   bottom: 10px;
 }
 
 #saveButton {
+  position: absolute;
   right: 5px;
 }
