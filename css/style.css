@@ -8,9 +8,12 @@ canvas {
   padding: 15px;
   border-image: url(../assets/img/frame.jpg) 30 round;
 
+  /* position: absolute; */
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  /*margin-left: auto;
+  margin-right: auto;*/
+  margin: 0 auto;
+  vertical-align: middle;
 }
 
 input {
@@ -87,7 +90,7 @@ th, td {
 #startGameButton {
   /* Centered */
   left: 40vw;
-  width: 20vw;
+  width: 13vw;
 }
 
 #endGameButton {
@@ -96,7 +99,7 @@ th, td {
 
 #scoreboard {
   position: absolute;
-  top: 15vh;
+  top: 18vh;
 }
 
 .buttons {
@@ -106,4 +109,8 @@ th, td {
 #playerButtons {
   position: absolute;
   bottom: 10px;
+}
+
+#saveButton {
+  right: 5px;
 }

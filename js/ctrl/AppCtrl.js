@@ -31,8 +31,15 @@ angular.module('yoodle')
   else {
     $rootScope.modalInstance = $uibModal.open({
       animation: true,
-      templateUrl: 'templates/usernameModal.html',
-      controller: 'UsernameModalCtrl'
+      templateUrl: 'templates/settingsModal.html',
+      controller: 'SettingsModalCtrl',
+      backdrop: 'static',
+      keyboard: false
+    });
+
+    $rootScope.modalInstance.closed
+    .then(function () {
+      $scope.username = localStorageService.get('username');
     });
   }
 

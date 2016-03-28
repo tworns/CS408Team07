@@ -124,6 +124,7 @@ server.on('connection', function (socket) {
 
     if (players.length === 0) {
       console.log('Room ' + socket.accessCode + ' has become empty, deleting it.');
+      clearInterval(room.interval);
       delete rooms[socket.accessCode];
     }
     else {
@@ -137,17 +138,9 @@ server.on('connection', function (socket) {
     var numPlayers = Object.keys(room.players).length;
 
     if (room && (numPlayers >= 3 || DEBUG) && !room.gameStarted) {
-      // var newWord;
-      // if (gameDifficulty === "easy") {
-      //   newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
-      // } else if (gameDifficulty === "medium") {
-      //   newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
-      // } else if (gameDifficulty === "hard") {
-      //   newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
-      // }
       createNewWord();
 
-      var roundTime = 60;
+      var roundTime = 120;
 
       var assignArtist = function() {
         room.gameStarted = true;
@@ -166,7 +159,7 @@ server.on('connection', function (socket) {
       assignArtist();
 
       // After 60 seconds, select a new artist
-      setInterval(function() {
+      room.interval = setInterval(function() {
         console.log('Assigning a new artist');
         assignArtist();
       }, roundTime * 1000);
@@ -188,17 +181,13 @@ server.on('connection', function (socket) {
       rooms[socket.accessCode].players[socket.name].score++;
       server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
     }
+    else {
+      console.log("WRONG GUESS");
+      server.to(socket.accessCode).emit('wrongGuess', socket.name);
+    }
   });
 
   function createNewWord () {
-    // var newWord;
-    // if (gameDifficulty === "easy") {
-    //   newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
-    // } else if (gameDifficulty === "medium") {
-    //   newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
-    // } else if (gameDifficulty === "hard") {
-    //   newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
-    // }
     var newWord = getNewWordFromList();
     rooms[socket.accessCode].word = newWord;
     server.to(socket.accessCode).emit('newWord', newWord);
@@ -230,16 +219,25 @@ function getNewWordFromList() {
 
   if (gameDifficulty === "easy") {
     do { // Ensure that new word is not a repeat
+      if (usedWords.length === wordLists.easyWordList.length) { // Check if usedWords list needs to be cleared
+        usedWords = [];
+      }
       newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
     } while (usedWords.indexOf(newWord) !== -1);
     usedWords.push(newWord);
   } else if (gameDifficulty === "medium") {
     do {
+      if (usedWords.length === wordLists.mediumWordList.length) { // Check if usedWords list needs to be cleared
+        usedWords = [];
+      }
       newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
     } while (usedWords.indexOf(newWord) !== -1);
     usedWords.push(newWord);
   } else if (gameDifficulty === "hard") {
     do {
+      if (usedWords.length === wordLists.hardWordList.length) { // Check if usedWords list needs to be cleared
+        usedWords = [];
+      }
       newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
     } while (usedWords.indexOf(newWord) !== -1);
     usedWords.push(newWord);
