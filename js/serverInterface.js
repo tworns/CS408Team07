@@ -65,8 +65,9 @@ angular.module('yoodle')
           console.log(name + ' guessed the word correctly!');
         });*/
       });
+
       $rootScope.socket.on('minusTimer',function(){
-        
+          roomService.minusTimer(5);
       });
 
       $rootScope.socket.on('connect_error', function(err) {

@@ -165,7 +165,7 @@ server.on('connection', function (socket) {
         if (room.time <= 0) {
           console.log('Assigning a new artist');
           assignArtist();
-          
+
           room.time = roundTime;
         }
       }, 1000);
@@ -176,8 +176,9 @@ server.on('connection', function (socket) {
     createNewWord(socket.accessCode);
   });
   socket.on('skippedWord', function(){
-      
-      server.to(socket.accessCode).emit('minusTimer');
+    var room = rooms[socket.accessCode];
+    room.time -= 5;
+    server.to(socket.accessCode).emit('minusTimer');
   });
   socket.on('guess', function (guess) {
     console.log("Guessing: " +guess);

@@ -66,6 +66,10 @@ angular.module('yoodle')
       }, 1000);
     },
 
+    minusTimer: function (t) {
+      time -= t;
+    },
+
     getMaxTime: function() {
       return maxTime;
     },
