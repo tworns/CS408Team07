@@ -147,6 +147,7 @@ angular.module('yoodle')
     // Only let the artist skip words
     if ($rootScope.isArtist) {
       $rootScope.socket.emit('newWord');
+      $rootScope.socket.emit("skippedWord");
     }
   };
 
