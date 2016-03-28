@@ -21,8 +21,8 @@
 
   <div ng-show="$root.gameStarted" id="playerButtons">
     <!-- Non-artist buttons -->
-    <div ng-hide="$root.isArtist" class="buttons">
-      <input type ="text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
+    <div class="guess-box" ng-hide="$root.isArtist" class="buttons">
+      <input  type ="text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
       <button type ="button" ng-click ="sendGuess()" class ="btn btn-success"> Guess!</button>
     </div>
 
