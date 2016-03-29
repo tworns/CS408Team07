@@ -63,7 +63,10 @@ angular.module('yoodle')
             console.log('I\'m the artist!');
             $rootScope.isArtist = true;
 
-            toastr.success('You are the artist now', 'Your turn');
+            toastr.info('You are the artist now', 'Your turn');
+          }
+          else {
+            toastr.info(name + 'is the artist now');
           }
 
           $rootScope.clearCtx();
