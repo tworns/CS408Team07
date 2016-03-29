@@ -14,6 +14,7 @@ angular.module('yoodle')
   var currX;
   var currY;
   var drawing = false;
+
   $scope.canvas.onmousedown = function(e){
     if ($rootScope.isArtist && $rootScope.gameStarted) {
       var x, y;
@@ -59,6 +60,7 @@ angular.module('yoodle')
     $scope.currX = x;
     $scope.currY = y;
     $scope.ctx.moveTo($scope.lastX,$scope.lastY);
+    $scope.ctx.lineWidth = 2;
     $scope.ctx.lineTo($scope.currX,$scope.currY);
     $scope.ctx.strokeStyle = "#4bf";
     $scope.ctx.stroke();
@@ -89,24 +91,27 @@ angular.module('yoodle')
   });
 
 
-  $scope.time = 120;
-  var maxTime = $scope.time;
+  $scope.time = 0;
   roomService.setTimerCallback(function (t) {
     $scope.time = t;
 
     if(document.getElementById("bar") !== null) {
-      document.getElementById("bar").style.width = ($scope.time)/maxTime*100+"%";
-      document.getElementById("bar").innerHTML = ($scope.time)/maxTime*100+"%";
+      document.getElementById("bar").style.width = ($scope.time) / roomService.getMaxTime() * 100 + "%";
+      document.getElementById("bar").innerHTML = ($scope.time) / roomService.getMaxTime() * 100 + "%";
     }
   });
 
   $rootScope.socket.on('newWord', function (word) {
     $scope.currentWord = word;
+    $scope.length = $scope.currentWord.length;
+    $scope.ltext = "Word Length: ";
   });
 
   $scope.goGallery = function () {
     // Let the server know we left the game
     $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
+    // Clear used words list when a game ends
+    $rootScope.socket.emit('clearUsedWordsList');
     // Perform some cleanup on global vars. Local scope will be recreated next time we join/create a game
     roomService.cleanup();
     $location.path('end');
@@ -134,9 +139,36 @@ angular.module('yoodle')
     $rootScope.socket.emit('artistClear',roomService.getRoomID);
   };
 
-  $scope.savaImage = function () {
+  $scope.saveImage = function () {
     $scope.image = $scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    window.location.href=$scope.image;
+    //window.location.href=$scope.image;
+
+    var lnk = document.createElement('a'),
+        e;
+
+    /// the key here is to set the download attribute of the a tag
+    lnk.download = "untitled.png";
+
+    /// convert canvas content to data-uri for link. When download
+    /// attribute is set the content pointed to by link will be
+    /// pushed as "download" in HTML5 capable browsers
+    lnk.href = $scope.image;
+
+    /// create a "fake" click-event to trigger the download
+    if (document.createEvent) {
+
+        e = document.createEvent("MouseEvents");
+        e.initMouseEvent("click", true, true, window,
+                         0, 0, 0, 0, 0, false, false, false,
+                         false, 0, null);
+
+        lnk.dispatchEvent(e);
+
+    } else if (lnk.fireEvent) {
+
+        lnk.fireEvent("onclick");
+    }
+
   };
 
   $scope.sendGuess = function () {
@@ -144,10 +176,16 @@ angular.module('yoodle')
     $scope.guess = '';
   };
 
+  var lastSkipped = (new Date()).getTime();
   $scope.skipWord = function () {
     // Only let the artist skip words
-    if ($rootScope.isArtist) {
+    var currTime = (new Date()).getTime();
+    if ($rootScope.isArtist && currTime - lastSkipped > 1000) {
+      lastSkipped = currTime;
+
       $rootScope.socket.emit('newWord');
+      $rootScope.socket.emit('skippedWord');
+      $rootScope.socket.emit('artistClear');
     }
   };
 
@@ -168,9 +206,15 @@ angular.module('yoodle')
 
   var snd = new Audio("./assets/correct.wav");
   var snd2 = new Audio("./assets/wrong.wav");
-  $rootScope.socket.on('correctGuess', function (name) {
+  $rootScope.socket.on('correctGuess', function (name, word) {
     snd.play();
-    toastr.success('You guessed it right!', 'Congrats!');
+    if (localStorageService.get('username') === name) {
+      toastr.success('You guessed it right!', 'Congrats!');
+    }
+    else {
+      toastr.success(name + ' guessed the word correctly!  It was "' + word + '"', 'Correct!');
+    }
+
     piclist = JSON.parse(localStorage.getItem("piclist"));
     piclist.push($scope.canvas.toDataURL());
     localStorage.setItem("piclist", JSON.stringify(piclist));
@@ -180,11 +224,16 @@ angular.module('yoodle')
     localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
 
     console.log(name + ' guessed the word correctly!');
+
+    $rootScope.socket.emit('artistClear',roomService.getRoomID);
   });
 
   $rootScope.socket.on('wrongGuess', function (name) {
-    toastr.error('You guessed it wrong!', 'Oops!');
-    snd2.play();
+    if (localStorageService.get('username') === name) {
+      toastr.error('You guessed it wrong!', 'Oops!');
+      snd2.play();
+    }
+    // TODO should we tell other users what each player guesses if they guess wrong?
   });
 
 });

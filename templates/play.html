@@ -21,9 +21,9 @@
 
   <div ng-show="$root.gameStarted" id="playerButtons">
     <!-- Non-artist buttons -->
-    <div ng-hide="$root.isArtist" class="buttons">
-      <input type ="text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
-      <button type ="button" ng-click ="sendGuess()" class ="btn btn-success"> <i class ="fa fa-camera-retro"></i> Send Guess!</button>
+    <div class="guess-box" ng-hide="$root.isArtist" class="buttons">
+      <input  type ="text" ng-value="guess" ng-model="guess" ng-keyup="$event.keyCode == 13 && sendGuess()"></input>
+      <button type ="button" ng-click ="sendGuess()" class ="btn btn-success"> Guess!</button>
     </div>
 
     <!-- Artist buttons -->
@@ -34,7 +34,7 @@
 
     <!-- All-player Buttons -->
     <div class="buttons">
-      <button id="saveButton" type="button" ng-click="savaImage()" class="btn btn-warning"><i class="fa fa-camera-retro"></i> Save!</button>
+      <button id="saveButton" type="button" ng-click="saveImage()" class="btn btn-success"><i class="fa fa-camera-retro"></i> Save!</button>
     </div>
   </div>
 
@@ -51,7 +51,8 @@
     </div>
   </div>
 
-  <h3 align="middle">{{currentWord}}</h3>
+  <h3 ng-show="isArtist" align="middle">{{currentWord}}</h3>
+  <h4 ng-hide="isArtist" align="middle">{{ltext}}{{length}}</h4>
 
   <!-- Canvas -->
   <canvas id="canvas" width="500" height="300" artistDrawing></canvas> <br>

@@ -53,17 +53,28 @@ angular.module('yoodle')
     // Modal promise: called when this modal is closed
     $rootScope.modalInstance.closed.then(function() {
       $scope.username = localStorageService.get('username');
+
+      if ($rootScope.socket.connected) {
+        $rootScope.socket.disconnect();
+        $rootScope.socket = undefined;
+      }
+
+      initServer();
     });
   };
 
   // Server connection
-  if ($rootScope.socket === undefined) {
-    serverInterfaceService.init($scope, $rootScope, $timeout, $interval, $location, toastr, localStorageService, roomService);
-  }
-  else if ($rootScope.socket.connected) {
-    $scope.connectionStatus = { color: 'green' };
-  }
-  else {
-    $scope.connectionStatus = { color: 'red' };
-  }
+  var initServer = function () {
+    if ($rootScope.socket === undefined || ($rootScope.socket && !$rootScope.socket.connected)) {
+      serverInterfaceService.init($scope, $rootScope, $timeout, $interval, $location, toastr, localStorageService, roomService);
+    }
+    else if ($rootScope.socket.connected) {
+      $scope.connectionStatus = { color: 'green' };
+    }
+    else {
+      $scope.connectionStatus = { color: 'red' };
+    }
+  };
+
+  initServer();
 });

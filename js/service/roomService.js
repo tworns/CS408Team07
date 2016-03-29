@@ -8,6 +8,7 @@ angular.module('yoodle')
   var playerListCallback;
 
   var time;
+  var maxTime;
   var timer;
   var timerCallback;
 
@@ -49,6 +50,7 @@ angular.module('yoodle')
     },
 
     newTimer: function (t) {
+      maxTime = t;
       time = t;
       $interval.cancel(timer);
       timer = $interval(function () {
@@ -62,6 +64,14 @@ angular.module('yoodle')
           timerCallback(time);
         }
       }, 1000);
+    },
+
+    minusTimer: function (t) {
+      time -= t;
+    },
+
+    getMaxTime: function() {
+      return maxTime;
     },
 
     cleanup: function () {

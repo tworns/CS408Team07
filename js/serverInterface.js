@@ -8,7 +8,7 @@ angular.module('yoodle')
       };
 
       var ip = localStorageService.get('serverIP') || '127.0.0.1';
-      $rootScope.socket= io('http://' + ip + ':3001', {
+      $rootScope.socket = io('http://' + ip + ':3001', {
         'connect timeout': 5000
       });
 
@@ -64,6 +64,10 @@ angular.module('yoodle')
         /*$rootScope.socket.on('correctGuess', function (name) {
           console.log(name + ' guessed the word correctly!');
         });*/
+      });
+
+      $rootScope.socket.on('minusTimer',function(){
+          roomService.minusTimer(5);
       });
 
       $rootScope.socket.on('connect_error', function(err) {

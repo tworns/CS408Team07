@@ -170,12 +170,16 @@ server.on('connection', function (socket) {
     createNewWord(socket.accessCode);
   });
 
+  socket.on('clearUsedWordsList', function() {
+    usedWords = [];
+  });
+
   socket.on('guess', function (guess) {
     console.log("Guessing: " +guess);
     console.log("Expecting: "+rooms[socket.accessCode].word);
-    if (guess/*.toLowerCase()*/ === rooms[socket.accessCode].word/*.toLowerCase()*/) {
+    if (guess.toLowerCase() === rooms[socket.accessCode].word.toLowerCase()) {
       console.log("CORRECT GUESS");
-      server.to(socket.accessCode).emit('correctGuess', socket.name);
+      server.to(socket.accessCode).emit('correctGuess', socket.name, guess.toLowerCase());
       createNewWord(socket.accessCode);
 
       rooms[socket.accessCode].players[socket.name].score++;
