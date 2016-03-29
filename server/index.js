@@ -171,7 +171,6 @@ server.on('connection', function (socket) {
   });
 
   socket.on('clearUsedWordsList', function() {
-    // Clear used words list when a game ends
     usedWords = [];
   });
 
