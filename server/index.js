@@ -92,7 +92,6 @@ server.on('connection', function (socket) {
 
   //clear all player's screens when the artist clears his.
   socket.on('artistClear',function(accessCode){
-    console.log("trying to clear (Server)");
     server.to(socket.accessCode).emit('artistClear');
   });
 
@@ -162,20 +161,18 @@ server.on('connection', function (socket) {
       room.time = roundTime;
       room.interval = setInterval(function() {
         room.time--;
-         if (room.time <= 0) {
-           console.log('Assigning a new artist');
-           assignArtist();
+        if (room.time <= 0) {
+         console.log('Assigning a new artist');
+         assignArtist();
 
-           room.time = roundTime;
-         }
-        assignArtist();
-      }, roundTime * 1000);
+         room.time = roundTime;
+        }
+      }, 1000);
     }
   });
 
   socket.on('skippedWord', function(){
-     var room = rooms[socket.accessCode];
-     room.time -= 5;
+     rooms[socket.accessCode].time -= 5;
      server.to(socket.accessCode).emit('minusTimer');
   });
 

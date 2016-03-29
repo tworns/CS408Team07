@@ -55,18 +55,18 @@ angular.module('yoodle')
 
   $rootScope.socket.on('artistDraw',function(x,y){
 
-  if($scope.drawing) {
-    $scope.ctx.beginPath();
-    $scope.currX = x;
-    $scope.currY = y;
-    $scope.ctx.moveTo($scope.lastX,$scope.lastY);
-    $scope.ctx.lineWidth = 2;
-    $scope.ctx.lineTo($scope.currX,$scope.currY);
-    $scope.ctx.strokeStyle = "#4bf";
-    $scope.ctx.stroke();
-    $scope.lastX = $scope.currX;
-    $scope.lastY = $scope.currY;
-  }
+    if($scope.drawing) {
+      $scope.ctx.beginPath();
+      $scope.currX = x;
+      $scope.currY = y;
+      $scope.ctx.moveTo($scope.lastX,$scope.lastY);
+      $scope.ctx.lineWidth = 2;
+      $scope.ctx.lineTo($scope.currX,$scope.currY);
+      $scope.ctx.strokeStyle = "#4bf";
+      $scope.ctx.stroke();
+      $scope.lastX = $scope.currX;
+      $scope.lastY = $scope.currY;
+    }
   });
 
   $rootScope.socket.on('artistDrawStop', function(){
@@ -93,7 +93,12 @@ angular.module('yoodle')
 
   $scope.time = 0;
   roomService.setTimerCallback(function (t) {
-    $scope.time = t;
+    if (t < 0) {
+      $scope.time = 0;
+    }
+    else {
+      $scope.time = t;
+    }
 
     if(document.getElementById("bar") !== null) {
       document.getElementById("bar").style.width = ($scope.time) / roomService.getMaxTime() * 100 + "%";
