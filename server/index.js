@@ -54,6 +54,12 @@ server.on('connection', function (socket) {
       return;
     }
 
+    // Make sure game hasn't already started
+    if (room.gameStarted) {
+      socket.emit('roomJoined', false, 'The game has already started.');
+      return;
+    }
+
     // Join the room with given access code. emits will send to just this room now
     socket.join(accessCode);
 
