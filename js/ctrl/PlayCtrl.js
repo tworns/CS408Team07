@@ -107,6 +107,7 @@ angular.module('yoodle')
   $scope.goGallery = function () {
     // Let the server know we left the game
     $rootScope.socket.emit('leaveRoom', roomService.getRoomID(), $scope.username);
+    $rootScope.socket.emit('clearUsedWordsList');
     // Perform some cleanup on global vars. Local scope will be recreated next time we join/create a game
     roomService.cleanup();
     $location.path('end');

@@ -170,6 +170,11 @@ server.on('connection', function (socket) {
     createNewWord(socket.accessCode);
   });
 
+  socket.on('clearUsedWordsList', function() {
+    // Clear used words list when a game ends
+    usedWords = [];
+  });
+
   socket.on('guess', function (guess) {
     console.log("Guessing: " +guess);
     console.log("Expecting: "+rooms[socket.accessCode].word);
