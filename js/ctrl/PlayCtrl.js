@@ -153,7 +153,8 @@ angular.module('yoodle')
       lastSkipped = currTime;
 
       $rootScope.socket.emit('newWord');
-      $rootScope.socket.emit("skippedWord");
+      $rootScope.socket.emit('skippedWord');
+      $rootScope.socket.emit('artistClear');
     }
   };
 
