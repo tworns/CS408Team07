@@ -68,6 +68,7 @@ angular.module('yoodle')
 
       $rootScope.socket.on('minusTimer',function(){
           roomService.minusTimer(5);
+          toastr.warning('You skipped the word!', '-5s!');
       });
 
       $rootScope.socket.on('connect_error', function(err) {
