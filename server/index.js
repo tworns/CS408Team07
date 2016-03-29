@@ -140,7 +140,7 @@ server.on('connection', function (socket) {
     if (room && (numPlayers >= 3 || DEBUG) && !room.gameStarted) {
       createNewWord();
 
-      var roundTime = 120;
+      var roundTime = 60;
 
       var assignArtist = function() {
         room.gameStarted = true;
@@ -159,11 +159,24 @@ server.on('connection', function (socket) {
       assignArtist();
 
       // After 60 seconds, select a new artist
+      room.time = roundTime;
       room.interval = setInterval(function() {
-        console.log('Assigning a new artist');
+        room.time--;
+         if (room.time <= 0) {
+           console.log('Assigning a new artist');
+           assignArtist();
+
+           room.time = roundTime;
+         }
         assignArtist();
       }, roundTime * 1000);
     }
+  });
+
+  socket.on('skippedWord', function(){
+     var room = rooms[socket.accessCode];
+     room.time -= 5;
+     server.to(socket.accessCode).emit('minusTimer');
   });
 
   socket.on('newWord', function () {
@@ -175,18 +188,15 @@ server.on('connection', function (socket) {
   });
 
   socket.on('guess', function (guess) {
-    console.log("Guessing: " +guess);
-    console.log("Expecting: "+rooms[socket.accessCode].word);
     if (guess.toLowerCase() === rooms[socket.accessCode].word.toLowerCase()) {
-      console.log("CORRECT GUESS");
       server.to(socket.accessCode).emit('correctGuess', socket.name, guess.toLowerCase());
       createNewWord(socket.accessCode);
 
       rooms[socket.accessCode].players[socket.name].score++;
+      rooms[socket.accessCode].artist.score++;
       server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
     }
     else {
-      console.log("WRONG GUESS");
       server.to(socket.accessCode).emit('wrongGuess', socket.name);
     }
   });
