@@ -193,6 +193,8 @@ angular.module('yoodle')
     localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
 
     console.log(name + ' guessed the word correctly!');
+
+    $rootScope.socket.emit('artistClear',roomService.getRoomID);
   });
 
   $rootScope.socket.on('wrongGuess', function (name) {
