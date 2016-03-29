@@ -228,8 +228,6 @@ angular.module('yoodle')
     picnamelist.push($scope.currentWord);
     localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
 
-    console.log(name + ' guessed the word correctly!');
-
     $rootScope.socket.emit('artistClear',roomService.getRoomID);
   });
 

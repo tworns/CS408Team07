@@ -66,7 +66,7 @@ angular.module('yoodle')
           roomService.minusTimer(5);
 
           if ($rootScope.isArtist) {
-            toastr.warning('You skipped the word!', '-5s!');
+            toastr.warning('You skipped the word!', '-5 seconds!');
           }
           else {
             toastr.warning('The artist skipped the word');
