@@ -8,7 +8,7 @@ angular.module('yoodle')
       };
 
       var ip = localStorageService.get('serverIP') || '127.0.0.1';
-      $rootScope.socket= io('http://' + ip + ':3001', {
+      $rootScope.socket = io('http://' + ip + ':3001', {
         'connect timeout': 5000
       });
 

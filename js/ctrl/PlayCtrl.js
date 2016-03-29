@@ -60,6 +60,7 @@ angular.module('yoodle')
     $scope.currX = x;
     $scope.currY = y;
     $scope.ctx.moveTo($scope.lastX,$scope.lastY);
+    $scope.ctx.lineWidth = 2;
     $scope.ctx.lineTo($scope.currX,$scope.currY);
     $scope.ctx.strokeStyle = "#4bf";
     $scope.ctx.stroke();
