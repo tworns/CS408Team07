@@ -32,7 +32,8 @@ server.on('connection', function (socket) {
       players: {},
       gameStarted: false,
       artist: undefined,
-      word: ''
+      word: '',
+      index: 0
     };
 
     socket.emit('roomCreated', accessCode);
@@ -156,15 +157,15 @@ server.on('connection', function (socket) {
       var assignArtist = function() {
         room.gameStarted = true;
         var numPlayers = Object.keys(room.players).length;
-        if(number >= numPlayers){
-          number = 0;
+        if(room.index >= numPlayers){
+          room.index = 0;
           server.to(socket.accessCode).emit('gameEnd');
           return;
         }
         // Assign an artist by picking a random player
         var names = Object.keys(room.players);
         var artistIndex = names.length * Math.random() << 0;
-        room.artist = room.players[names[number]];
+        room.artist = room.players[names[room.index]];
 
         console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
 
@@ -173,7 +174,7 @@ server.on('connection', function (socket) {
         server.to(socket.accessCode).emit('artistSelected', room.artist.name);
 
         createNewWord();
-        number++
+        room.index++;
       };
       assignArtist();
 
