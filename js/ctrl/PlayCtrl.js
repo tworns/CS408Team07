@@ -243,4 +243,8 @@ angular.module('yoodle')
     // TODO should we tell other users what each player guesses if they guess wrong?
   });
 
+  $rootScope.socket.on('gameEnd', function () {
+    $scope.goGallery();
+  });
+
 });
