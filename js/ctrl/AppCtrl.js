@@ -7,7 +7,7 @@ angular.module('yoodle')
       return;
     }
 
-    $rootScope.socket.emit('createRoom');
+    $rootScope.socket.emit('createRoom',localStorageService.get('difficulty'));
   };
 
   $scope.joinGame = function () {

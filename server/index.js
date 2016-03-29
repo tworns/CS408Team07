@@ -14,11 +14,11 @@ var DEBUG = true;
 server.on('connection', function (socket) {
   console.log('User connected');
 
-  socket.on('createRoom', function () {
+  socket.on('createRoom', function (difficulty) {
     // Generate room ID, then send it
     var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var accessCode = '';
-
+    gameDifficulty = difficulty;
     // Worst case time complexity: O(∞)
     do {
       for (var i = 0; i < 4; i++) {
@@ -40,7 +40,7 @@ server.on('connection', function (socket) {
 
   socket.on('joinRoom', function (accessCode, name,difficulty) {
     var room = rooms[accessCode];
-    gameDifficulty = difficulty;
+
     if (room === undefined) {
       console.log('Unknown room code "' + accessCode + '"');
       socket.emit('roomJoined', false, 'Unknown room code "' + accessCode + '"');
@@ -202,7 +202,7 @@ server.on('connection', function (socket) {
       server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
     }
     else {
-      server.to(socket.accessCode).emit('wrongGuess', socket.name);
+      server.to(socket.accessCode).emit('wrongGuess', socket.name, guess);
     }
   });
 
