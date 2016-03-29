@@ -19,8 +19,8 @@ angular.module('yoodle')
     if ($rootScope.isArtist && $rootScope.gameStarted) {
       var x, y;
       if(e.offsetX!==undefined){
-        x = e.offsetX-45;
-        y = e.offsetY-45;
+        x = e.offsetX-30;
+        y = e.offsetY-30;
       } else {
         x = e.layerX - e.currentTarget.offsetLeft;
         y = e.layerY - event.currentTarget.offsetTop;
@@ -30,8 +30,8 @@ angular.module('yoodle')
 
       $scope.canvas.onmousemove = function(e) {
         if (e.offsetX !== undefined){
-          x = e.offsetX-45;
-          y = e.offsetY-45;
+          x = e.offsetX-30;
+          y = e.offsetY-30;
         } else {
           x = e.layerX - e.currentTarget.offsetLeft;
           y = e.layerY - event.currentTarget.offsetTop;
