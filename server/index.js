@@ -38,7 +38,7 @@ server.on('connection', function (socket) {
     console.log('Created room with ID ' + accessCode);
   });
 
-  socket.on('joinRoom', function (accessCode, name) {
+  socket.on('joinRoom', function (accessCode, name,difficulty) {
     var room = rooms[accessCode];
 
     if (room === undefined) {
