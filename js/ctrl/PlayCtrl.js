@@ -143,9 +143,13 @@ angular.module('yoodle')
     $scope.guess = '';
   };
 
+  var lastSkipped = (new Date()).getTime();
   $scope.skipWord = function () {
     // Only let the artist skip words
-    if ($rootScope.isArtist) {
+    var currTime = (new Date()).getTime();
+    if ($rootScope.isArtist && currTime - lastSkipped > 1000) {
+      lastSkipped = currTime;
+
       $rootScope.socket.emit('newWord');
       $rootScope.socket.emit("skippedWord");
     }
