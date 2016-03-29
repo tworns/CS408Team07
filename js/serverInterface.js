@@ -58,7 +58,6 @@ angular.module('yoodle')
         });
 
         $rootScope.socket.on('artistSelected', function (name) {
-          console.log('New artist: ' + name);
           $rootScope.isArtist = false;
           if (name == localStorageService.get('username')) {
             console.log('I\'m the artist!');
@@ -66,6 +65,8 @@ angular.module('yoodle')
 
             toastr.success('You are the artist now', 'Your turn');
           }
+
+          $rootScope.clearCtx();
         });
       });
 
