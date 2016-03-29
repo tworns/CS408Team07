@@ -60,15 +60,17 @@ angular.module('yoodle')
             $rootScope.isArtist = true;
           }
         });
-
-        /*$rootScope.socket.on('correctGuess', function (name) {
-          console.log(name + ' guessed the word correctly!');
-        });*/
       });
 
       $rootScope.socket.on('minusTimer',function(){
           roomService.minusTimer(5);
-          toastr.warning('You skipped the word!', '-5s!');
+
+          if ($rootScope.isArtist) {
+            toastr.warning('You skipped the word!', '-5s!');
+          }
+          else {
+            toastr.warning('The artist skipped the word');
+          }
       });
 
       $rootScope.socket.on('connect_error', function(err) {
