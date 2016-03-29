@@ -154,6 +154,8 @@ server.on('connection', function (socket) {
         server.to(socket.accessCode).emit('gameStarted', roundTime);
 
         server.to(socket.accessCode).emit('artistSelected', room.artist.name);
+
+        createNewWord();
       };
       assignArtist();
 
