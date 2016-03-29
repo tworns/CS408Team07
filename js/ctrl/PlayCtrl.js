@@ -14,6 +14,7 @@ angular.module('yoodle')
   var currX;
   var currY;
   var drawing = false;
+
   $scope.canvas.onmousedown = function(e){
     if ($rootScope.isArtist && $rootScope.gameStarted) {
       var x, y;
@@ -101,6 +102,8 @@ angular.module('yoodle')
 
   $rootScope.socket.on('newWord', function (word) {
     $scope.currentWord = word;
+    $scope.length = $scope.currentWord.length;
+    $scope.ltext = "Word Length: ";
   });
 
   $scope.goGallery = function () {
@@ -135,9 +138,36 @@ angular.module('yoodle')
     $rootScope.socket.emit('artistClear',roomService.getRoomID);
   };
 
-  $scope.savaImage = function () {
+  $scope.saveImage = function () {
     $scope.image = $scope.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    window.location.href=$scope.image;
+    //window.location.href=$scope.image;
+
+    var lnk = document.createElement('a'),
+        e;
+
+    /// the key here is to set the download attribute of the a tag
+    lnk.download = "untitled.png";
+
+    /// convert canvas content to data-uri for link. When download
+    /// attribute is set the content pointed to by link will be
+    /// pushed as "download" in HTML5 capable browsers
+    lnk.href = $scope.image;
+
+    /// create a "fake" click-event to trigger the download
+    if (document.createEvent) {
+
+        e = document.createEvent("MouseEvents");
+        e.initMouseEvent("click", true, true, window,
+                         0, 0, 0, 0, 0, false, false, false,
+                         false, 0, null);
+
+        lnk.dispatchEvent(e);
+
+    } else if (lnk.fireEvent) {
+
+        lnk.fireEvent("onclick");
+    }
+
   };
 
   $scope.sendGuess = function () {
