@@ -22,6 +22,11 @@ angular.module('yoodle')
           };
         });
 
+        $rootScope.socket.on('playersInsufficient', function () {
+          console.log('Need at least 3 players to start.');
+          toastr.warning('Need at least 3 players to start.');
+        });
+
         $rootScope.socket.on('roomCreated', function (roomID) {
           console.log('New room created. ID: ' + roomID);
           roomService.setRoomID(roomID);

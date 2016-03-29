@@ -141,6 +141,10 @@ server.on('connection', function (socket) {
     var room = rooms[socket.accessCode];
 
     var numPlayers = Object.keys(room.players).length;
+    if (numPlayers < 3){
+      server.to(socket.accessCode).emit('playersInsufficient');
+      return;
+    }
 
     if (room && (numPlayers >= 3 || DEBUG) && !room.gameStarted) {
       createNewWord();
