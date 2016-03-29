@@ -146,7 +146,7 @@ server.on('connection', function (socket) {
       return;
     }
 
-    if (room && (numPlayers >= 3 || DEBUG) && !room.gameStarted) {
+    if (room && !room.gameStarted) {
       createNewWord();
 
       var roundTime = 60;
