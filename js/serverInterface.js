@@ -67,7 +67,7 @@ angular.module('yoodle')
             toastr.info('You are the artist now', 'Your turn');
           }
           else {
-            toastr.info(name + 'is the artist now');
+            toastr.info(name + ' is the artist now');
           }
 
           $rootScope.clearCtx();
