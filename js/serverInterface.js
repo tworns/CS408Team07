@@ -58,6 +58,8 @@ angular.module('yoodle')
           if (name == localStorageService.get('username')) {
             console.log('I\'m the artist!');
             $rootScope.isArtist = true;
+
+            toastr.success('You are the artist now', 'Your turn');
           }
         });
       });
