@@ -66,6 +66,10 @@ angular.module('yoodle')
         });*/
       });
 
+      $rootScope.socket.on('minusTimer',function(){
+          roomService.minusTimer(5);
+      });
+
       $rootScope.socket.on('connect_error', function(err) {
         console.log('error');
         $timeout(function () {

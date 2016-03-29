@@ -89,14 +89,13 @@ angular.module('yoodle')
   });
 
 
-  $scope.time = 120;
-  var maxTime = $scope.time;
+  $scope.time = 0;
   roomService.setTimerCallback(function (t) {
     $scope.time = t;
 
     if(document.getElementById("bar") !== null) {
-      document.getElementById("bar").style.width = ($scope.time)/maxTime*100+"%";
-      document.getElementById("bar").innerHTML = ($scope.time)/maxTime*100+"%";
+      document.getElementById("bar").style.width = ($scope.time) / roomService.getMaxTime() * 100 + "%";
+      document.getElementById("bar").innerHTML = ($scope.time) / roomService.getMaxTime() * 100 + "%";
     }
   });
 
@@ -149,6 +148,7 @@ angular.module('yoodle')
     // Only let the artist skip words
     if ($rootScope.isArtist) {
       $rootScope.socket.emit('newWord');
+      $rootScope.socket.emit("skippedWord");
     }
   };
 

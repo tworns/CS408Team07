@@ -116,3 +116,9 @@ th, td {
   position: absolute;
   right: 5px;
 }
+
+.guess-box {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+}
