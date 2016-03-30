@@ -170,7 +170,26 @@ server.on('connection', function (socket) {
         // Assign an artist by picking a random player
         var names = Object.keys(room.players);
         var artistIndex = names.length * Math.random() << 0;
-        room.artist = room.players[names[room.index]];
+
+        var temp = room.index;
+        while (temp < numPlayers) {
+          if (room.players[names[temp]] !== null){
+            room.artist = room.players[names[temp]];
+            break;
+          }
+          else{
+            temp++;
+          }
+        }
+        if (temp >= numPlayers){
+          room.index = 0;
+          server.to(socket.accessCode).emit('gameEnd');
+          return;
+        }
+        room.index = temp;
+
+
+        //room.artist = room.players[names[room.index]];
 
         console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
 
