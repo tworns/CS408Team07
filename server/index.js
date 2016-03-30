@@ -159,7 +159,7 @@ server.on('connection', function (socket) {
     if (room && !room.gameStarted) {
       createNewWord();
 
-      var roundTime = 60;
+      var roundTime = 120;
 
       var assignArtist = function() {
         room.gameStarted = true;
