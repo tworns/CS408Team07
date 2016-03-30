@@ -32,9 +32,7 @@ angular.module('yoodle')
     $rootScope.modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'templates/settingsModal.html',
-      controller: 'SettingsModalCtrl',
-      backdrop: 'static',
-      keyboard: false
+      controller: 'SettingsModalCtrl'
     });
 
     $rootScope.modalInstance.closed
