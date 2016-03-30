@@ -70,7 +70,7 @@ angular.module('yoodle')
             toastr.info(name + ' is the artist now');
           }
 
-          $rootScope.clearCtx();
+        //  $rootScope.clearCtx();
         });
       });
 
