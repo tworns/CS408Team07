@@ -22,11 +22,9 @@ server.on('connection', function (socket) {
     var accessCode = '';
     gameDifficulty = difficulty;
     // Worst case time complexity: O(∞)
-    do {
-      for (var i = 0; i < 4; i++) {
-        accessCode += letters.charAt(Math.floor(Math.random() * letters.length));
-      }
-    } while (rooms[accessCode] !== undefined);
+    for (var i = 0; i < 4; i++) {
+      accessCode += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
 
     rooms[accessCode] = {
       players: {},
