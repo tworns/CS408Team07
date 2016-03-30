@@ -16,7 +16,7 @@ angular.module('yoodle')
   var drawing = false;
 
   $scope.canvas.onmousedown = function(e){
-    if ($rootScope.isArtist && $rootScope.gameStarted) {
+    //if ($rootScope.isArtist && $rootScope.gameStarted) {
       var x, y;
       if(e.offsetX!==undefined){
         x = e.offsetX-30;
@@ -29,7 +29,7 @@ angular.module('yoodle')
       $rootScope.socket.emit('artistDrawDown', x, y, roomService.getRoomID());
         $rootScope.socket.emit('artistDrawDown', x, y, roomService.getRoomID());
       $scope.canvas.onmousemove = function(e) {
-        if($rootScope.isArtist && $rootScope.gameStarted){
+      //  if($rootScope.isArtist && $rootScope.gameStarted){
         if (e.offsetX !== undefined){
           x = e.offsetX-30;
           y = e.offsetY-30;
@@ -39,9 +39,9 @@ angular.module('yoodle')
         }
 
         $rootScope.socket.emit('artistDrawMove',x,y,roomService.getRoomID());
-      }
+      //}
       };
-    }
+    //}
   };
 
   $scope.canvas.onmouseup = function(e) {
