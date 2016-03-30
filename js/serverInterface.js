@@ -79,10 +79,10 @@ angular.module('yoodle')
 
           if ($rootScope.isArtist) {
             toastr.warning('You skipped the word!', '-5 seconds!');
-          }
+          }/*
           else {
             toastr.warning('The artist skipped the word');
-          }
+          }*/
       });
 
       $rootScope.socket.on('connect_error', function(err) {
