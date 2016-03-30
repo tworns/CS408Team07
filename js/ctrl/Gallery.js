@@ -33,11 +33,6 @@ angular.module('yoodle')
   };
 
   $scope.download = function () {
-    if( $scope.slideno >= piclist.length || $scope.slideno < 0){
-      toastr.error('Please enter a valid slide number!', 'Oops!');
-      return;
-    }
-
     /// create an "off-screen" anchor tag
     var lnk = document.createElement('a'),
         e;
