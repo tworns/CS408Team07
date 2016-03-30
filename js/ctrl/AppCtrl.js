@@ -53,13 +53,6 @@ angular.module('yoodle')
     // Modal promise: called when this modal is closed
     $rootScope.modalInstance.closed.then(function() {
       $scope.username = localStorageService.get('username');
-
-      if ($rootScope.socket.connected) {
-        $rootScope.socket.disconnect();
-        $rootScope.socket = undefined;
-      }
-
-      initServer();
     });
   };
 
