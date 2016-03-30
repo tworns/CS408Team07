@@ -78,7 +78,6 @@ angular.module('yoodle')
       roomID = '';
       $interval.cancel(timer);
 
-      $rootScope.gameStarted = false;
       $rootScope.isArtist = false;
     }
   };
