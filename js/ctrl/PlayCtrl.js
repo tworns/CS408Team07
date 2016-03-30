@@ -242,18 +242,6 @@ angular.module('yoodle')
     $rootScope.socket.emit('artistClear',roomService.getRoomID);
   });
 
-  $rootScope.socket.on('wrongGuess', function (name, guess) {
-    if (localStorageService.get('username') === name) {
-      toastr.error('You guessed it wrong!', 'Oops!');
-      snd2.play();
-    }
-    else{
-      toastr.error(name + ' guessed [' + guess +"] but it's wrong!", 'Oops!');
-      snd2.play();
-    }
-    // TODO should we tell other users what each player guesses if they guess wrong?
-  });
-
   $rootScope.socket.on('gameEnd', function () {
     $scope.goGallery();
   });

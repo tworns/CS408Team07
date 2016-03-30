@@ -240,9 +240,6 @@ server.on('connection', function (socket) {
       rooms[socket.accessCode].artist.score++;
       server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
     }
-    else {
-      server.to(socket.accessCode).emit('wrongGuess', socket.name, guess);
-    }
   });
 
   function createNewWord () {
