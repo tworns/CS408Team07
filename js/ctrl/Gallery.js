@@ -14,7 +14,7 @@ angular.module('yoodle')
     var newWidth = 600 + slides.length + 1;
     slides.push({
       image: pic,
-      text: picname,
+      /*text: picname,*/
       id: currIndex++
     });
   };
