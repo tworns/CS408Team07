@@ -7,6 +7,8 @@ var gameDifficulty = "hard"; // Need to determine based on current game settings
 var wordLists = JSON.parse(fs.readFileSync('server/wordLists.json'));
 var usedWords = []; // Array for tracking used words; needs to be cleared each round/game
 
+var number = 0;
+
 var rooms = {};
 
 var DEBUG = true;
@@ -14,11 +16,11 @@ var DEBUG = true;
 server.on('connection', function (socket) {
   console.log('User connected');
 
-  socket.on('createRoom', function () {
+  socket.on('createRoom', function (difficulty) {
     // Generate room ID, then send it
     var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var accessCode = '';
-
+    gameDifficulty = difficulty;
     // Worst case time complexity: O(∞)
     do {
       for (var i = 0; i < 4; i++) {
@@ -30,7 +32,8 @@ server.on('connection', function (socket) {
       players: {},
       gameStarted: false,
       artist: undefined,
-      word: ''
+      word: '',
+      index: 0
     };
 
     socket.emit('roomCreated', accessCode);
@@ -38,7 +41,7 @@ server.on('connection', function (socket) {
     console.log('Created room with ID ' + accessCode);
   });
 
-  socket.on('joinRoom', function (accessCode, name) {
+  socket.on('joinRoom', function (accessCode, name,difficulty) {
     var room = rooms[accessCode];
 
     if (room === undefined) {
@@ -51,6 +54,12 @@ server.on('connection', function (socket) {
     if (room.players[name]) {
       console.log('Username "' + name + '" is already taken in room ' + accessCode);
       socket.emit('roomJoined', false, 'The username "' + name + '" is already taken');
+      return;
+    }
+
+    // Make sure game hasn't already started
+    if (room.gameStarted) {
+      socket.emit('roomJoined', false, 'The game has already started.');
       return;
     }
 
@@ -92,12 +101,13 @@ server.on('connection', function (socket) {
 
   //clear all player's screens when the artist clears his.
   socket.on('artistClear',function(accessCode){
-    console.log("trying to clear (Server)");
     server.to(socket.accessCode).emit('artistClear');
   });
 
   socket.on('leaveRoom', function () {
     console.log(socket.name + ' disconnected from room ' + socket.accessCode);
+
+    usedWords = []; // Clear out used words list when game ends
 
     var room = rooms[socket.accessCode];
 
@@ -135,35 +145,82 @@ server.on('connection', function (socket) {
   socket.on('startGame', function () {
     var room = rooms[socket.accessCode];
 
-    var numPlayers = Object.keys(room.players).length;
+    if (room === undefined) {
+      // Err
+      return;
+    }
 
-    if (room && (numPlayers >= 3 || DEBUG) && !room.gameStarted) {
+    var numPlayers = Object.keys(room.players).length;
+    if (numPlayers < 3){
+      server.to(socket.accessCode).emit('playersInsufficient');
+      return;
+    }
+
+    if (room && !room.gameStarted) {
       createNewWord();
 
       var roundTime = 120;
 
       var assignArtist = function() {
         room.gameStarted = true;
-
+        var numPlayers = Object.keys(room.players).length;
+        if(room.index >= numPlayers){
+          room.index = 0;
+          server.to(socket.accessCode).emit('gameEnd');
+          return;
+        }
         // Assign an artist by picking a random player
         var names = Object.keys(room.players);
         var artistIndex = names.length * Math.random() << 0;
-        room.artist = room.players[names[artistIndex]];
+
+        var temp = room.index;
+        while (temp < numPlayers) {
+          if (room.players[names[temp]] !== null){
+            room.artist = room.players[names[temp]];
+            break;
+          }
+          else{
+            temp++;
+          }
+        }
+        if (temp >= numPlayers){
+          room.index = 0;
+          server.to(socket.accessCode).emit('gameEnd');
+          return;
+        }
+        room.index = temp;
+
+
+        //room.artist = room.players[names[room.index]];
 
         console.log(room.artist.name + ' is now the artist for room ' + socket.accessCode);
 
         server.to(socket.accessCode).emit('gameStarted', roundTime);
 
         server.to(socket.accessCode).emit('artistSelected', room.artist.name);
+
+        createNewWord();
+        room.index++;
       };
       assignArtist();
 
       // After 60 seconds, select a new artist
+      room.time = roundTime;
       room.interval = setInterval(function() {
-        console.log('Assigning a new artist');
-        assignArtist();
-      }, roundTime * 1000);
+        room.time--;
+        if (room.time <= 0) {
+         console.log('Assigning a new artist');
+         assignArtist();
+
+         room.time = roundTime;
+        }
+      }, 1000);
     }
+  });
+
+  socket.on('skippedWord', function(){
+     rooms[socket.accessCode].time -= 5;
+     server.to(socket.accessCode).emit('minusTimer');
   });
 
   socket.on('newWord', function () {
@@ -175,19 +232,16 @@ server.on('connection', function (socket) {
   });
 
   socket.on('guess', function (guess) {
-    console.log("Guessing: " +guess);
-    console.log("Expecting: "+rooms[socket.accessCode].word);
     if (guess.toLowerCase() === rooms[socket.accessCode].word.toLowerCase()) {
-      console.log("CORRECT GUESS");
       server.to(socket.accessCode).emit('correctGuess', socket.name, guess.toLowerCase());
       createNewWord(socket.accessCode);
 
       rooms[socket.accessCode].players[socket.name].score++;
+      rooms[socket.accessCode].artist.score++;
       server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
     }
     else {
-      console.log("WRONG GUESS");
-      server.to(socket.accessCode).emit('wrongGuess', socket.name);
+      server.to(socket.accessCode).emit('wrongGuess', socket.name, guess);
     }
   });
 

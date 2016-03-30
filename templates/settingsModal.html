@@ -6,7 +6,13 @@
 
   <input type="text" class="form-control" ng-value="username" autofocus
     ng-model="username" ng-keyup="$event.keyCode == 13 && saveSettings()" placeholder="Username">
-
+    <h4>Difficulty for Rooms You Create</h4>
+  <select size =4 class = "form-control" ng-value = "difficulty" ng-model = "difficulty"
+  ng-keyup = "$event.keycode == 13 && saveSettings()" placeholder="easy">
+  <option value ="easy">Easy</option>
+  <option value ="medium">Medium</option>
+  <option value = "hard">Hard</option>
+</select>
   <button class="btn btn-primary" type="button" ng-click="saveSettings()">Save</button>
 
   <i class="fa fa-times" ng-click="dismissModal()"></i>

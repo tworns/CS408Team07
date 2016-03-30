@@ -3,7 +3,7 @@ angular.module('yoodle')
 .controller('SettingsModalCtrl', function($scope, $rootScope, localStorageService, toastr) {
   $scope.username = localStorageService.get('username');
   $scope.serverIP = localStorageService.get('serverIP') || '127.0.0.1';
-
+  $scope.difficulty = localStorageService.get('difficulty') || 'easy';
   $scope.dismissModal = function() {
     $rootScope.modalInstance.close();
   };
@@ -13,7 +13,7 @@ angular.module('yoodle')
       // Save the username and IP to local storage
       localStorageService.set('username', $scope.username);
       localStorageService.set('serverIP', $scope.serverIP);
-
+      localStorageService.set('difficulty', $scope.difficulty);
       // Retry connection to server now that IP has been changed
       if (!$rootScope.socket.connected) {
         $rootScope.socket= io('http://' + $scope.serverIP + ':3001', {

@@ -19,8 +19,8 @@ angular.module('yoodle')
     if ($rootScope.isArtist && $rootScope.gameStarted) {
       var x, y;
       if(e.offsetX!==undefined){
-        x = e.offsetX-45;
-        y = e.offsetY-45;
+        x = e.offsetX-30;
+        y = e.offsetY-30;
       } else {
         x = e.layerX - e.currentTarget.offsetLeft;
         y = e.layerY - event.currentTarget.offsetTop;
@@ -29,15 +29,17 @@ angular.module('yoodle')
       $rootScope.socket.emit('artistDrawDown', x, y, roomService.getRoomID());
         $rootScope.socket.emit('artistDrawDown', x, y, roomService.getRoomID());
       $scope.canvas.onmousemove = function(e) {
+        if($rootScope.isArtist && $rootScope.gameStarted){
         if (e.offsetX !== undefined){
-          x = e.offsetX-45;
-          y = e.offsetY-45;
+          x = e.offsetX-30;
+          y = e.offsetY-30;
         } else {
           x = e.layerX - e.currentTarget.offsetLeft + 5;
           y = e.layerY - event.currentTarget.offsetTop + 5;
         }
 
         $rootScope.socket.emit('artistDrawMove',x,y,roomService.getRoomID());
+      }
       };
     }
   };
@@ -55,18 +57,18 @@ angular.module('yoodle')
 
   $rootScope.socket.on('artistDraw',function(x,y){
 
-  if($scope.drawing) {
-    $scope.ctx.beginPath();
-    $scope.currX = x;
-    $scope.currY = y;
-    $scope.ctx.moveTo($scope.lastX,$scope.lastY);
-    $scope.ctx.lineWidth = 2;
-    $scope.ctx.lineTo($scope.currX,$scope.currY);
-    $scope.ctx.strokeStyle = "#4bf";
-    $scope.ctx.stroke();
-    $scope.lastX = $scope.currX;
-    $scope.lastY = $scope.currY;
-  }
+    if($scope.drawing) {
+      $scope.ctx.beginPath();
+      $scope.currX = x;
+      $scope.currY = y;
+      $scope.ctx.moveTo($scope.lastX,$scope.lastY);
+      $scope.ctx.lineWidth = 2;
+      $scope.ctx.lineTo($scope.currX,$scope.currY);
+      $scope.ctx.strokeStyle = "#4bf";
+      $scope.ctx.stroke();
+      $scope.lastX = $scope.currX;
+      $scope.lastY = $scope.currY;
+    }
   });
 
   $rootScope.socket.on('artistDrawStop', function(){
@@ -93,7 +95,12 @@ angular.module('yoodle')
 
   $scope.time = 0;
   roomService.setTimerCallback(function (t) {
-    $scope.time = t;
+    if (t < 0) {
+      $scope.time = 0;
+    }
+    else {
+      $scope.time = t;
+    }
 
     if(document.getElementById("bar") !== null) {
       document.getElementById("bar").style.width = ($scope.time) / roomService.getMaxTime() * 100 + "%";
@@ -114,6 +121,7 @@ angular.module('yoodle')
     $rootScope.socket.emit('clearUsedWordsList');
     // Perform some cleanup on global vars. Local scope will be recreated next time we join/create a game
     roomService.cleanup();
+
     $location.path('end');
   };
 
@@ -125,6 +133,8 @@ angular.module('yoodle')
     roomService.cleanup();
 
     $location.path('app');
+
+    $rootScope.socket.disconnect();
   };
 
   $scope.startGame = function () {
@@ -223,17 +233,23 @@ angular.module('yoodle')
     picnamelist.push($scope.currentWord);
     localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
 
-    console.log(name + ' guessed the word correctly!');
-
     $rootScope.socket.emit('artistClear',roomService.getRoomID);
   });
 
-  $rootScope.socket.on('wrongGuess', function (name) {
+  $rootScope.socket.on('wrongGuess', function (name, guess) {
     if (localStorageService.get('username') === name) {
       toastr.error('You guessed it wrong!', 'Oops!');
       snd2.play();
     }
+    else{
+      toastr.error(name + ' guessed [' + guess +"] but it's wrong!", 'Oops!');
+      snd2.play();
+    }
     // TODO should we tell other users what each player guesses if they guess wrong?
+  });
+
+  $rootScope.socket.on('gameEnd', function () {
+    $scope.goGallery();
   });
 
 });

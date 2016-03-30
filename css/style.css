@@ -5,7 +5,7 @@ html {
 canvas {
   background-color: white;
   border: 30px solid transparent;
-  padding: 15px;
+  padding: 0px;
   border-image: url(../assets/img/frame.jpg) 30 round;
 
   /* position: absolute; */
@@ -53,6 +53,17 @@ th, td {
   position: absolute;
   top: 50px;
   right: 5px;
+}
+
+.score-name {
+  max-width: 132px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.artist-name {
+  text-decoration: underline;
 }
 
 #PlayerList {
