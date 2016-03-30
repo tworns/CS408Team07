@@ -237,8 +237,6 @@ angular.module('yoodle')
     picnamelist = JSON.parse(localStorage.getItem("picnamelist"));
     picnamelist.push($scope.currentWord);
     localStorage.setItem("picnamelist", JSON.stringify(picnamelist));
-
-    $rootScope.socket.emit('artistClear',roomService.getRoomID);
   });
 
   $rootScope.socket.on('gameEnd', function () {
