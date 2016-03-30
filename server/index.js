@@ -197,7 +197,6 @@ server.on('connection', function (socket) {
 
         server.to(socket.accessCode).emit('artistSelected', room.artist.name);
 
-        createNewWord();
         room.index++;
       };
       assignArtist();
