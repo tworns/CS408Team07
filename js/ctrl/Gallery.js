@@ -29,6 +29,7 @@ angular.module('yoodle')
   //back to menu
   $scope.backToMenu = function () {
     $location.path('app');
+    $rootScope.socket.disconnect();
   };
 
   $scope.download = function () {
