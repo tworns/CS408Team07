@@ -107,6 +107,8 @@ server.on('connection', function (socket) {
   socket.on('leaveRoom', function () {
     console.log(socket.name + ' disconnected from room ' + socket.accessCode);
 
+    usedWords = []; // Clear out used words list when game ends
+
     var room = rooms[socket.accessCode];
 
     if (room === undefined) {
