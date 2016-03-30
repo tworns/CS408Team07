@@ -1,4 +1,8 @@
 <h3 align="middle">Gallery</h3>
+
+<!-- Back to menu button -->
+<button id="backToMenuButton" type="button" class="btn btn-primary" ng-click="backToMenu()">Main menu</button>
+
 <div style="height: 305px">
   <uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
     <uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
@@ -12,7 +16,6 @@
 </div>
 <div class="row">
   <div class="col-md-6">
-    <button type="button" class="btn btn-primary" ng-click="backToMenu()">Main menu</button>
   </div>
   <div class="col-md-6">
     Enter the slide number that you wish to download: <input type="number" class="form-control" ng-model="slideno">
