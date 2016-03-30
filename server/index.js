@@ -149,10 +149,10 @@ server.on('connection', function (socket) {
     }
 
     var numPlayers = Object.keys(room.players).length;
-    if (numPlayers < 3){
+    /*if (numPlayers < 3){
       server.to(socket.accessCode).emit('playersInsufficient');
       return;
-    }
+    }*/
 
     if (room && !room.gameStarted) {
       createNewWord();
