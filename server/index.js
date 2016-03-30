@@ -22,11 +22,9 @@ server.on('connection', function (socket) {
     var accessCode = '';
     gameDifficulty = difficulty;
     // Worst case time complexity: O(∞)
-    do {
-      for (var i = 0; i < 4; i++) {
-        accessCode += letters.charAt(Math.floor(Math.random() * letters.length));
-      }
-    } while (rooms[accessCode] !== undefined);
+    for (var i = 0; i < 4; i++) {
+      accessCode += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
 
     rooms[accessCode] = {
       players: {},
@@ -126,14 +124,9 @@ server.on('connection', function (socket) {
       assignArtist();
     }
 
-    delete room.players[socket.name];
-
     var players = Object.keys(room.players);
 
     if (players.length === 0) {
-      console.log('Room ' + socket.accessCode + ' has become empty, deleting it.');
-      clearInterval(room.interval);
-      delete rooms[socket.accessCode];
     }
     else {
       server.to(socket.accessCode).emit('updatePlayerList', room.players);
