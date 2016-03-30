@@ -121,6 +121,7 @@ angular.module('yoodle')
     $rootScope.socket.emit('clearUsedWordsList');
     // Perform some cleanup on global vars. Local scope will be recreated next time we join/create a game
     roomService.cleanup();
+
     $location.path('end');
   };
 
@@ -132,6 +133,8 @@ angular.module('yoodle')
     roomService.cleanup();
 
     $location.path('app');
+
+    $rootScope.socket.disconnect();
   };
 
   $scope.startGame = function () {
