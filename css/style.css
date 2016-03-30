@@ -5,7 +5,7 @@ html {
 canvas {
   background-color: white;
   border: 30px solid transparent;
-  padding: 0px;
+  padding: 150px;
   border-image: url(../assets/img/frame.jpg) 30 round;
 
   /* position: absolute; */
