@@ -34,11 +34,6 @@ angular.module('yoodle')
       templateUrl: 'templates/settingsModal.html',
       controller: 'SettingsModalCtrl'
     });
-
-    $rootScope.modalInstance.closed
-    .then(function () {
-      $scope.username = localStorageService.get('username');
-    });
   }
 
   $scope.openSettings = function() {
