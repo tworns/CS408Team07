@@ -18,6 +18,12 @@ angular.module('yoodle')
   $scope.canvas.onmousedown = function(e){
     //if ($rootScope.isArtist && $rootScope.gameStarted) {
       var x, y;
+      $scope.ctx.beginPath();
+      $scope.ctx.moveTo(x,y);
+      $scope.ctx.lineWidth = 2;
+      $scope.ctx.lineTo(x+5,y);
+      $scope.ctx.strokeStyle = "#4bf";
+      $scope.ctx.stroke();
       if(e.offsetX!==undefined){
         x = e.offsetX-30;
         y = e.offsetY-30;
