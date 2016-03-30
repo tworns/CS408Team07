@@ -144,7 +144,6 @@ angular.module('yoodle')
 
   $scope.startGame = function () {
     $rootScope.socket.emit('startGame', roomService.getRoomID());
-  //  $rootScope.socket.emit('artistClear',roomService.getRoomID);
   };
 
   $scope.clearCanvas = function () {
