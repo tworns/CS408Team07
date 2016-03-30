@@ -276,24 +276,27 @@ function getNewWordFromList() {
     do { // Ensure that new word is not a repeat
       if (usedWords.length === wordLists.easyWordList.length) { // Check if usedWords list needs to be cleared
         usedWords = [];
+      } else {
+        newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
       }
-      newWord = wordLists.easyWordList[Math.floor((Math.random() * wordLists.easyWordList.length))];
     } while (usedWords.indexOf(newWord) !== -1);
     usedWords.push(newWord);
   } else if (gameDifficulty === "medium") {
     do {
       if (usedWords.length === wordLists.mediumWordList.length) { // Check if usedWords list needs to be cleared
         usedWords = [];
+      } else {
+        newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
       }
-      newWord = wordLists.mediumWordList[Math.floor((Math.random() * wordLists.mediumWordList.length))];
     } while (usedWords.indexOf(newWord) !== -1);
     usedWords.push(newWord);
   } else if (gameDifficulty === "hard") {
     do {
       if (usedWords.length === wordLists.hardWordList.length) { // Check if usedWords list needs to be cleared
         usedWords = [];
+      } else {
+        newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
       }
-      newWord = wordLists.hardWordList[Math.floor((Math.random() * wordLists.hardWordList.length))];
     } while (usedWords.indexOf(newWord) !== -1);
     usedWords.push(newWord);
   }
