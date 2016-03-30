@@ -143,6 +143,11 @@ server.on('connection', function (socket) {
   socket.on('startGame', function () {
     var room = rooms[socket.accessCode];
 
+    if (room === undefined) {
+      // Err
+      return;
+    }
+
     var numPlayers = Object.keys(room.players).length;
     if (numPlayers < 3){
       server.to(socket.accessCode).emit('playersInsufficient');
