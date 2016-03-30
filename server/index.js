@@ -230,7 +230,6 @@ server.on('connection', function (socket) {
       createNewWord(socket.accessCode);
 
       rooms[socket.accessCode].players[socket.name].score++;
-      rooms[socket.accessCode].artist.score++;
       server.to(socket.accessCode).emit('updatePlayerList', rooms[socket.accessCode].players);
     }
   });
