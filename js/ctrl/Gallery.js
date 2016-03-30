@@ -1,6 +1,6 @@
 angular.module('yoodle')
 
-.controller('Gallery', function($scope, $rootScope, $location, $window, $interval, localStorageService, roomService) {
+.controller('Gallery', function($scope, $rootScope, $location, $window, $interval, localStorageService, roomService, toastr) {
   $scope.myInterval = 5000;
   $scope.slideno = 0;
   $scope.noWrapSlides = false;
@@ -32,6 +32,10 @@ angular.module('yoodle')
   };
 
   $scope.download = function () {
+    if( $scope.slideno >= piclist.length || $scope.slideno < 0){
+      toastr.error('Please enter a valid slide number!', 'Oops!');
+      return;
+    }
 
     /// create an "off-screen" anchor tag
     var lnk = document.createElement('a'),
