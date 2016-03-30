@@ -31,11 +31,11 @@ angular.module('yoodle')
       $scope.canvas.onmousemove = function(e) {
       //  if($rootScope.isArtist && $rootScope.gameStarted){
         if (e.offsetX !== undefined){
-          x = e.offsetX-30;
-          y = e.offsetY-30;
+          x = e.offsetX;
+          y = e.offsetY;
         } else {
-          x = e.layerX - e.currentTarget.offsetLeft + 5;
-          y = e.layerY - event.currentTarget.offsetTop + 5;
+          x = e.layerX - e.currentTarget.offsetLeft;
+          y = e.layerY - event.currentTarget.offsetTop;
         }
 
         $rootScope.socket.emit('artistDrawMove',x,y,roomService.getRoomID());
