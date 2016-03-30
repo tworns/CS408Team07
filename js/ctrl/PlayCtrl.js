@@ -200,7 +200,6 @@ angular.module('yoodle')
 
       $rootScope.socket.emit('newWord');
       $rootScope.socket.emit('skippedWord');
-      $rootScope.socket.emit('artistClear');
     }
   };
 
