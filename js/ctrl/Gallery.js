@@ -39,7 +39,7 @@ angular.module('yoodle')
 
     /// the key here is to set the download attribute of the a tag
     /*lnk.download = "untitled.png";*/
-    lnk.download = "pic";
+    lnk.download = "pic.aaa";
 
     /// convert canvas content to data-uri for link. When download
     /// attribute is set the content pointed to by link will be
