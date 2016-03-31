@@ -8,7 +8,8 @@
     "test": "echo No tests set up yet && exit 1",
     "uglify": "cat js/*.js js/*/*.js | uglifyjs --compress --screw-ie8 --output bin/yoodle.min.js",
     "uglify-server": "uglifyjs server/index.js --compress --mangle --output bin/yoodle-server.min.js",
-    "build-linux": "npm run uglify && electron-packager . Yoodle --out=bin/ --platform=all --arch=ia32 --overwrite",
+    "build-linux": "npm run uglify && electron-packager . Yoodle --out=bin/ --platform=linux --arch=ia32 --overwrite",
+    "build-all": "electron-packager . Yoodle --out=bin/ --platform=darwin --arch=ia32 --overwrite",
     "clean": "rm -rf bin/*",
     "server": "node server/index.js",
     "3-player-demo": "electron index.js & electron index.js & electron index.js & node server/index.js"
