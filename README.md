@@ -2,7 +2,7 @@
 CS 408 team project.
 
 ## Running the game
-* On one machine, start the server.
+* On one machine, start the server. (`node run server` from the project directory)
 * Launch the application on all the machines that will be playing.
 * Enter username and IP address of machine running the server into the modal that displays on launch. (These can be changed later by clicking the cog butotn in the top right of the main menu)
 * One player clicks the 'Create a game' button.  Note the 4 character room code in the top right. 
