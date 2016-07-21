@@ -2,7 +2,7 @@
 CS 408 team project.
 
 ## Running the game
-* On one machine, start the server. (`npm run server` from the project directory)
+* On one machine, start the server. ( Dev: `npm run server` from the project directory | Production:`node yoodle-server.min.js` in the /resources/app directory)
 * Launch the application on all the machines that will be playing.
 * Enter username and IP address of machine running the server into the modal that displays on launch. (These can be changed later by clicking the cog butotn in the top right of the main menu)
 * One player clicks the 'Create a game' button.  Note the 4 character room code in the top right. 
